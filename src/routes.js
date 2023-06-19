@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Test from "./views/Test/index.js";
+import UnderConstruction from "./views/UnderConstruction/index.js";
 import Layout from "./utils/Layout.js";
 const Router = () => {
   const SuspenseLoading = () => {
@@ -40,7 +40,7 @@ const Router = () => {
     <Suspense fallback={<SuspenseLoading />}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Test />} />
+          <Route path="/" element={<UnderConstruction />} />
         </Route>
       </Routes>
     </Suspense>
