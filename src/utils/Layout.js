@@ -23,7 +23,7 @@ import logo from "../assets/images/logo-white.png";
 // import "./App.css";
 
 const drawerWidth = 240;
-const navItems = ["Logout"];
+const navItems = ["Wishlist", "Contact", "FAQs", "Logout"];
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -148,7 +148,13 @@ function App(props) {
       </Box>
       <Box
         component="main"
-        sx={{ p: 1, color: "#fff", width: "100%", height: "100vH" }}
+        sx={{
+          p: 1,
+          color: "#fff",
+          width: "100%",
+          minHeight: "100vH",
+          backgroundColor: "#0f0f0f",
+        }}
       >
         <Toolbar />
         <Outlet />

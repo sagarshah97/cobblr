@@ -29,7 +29,7 @@ const styles = {
   },
   cardText: {
     padding: "10px",
-    backgroundColor: "#262626",
+    backgroundColor: "#0f0f0f",
     color: "white",
     textAlign: "center",
   },

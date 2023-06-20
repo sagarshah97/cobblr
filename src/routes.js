@@ -4,13 +4,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-// import UnderConstruction from "./views/UnderConstruction/index.js";
-import UnderConstruction from "./views/UnderConstruction"
-import HomePage from "./views/HomePage/index.js"
+
+import HomePage from "./views/HomePage/index.js";
+import UnderConstruction from "./views/UnderConstruction/index.js";
+import FAQ from "./views/FAQ/index.js";
 import Layout from "./utils/Layout.js";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Profile from "./views/Profile";
+import ProductDetail from "./views/ProductDetail/index.js";
+import AdditionalDetails from "./views/AdditionalProductDetail/index.js";
+
 const Router = () => {
   const SuspenseLoading = () => {
     const [show, setShow] = useState(false);
@@ -50,6 +54,9 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/productDetail" element={<ProductDetail />} />
+          <Route path="/details" element={<AdditionalDetails />} />
         </Route>
       </Routes>
     </Suspense>
