@@ -12,6 +12,8 @@ import Layout from "./utils/Layout.js";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Profile from "./views/Profile";
+import ProductDetail from "./views/ProductDetail/index.js";
+import AdditionalDetails from "./views/AdditionalProductDetail/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -53,6 +55,8 @@ const Router = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/productDetail" element={<ProductDetail />} />
+          <Route path="/details" element={<AdditionalDetails />} />
         </Route>
       </Routes>
     </Suspense>
