@@ -39,3 +39,52 @@
     transform: rotate(360deg);
   }
 }
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} 
+
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+.fullscreen-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.navbar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.fullscreen-image {
+  width: 100%;
+  height: auto;
+}
