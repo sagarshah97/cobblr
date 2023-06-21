@@ -12,6 +12,8 @@ import {
 import { Search, ExpandMore } from "@mui/icons-material";
 import faq from "../../assets/images/faqIcon.png";
 
+import Footer from "../HomePage/Footer";
+
 const FAQ = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -270,6 +272,7 @@ const FAQ = () => {
           </Grid>
         </Container>
       </Box>
+      <Footer />
     </>
   );
 };

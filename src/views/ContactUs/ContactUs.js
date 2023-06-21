@@ -16,6 +16,8 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import CloseIcon from "@mui/icons-material/Close";
 
+import Footer from "../HomePage/Footer";
+
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -408,6 +410,7 @@ const ContactUs = () => {
           </Grid>
         </Container>
       </Box>
+      <Footer />
     </>
   );
 };
