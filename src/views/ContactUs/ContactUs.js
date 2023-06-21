@@ -34,7 +34,8 @@ const ContactUs = () => {
 
   const validatePhone = (phone) => {
     // Regular expression to validate Canadian phone number format
-    const phoneRegex = /^(\+?1\s*[-\/\.]?)?(\()?\d{3}(\))?[-\/\.]?\d{3}[-\/\.]?\d{4}$/;
+    const phoneRegex =
+      /^(\+?1\s*[-\/\.]?)?(\()?\d{3}(\))?[-\/\.]?\d{3}[-\/\.]?\d{4}$/;
     return phoneRegex.test(phone);
   };
 
@@ -100,7 +101,7 @@ const ContactUs = () => {
       <Box
         style={{
           minHeight: "100vh",
-          paddingTop: "64px",
+          // paddingTop: "64px",
           paddingBottom: "64px",
           backgroundColor: "#0f0f0f",
         }}
@@ -185,9 +186,7 @@ const ContactUs = () => {
                 }}
               />
               {errors.name && (
-                <Typography color="error">
-                  {errors.name}
-                </Typography>
+                <Typography color="error">{errors.name}</Typography>
               )}
             </Grid>
             <Grid item xs={12} style={{ marginBottom: "3%" }}>
@@ -230,9 +229,7 @@ const ContactUs = () => {
                 }}
               />
               {errors.email && (
-                <Typography color="error">
-                  {errors.email}
-                </Typography>
+                <Typography color="error">{errors.email}</Typography>
               )}
             </Grid>
             <Grid item xs={12} style={{ marginBottom: "3%" }}>
@@ -274,9 +271,7 @@ const ContactUs = () => {
                 }}
               />
               {errors.phone && (
-                <Typography color="error">
-                  {errors.phone}
-                </Typography>
+                <Typography color="error">{errors.phone}</Typography>
               )}
             </Grid>
             <Grid item xs={12} style={{ marginBottom: "3%" }}>
@@ -320,74 +315,93 @@ const ContactUs = () => {
                 }}
               />
               {errors.message && (
-                <Typography color="error">
-                  {errors.message}
-                </Typography>
+                <Typography color="error">{errors.message}</Typography>
               )}
             </Grid>
           </Grid>
           <Grid item xs={12} style={{ marginBottom: "3%" }}>
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                style={{ backgroundColor: "#009CE8" }}
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              style={{ backgroundColor: "#009CE8" }}
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Dialog
+            open={isPopupOpen}
+            onClose={handlePopupClose}
+            PaperProps={{
+              style: {
+                backgroundColor: "white",
+                borderRadius: "1rem",
+              },
+            }}
+          >
+            <Grid container justifyContent="center" alignItems="center">
+              <IconButton
+                color="inherit"
+                aria-label="close"
+                onClick={handlePopupClose}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: "black",
+                }}
               >
-                Submit
-              </Button>
+                <CloseIcon />
+              </IconButton>
             </Grid>
-            <Dialog
-              open={isPopupOpen}
-              onClose={handlePopupClose}
-              PaperProps={{
-                style: {
-                  backgroundColor: "white",
-                  borderRadius: "1rem",
-                },
-              }}
+            <DialogTitle
+              style={{ color: "black", marginTop: "10%", marginBottom: "8%" }}
             >
-              <Grid container justifyContent="center" alignItems="center">
-            <IconButton
-              color="inherit"
-              aria-label="close"
-              onClick={handlePopupClose}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: "black",
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            </Grid>
-              <DialogTitle style={{ color: "black", marginTop: "10%",marginBottom: "8%" }}>
-                Thank you for contacting us!
-              </DialogTitle>
-            </Dialog>
-          
+              Thank you for contacting us!
+            </DialogTitle>
+          </Dialog>
+
           <Typography style={{ marginTop: "2%", marginBottom: "2%" }}>
             You can also find us on
           </Typography>
           <Grid container spacing={2}>
             <Grid item>
               <InstagramIcon
-                style={{ height: "45px", width: "45px", color: "#E1306C", cursor: "pointer" }}
-                onClick={() => window.open('https://www.instagram.com', '_blank')}
+                style={{
+                  height: "45px",
+                  width: "45px",
+                  color: "#E1306C",
+                  cursor: "pointer",
+                }}
+                onClick={() =>
+                  window.open("https://www.instagram.com", "_blank")
+                }
               />
             </Grid>
             <Grid item>
               <FacebookIcon
-                style={{ height: "45px", width: "45px", color: "#4267B2", cursor: "pointer" }}
-                onClick={() => window.open('https://www.facebook.com', '_blank')}
+                style={{
+                  height: "45px",
+                  width: "45px",
+                  color: "#4267B2",
+                  cursor: "pointer",
+                }}
+                onClick={() =>
+                  window.open("https://www.facebook.com", "_blank")
+                }
               />
             </Grid>
             <Grid item>
               <TwitterIcon
-                style={{ height: "45px", width: "45px", color: "#1DA1F2", cursor: "pointer" }}
-                onClick={() => window.open('https://www.twitter.com', '_blank')}
+                style={{
+                  height: "45px",
+                  width: "45px",
+                  color: "#1DA1F2",
+                  cursor: "pointer",
+                }}
+                onClick={() => window.open("https://www.twitter.com", "_blank")}
               />
             </Grid>
-            </Grid>
+          </Grid>
         </Container>
       </Box>
     </>
