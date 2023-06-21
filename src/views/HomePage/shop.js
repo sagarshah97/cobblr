@@ -56,9 +56,12 @@ const ShopBySportCarousel = () => {
             marginTop: "20px",
             color: "white",
             marginBottom: "0px",
+            fontWeight: "100",
+            fontSize: "2rem",
+            letterSpacing: "0.7rem",
           }}
         >
-          Shop by Categories
+          SHOP BY CATEGORIES
         </Typography>
         <Grid container spacing={2} justifyContent="center">
           {sportCategories.map((category) => (
