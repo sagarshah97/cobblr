@@ -17,7 +17,7 @@ import Button from "@mui/material/Button";
 import { Paper, Grid, Stack } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 // import logo from "../../assets/images/logo-white.png";
 import logo from "../assets/images/logo-white.png";
 // import "./App.css";
@@ -28,6 +28,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function App(props) {
+  const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -119,7 +120,15 @@ function App(props) {
           </Paper>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
+              <Button
+                key={item}
+                sx={{ color: "#fff" }}
+                onClick={() => {
+                  //window.location.pathname = "/login";
+                  //   console.log(window);
+                  navigate("/login");
+                }}
+              >
                 {item}
               </Button>
             ))}
