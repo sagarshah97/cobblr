@@ -198,7 +198,12 @@ const ProductDetail = () => {
               </IconButton>
             </div>
             <div>
-              <IconButton aria-label="cart">
+              <IconButton
+                aria-label="cart"
+                onClick={() => {
+                  navigate("/wishlist");
+                }}
+              >
                 <Badge
                   badgeContent={wishlistCount}
                   color="primary"
