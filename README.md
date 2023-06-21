@@ -6,7 +6,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - _Last Modification Date_: 20 06 2023
 - _Proposal URL(Instructions)_: <https://dal.brightspace.com/d2l/le/content/274269/viewContent/3608543/View>
 - _Git URL_: <https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23>
-- _Netlify URL (Deployed site)_: <>
+- _Netlify URL (Deployed site)_: <https://cobblr.netlify.app/>
 
 ## Authors
 
