@@ -17,6 +17,7 @@ import { Snackbar, SnackbarContent } from "@mui/material";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
+import Footer from "../HomePage/Footer";
 import SimilarProducts from "../SimilarProducts/index";
 import "../../App.css";
 
@@ -333,6 +334,7 @@ const ProductDetail = () => {
         </Grid>
         <SimilarProducts />
       </div>
+      <Footer />
     </>
   );
 };

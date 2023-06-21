@@ -31,6 +31,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
+import Footer from "../HomePage/Footer";
+
 const profileStyles = {
   container: {
     display: "flex",
@@ -281,9 +283,16 @@ export default function Profile() {
   };
 
   return (
-    <div className="fullscreen-container" style={{ backgroundColor: "#262626" }}>
+    <div
+      className="fullscreen-container"
+      style={{ backgroundColor: "#0f0f0f" }}
+    >
       <>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          style={{ marginTop: "3%", marginBottom: "5%" }}
+        >
           <Grid item xs={12} sm={6} md={4} lg={5}>
             <div style={profileStyles.container}>
               <Card style={profileStyles.root}>
@@ -292,17 +301,17 @@ export default function Profile() {
                   image={profilePhoto || defaultImage}
                   alt="Profile"
                 />
-               <Button
-  variant="contained"
-  style={profileStyles.addButton}
-  onClick={handleModalOpenProfile}
-  sx={{
-    backgroundColor: '#262626',
-    color: 'white',
-  }}
->
-  Add/Change Photo
-</Button>
+                <Button
+                  variant="contained"
+                  style={profileStyles.addButton}
+                  onClick={handleModalOpenProfile}
+                  sx={{
+                    backgroundColor: "#262626",
+                    color: "white",
+                  }}
+                >
+                  Add/Change Photo
+                </Button>
               </Card>
 
               <Modal
@@ -390,13 +399,17 @@ export default function Profile() {
               </Box>
             </div>
           </Grid>
-          <Grid item xs={12} sm={6} md={8} lg={6} sx={{ marginTop: "1%" }}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={8}
+            lg={6}
+            sx={{ marginTop: "2%", paddingLeft: "2%", paddingRight: "2%" }}
+          >
             {/* Content for the second column */}
             <div>
-              <Accordion
-                defaultExpanded
-                onChange={handleChange("panel1")}
-              >
+              <Accordion defaultExpanded onChange={handleChange("panel1")}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1bh-content"
@@ -421,14 +434,14 @@ export default function Profile() {
                             variant="subtitle1"
                             display="inline"
                             fontWeight="bold"
-                            sx={{ ml: 1 }}
+                            sx={{ ml: 1, overflowWrap: "anywhere" }}
                           >
                             {label}:
                           </Typography>
                           <Typography
                             variant="subtitle1"
                             display="inline"
-                            sx={{ ml: 1 }}
+                            sx={{ ml: 1, overflowWrap: "anywhere" }}
                           >
                             {profileValues[index]}
                           </Typography>
@@ -504,10 +517,7 @@ export default function Profile() {
                 </AccordionDetails>
               </Accordion>
 
-              <Accordion
-              
-                onChange={handleChange("panel4")}
-              >
+              <Accordion onChange={handleChange("panel4")}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel4bh-content"
@@ -942,6 +952,7 @@ export default function Profile() {
           </Grid>
         </Grid>
       </>
+      <Footer />
     </div>
   );
 }
