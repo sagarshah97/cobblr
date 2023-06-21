@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import p11 from "../../assets/images/ProductDetail/11.png";
 
 import "../../App.css";
+import Footer from "../HomePage/Footer";
 
 const AdditionalDetails = () => {
   const navigate = useNavigate();
@@ -222,6 +223,7 @@ const AdditionalDetails = () => {
           <div>Page not found</div>
         </>
       )}
+      <Footer />
     </>
   );
 };
