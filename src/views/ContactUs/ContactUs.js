@@ -156,6 +156,7 @@ const ContactUs = () => {
                 value={formData.name}
                 onChange={handleChange}
                 name="name"
+                autoComplete="off"
                 InputProps={{
                   style: {
                     color: "white",
@@ -196,6 +197,7 @@ const ContactUs = () => {
                 variant="outlined"
                 type="email"
                 name="email"
+                autoComplete="off"
                 fullWidth
                 value={formData.email}
                 onChange={handleChange}
@@ -241,6 +243,7 @@ const ContactUs = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 name="phone"
+                autoComplete="off"
                 InputProps={{
                   style: {
                     color: "white",
@@ -285,6 +288,7 @@ const ContactUs = () => {
                 value={formData.message}
                 onChange={handleChange}
                 name="message"
+                autoComplete="off"
                 InputProps={{
                   style: {
                     color: "white",

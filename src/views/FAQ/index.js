@@ -156,6 +156,7 @@ const FAQ = () => {
                 label="Search"
                 variant="outlined"
                 fullWidth
+                autoComplete="off"
                 value={searchText}
                 onChange={handleSearchTextChange}
                 InputProps={{
