@@ -23,7 +23,7 @@ import logo from "../assets/images/logo-white.png";
 // import "./App.css";
 
 const drawerWidth = 240;
-const navItems = ["Wishlist", "Contact", "FAQs", "Logout"];
+const navItems = ["Logout"];
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
