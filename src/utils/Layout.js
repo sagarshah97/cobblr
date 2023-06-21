@@ -148,7 +148,13 @@ function App(props) {
       </Box>
       <Box
         component="main"
-        sx={{ p: 1, color: "#fff", width: "100%", height: "100vH" }}
+        sx={{
+          p: 1,
+          color: "#fff",
+          width: "100%",
+          minHeight: "100vH",
+          backgroundColor: "#0f0f0f",
+        }}
       >
         <Toolbar />
         <Outlet />
