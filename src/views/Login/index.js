@@ -157,7 +157,9 @@ export default function Login() {
                   </Typography>
                 </Grid>
               </Grid>
-              
+              <Typography sx={{marginTop:'80px'}}>
+                For now type any email and password and it will take you to the HomePage for the purpose of this proposal
+              </Typography>
             </Box>
           </Box>
         </Grid>
