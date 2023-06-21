@@ -15,8 +15,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/images/Home/orangelobster.png";
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
+// Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 const defaultTheme = createTheme();
 
 export default function Login() {
@@ -133,6 +133,7 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={() => navigate("/homepage")}
               >
                 Sign In
               </Button>
@@ -156,6 +157,9 @@ export default function Login() {
                   </Typography>
                 </Grid>
               </Grid>
+              <Typography sx={{marginTop:'80px'}}>
+                For now type any email and password and it will take you to the HomePage for the purpose of this proposal
+              </Typography>
             </Box>
           </Box>
         </Grid>

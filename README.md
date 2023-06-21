@@ -111,6 +111,8 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - The above tags (CSS components) in [React MUI](https://mui.com/material-ui/getting-started/overview/) were implemented in their official documentation.
 - [React MUI](https://mui.com/material-ui/getting-started/overview/)'s Code was used as a CSS framework and a reference to understand how to implement different elements such as Button, Grid, TextField, Card, Snackbar, and Alert on the UI in React.
 - [React MUI](https://mui.com/material-ui/getting-started/overview/)'s component code was heavily modified by adding custom logic, styling, onChange and onClick behaviors.
+- [Material UI](https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side) template was referred for login and signup pages and modified according to our needs.
+- [Swiper]- Effect coverflow has been used for the carrousel on the homepage(https://swiperjs.com/demos#css-mode)
 
 ### Additional packages
 
@@ -118,6 +120,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [React Responsive Carousel](https://www.npmjs.com/package/react-responsive-carousel) was used to implement customizable carousel component.
 - [React Router DOM](https://www.npmjs.com/package/react-router-dom) was used for navigation.
 - [React Icons](https://react-icons.github.io/react-icons/) were used for the icons.
+- [SWiper](https://swiperjs.com/) was used for carrousel.
 
 ## Images
 
@@ -129,6 +132,10 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [Thibaut Burckel](https://unsplash.com/photos/n2V5MLDPE-k)
 - [FAQ Image](https://www.canva.com/)
 - [Contact Image](https://www.canva.com/)
+- [Profile Image](https://www.flaticon.com/free-icon/profile_3135715#)
+- [Home Page](https://www.sneakerswapevents.com/)
+- [Home Page] Images have been used from(https://www.freepik.com/)
+- [Home Page](https://dribbble.com/shots/15532992-Nike-Air-Force-1)
 
 ## Icons
 

@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/images/Home/orangelobster.png"
 
+// Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
+
 const defaultTheme = createTheme();
 
 export default function Register() {
@@ -114,10 +116,8 @@ export default function Register() {
       validateEmail(email) &&
       validatePassword(password, confirmPassword)
     ) {
-      // All details are filled correctly
-      navigate('/3d');
+      navigate('/login');
     } else {
-      // Show error message to fill details correctly
       setFormError('Please fill all details correctly');
     }
   };
@@ -236,7 +236,7 @@ export default function Register() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}  >
                 Sign In
               </Button>
               <Grid container>
