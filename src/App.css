@@ -201,3 +201,18 @@
     width: 300px;
   }
 }
+
+/* FOR PRODUCT LISTING PAGE START */
+
+/* Pagination */
+.custom-current-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  /* border: 1px solid #fff; */
+  color: #fff;
+}
+
+
+/* FOR PRODUCT LISTING PAGE END */
