@@ -1,36 +1,36 @@
-import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import logo from "../../assets/images/Home/orangelobster.png"
+import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/Home/drawing-pair-converse-shoes_897419-89-_1_-removebg-preview.png";
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 
 const defaultTheme = createTheme();
 
 export default function Register() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [formError, setFormError] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [formError, setFormError] = useState("");
 
   const navigate = useNavigate();
 
@@ -48,28 +48,30 @@ export default function Register() {
     const isPasswordValid = password.length >= 8;
     const doPasswordsMatch = password === confirmPassword;
 
-    setPasswordError(isPasswordValid ? '' : 'Password should be at least 8 characters');
-    setConfirmPasswordError(doPasswordsMatch ? '' : 'Passwords do not match');
+    setPasswordError(
+      isPasswordValid ? "" : "Password should be at least 8 characters"
+    );
+    setConfirmPasswordError(doPasswordsMatch ? "" : "Passwords do not match");
 
     return isPasswordValid && doPasswordsMatch;
   };
 
-//   const handleFirstNameChange = (e) => {
-//     const value = e.target.value;
-//     setFirstName(value);
-//   };
+  //   const handleFirstNameChange = (e) => {
+  //     const value = e.target.value;
+  //     setFirstName(value);
+  //   };
 
-//   const handleLastNameChange = (e) => {
-//     const value = e.target.value;
-//     setLastName(value);
-//   };
+  //   const handleLastNameChange = (e) => {
+  //     const value = e.target.value;
+  //     setLastName(value);
+  //   };
   const handleFirstNameChange = (e) => {
     const value = e.target.value;
     setFirstName(value);
     if (value && !validateName(value)) {
-      setFirstNameError('Please enter only letters');
+      setFirstNameError("Please enter only letters");
     } else {
-      setFirstNameError('');
+      setFirstNameError("");
     }
   };
 
@@ -77,18 +79,18 @@ export default function Register() {
     const value = e.target.value;
     setLastName(value);
     if (value && !validateName(value)) {
-      setLastNameError('Please enter only letters');
+      setLastNameError("Please enter only letters");
     } else {
-      setLastNameError('');
+      setLastNameError("");
     }
   };
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
     if (value && !validateEmail(value)) {
-      setEmailError('Please enter a valid email');
+      setEmailError("Please enter a valid email");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
@@ -116,48 +118,87 @@ export default function Register() {
       validateEmail(email) &&
       validatePassword(password, confirmPassword)
     ) {
-      navigate('/login');
+      navigate("/login");
     } else {
-      setFormError('Please fill all details correctly');
+      setFormError("Please fill all details correctly");
     }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid
+        container
+        component="main"
+        sx={{
+          // minHeight: "6vh",
+          backgroundColor: "#0f0f0f",
+          overflow: "hidden",
+        }}
+      >
         <CssBaseline />
         <Grid
           item
           xs={false}
-          sm={4}
+          sm={0}
           md={7}
+          lg={7}
           sx={{
             backgroundImage: `url(${logo})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundColor:'black'
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+            backgroundColor: "#0f0f0f",
+            paddingTop: "5%",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={5}
+          lg={5}
+          component={Paper}
+          // elevation={6}
+          square
+          style={{
+            backgroundColor: "#0f0f0f",
+            boxShadow: "none",
+          }}
+        >
           <Box
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingLeft: "10%",
+              paddingRight: "10%",
+              paddingTop: "5%",
+              boxShadow: "none",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            {/* <Avatar sx={{ m: 1, bgcolor: "transparent" }}>
               <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Register
+            </Avatar> */}
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{
+                color: "white",
+                fontSize: "1.5rem",
+                fontWeight: 100,
+                letterSpacing: "0.3rem",
+              }}
+            >
+              REGISTER
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1, boxShadow: "none" }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -171,7 +212,35 @@ export default function Register() {
                 onChange={handleFirstNameChange}
                 error={firstName && !validateName(firstName)}
                 // error={!!firstNameError}
-            helperText={firstNameError}
+                helperText={firstNameError}
+                InputProps={{
+                  style: {
+                    color: "white",
+                  },
+                  sx: {
+                    "& fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:hover fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:focus-within fieldset, &:focus-visible fieldset": {
+                      border: "1px solid white!important",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
+                InputOutlineProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -185,6 +254,34 @@ export default function Register() {
                 onChange={handleLastNameChange}
                 error={lastName && !validateName(lastName)}
                 helperText={lastNameError}
+                InputProps={{
+                  style: {
+                    color: "white",
+                  },
+                  sx: {
+                    "& fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:hover fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:focus-within fieldset, &:focus-visible fieldset": {
+                      border: "1px solid white!important",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
+                InputOutlineProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -198,6 +295,34 @@ export default function Register() {
                 onChange={handleEmailChange}
                 error={!!emailError}
                 helperText={emailError}
+                InputProps={{
+                  style: {
+                    color: "white",
+                  },
+                  sx: {
+                    "& fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:hover fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:focus-within fieldset, &:focus-visible fieldset": {
+                      border: "1px solid white!important",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
+                InputOutlineProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -212,6 +337,34 @@ export default function Register() {
                 onChange={handlePasswordChange}
                 error={!!passwordError}
                 helperText={passwordError}
+                InputProps={{
+                  style: {
+                    color: "white",
+                  },
+                  sx: {
+                    "& fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:hover fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:focus-within fieldset, &:focus-visible fieldset": {
+                      border: "1px solid white!important",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
+                InputOutlineProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -226,6 +379,34 @@ export default function Register() {
                 onChange={handleConfirmPasswordChange}
                 error={!!confirmPasswordError}
                 helperText={confirmPasswordError}
+                InputProps={{
+                  style: {
+                    color: "white",
+                  },
+                  sx: {
+                    "& fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:hover fieldset": {
+                      border: "1px solid white!important",
+                      borderRadius: 1.5,
+                    },
+                    "&:focus-within fieldset, &:focus-visible fieldset": {
+                      border: "1px solid white!important",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
+                InputOutlineProps={{
+                  style: {
+                    color: "white",
+                  },
+                }}
               />
               {formError && (
                 <Typography variant="body2" color="error" align="center">
@@ -236,31 +417,31 @@ export default function Register() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}  >
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  {/* <Link  variant="body2">
-                  href="#" use href above
-                    Forgot password?
-                  </Link> */}
-                </Grid>
-                <Grid item>
-                <Typography
-                    variant="body2"
-                    
-                    onClick={() => navigate('/login')}
-                    sx={{
-                      textDecoration: 'none',
-                      color: 'blue',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Already have an account? Sign In
-                  </Typography>
-                </Grid>
-              </Grid>
+              <div style={{ textAlign: "center" }}>
+                <span style={{ color: "white" }}>
+                  Already have an account?{" "}
+                </span>
+                <span
+                  variant="body2"
+                  onClick={() => navigate("/login")}
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                    textAlign: "center",
+                  }}
+                >
+                  Sign Up
+                </span>
+              </div>
             </Box>
           </Box>
         </Grid>
