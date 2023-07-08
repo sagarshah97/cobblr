@@ -4,6 +4,9 @@ import SortDropdown from "./SortDropdown";
 import FilterColumn from "./FilterColumn";
 import ShoeCard from "./ShoeCard";
 import Pagination from "./Pagination";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import image1 from "../../assets/images/ProductListing/image1.jpeg";
 import image2 from "../../assets/images/ProductListing/image2.jpeg";
 import image3 from "../../assets/images/ProductListing/image3.jpeg";
@@ -18,7 +21,6 @@ import image11 from "../../assets/images/ProductListing/image11.jpeg";
 import image12 from "../../assets/images/ProductListing/image12.jpeg";
 import image13 from "../../assets/images/ProductListing/image13.jpeg";
 
-
 import Footer from "../HomePage/Footer";
 import "../../App.css";
 
@@ -28,6 +30,18 @@ const ProductListing = () => {
   const [visibleShoeData, setVisibleShoeData] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   const handleSortChange = (event) => {
     const selectedValue = event.target.value;
@@ -238,60 +252,120 @@ const ProductListing = () => {
   return (
     <div>
       <Box sx={{ minHeight: "100vh" }}>
-        <Container sx={{ maxWidth: "none !important", p:2 }}>
-          <Grid
-            container
-            //spacing={2}
-            // sx={{ mt: "64px" }}
-          >
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  position: "sticky",
-                  top: "64px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  paddingRight: "16px",
-                }}
-              >
-                <SortDropdown
-                  value={sortValue}
-                  handleSortChange={handleSortChange}
-                />
-              </Box>
+        <Container sx={{ maxWidth: "none !important", p: 2 }}>
+          {isMobile ? (
+            <Grid container>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    position: "sticky",
+                    top: "64px",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    paddingRight: "16px",
+                  }}
+                >
+                  <SortDropdown
+                    value={sortValue}
+                    handleSortChange={handleSortChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={3} sm={3} md={3}>
+                <Box sx={{ p: 2, borderRadius: 4 }}>
+                  <FilterColumn
+                    selectedFilters={selectedFilters}
+                    handleFilterChange={handleFilterChange}
+                    handleResetFilters={handleResetFilters}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                <Box sx={{ p: 2, borderRadius: 4 }}>
+                  <Grid container spacing={2}>
+                    {visibleShoeData.map((shoe, index) => (
+                      <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                        <ShoeCard shoe={shoe} />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right",
+                    mb: 4,
+                    mr: 2,
+                  }}
+                >
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item xs={3} sm={3} md={3}>
-              <Box sx={{ p: 2, borderRadius: 4 }}>
-                <FilterColumn
-                  selectedFilters={selectedFilters}
-                  handleFilterChange={handleFilterChange}
-                  handleResetFilters={handleResetFilters}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              <Box sx={{ p: 2, borderRadius: 4 }}>
-                <Grid container spacing={2}>
-                  {visibleShoeData.map((shoe, index) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                      <ShoeCard shoe={shoe} />
-                    </Grid>
-                  ))}
+          ) : (
+            <>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      position: "sticky",
+                      top: "64px",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      paddingRight: "16px",
+                    }}
+                  >
+                    <SortDropdown
+                      value={sortValue}
+                      handleSortChange={handleSortChange}
+                    />
+                  </Box>
                 </Grid>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{ display: "flex", justifyContent: "right", mb: 4, mr: 2 }}
-              >
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                />
-              </Box>
-            </Grid>
-          </Grid>
+                <Grid item xs={3} sm={3} md={3}>
+                  <Box sx={{ p: 2, borderRadius: 4 }}>
+                    <FilterColumn
+                      selectedFilters={selectedFilters}
+                      handleFilterChange={handleFilterChange}
+                      handleResetFilters={handleResetFilters}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={9} sm={9} md={9}>
+                  <Box sx={{ p: 2, borderRadius: 4 }}>
+                    <Grid container spacing={2}>
+                      {visibleShoeData.map((shoe, index) => (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                          <ShoeCard shoe={shoe} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "right",
+                      mb: 4,
+                      mr: 2,
+                    }}
+                  >
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </Container>
       </Box>
       <Footer />
