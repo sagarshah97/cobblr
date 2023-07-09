@@ -1,13 +1,26 @@
 const ShoesService = require("./shoes.service");
 
-class UserController {
+class ShoeController {
   constructor() {
     this.shoesService = new ShoesService();
   }
 
   async getShoe(request, response, next) {
     try {
-      const shoeDetails = await this.shoesService.getShoe(request.body.code);
+      const shoeDetails = await this.shoesService.getShoe(request.body._id);
+      if (shoeDetails) {
+        response.status(200).json(shoeDetails);
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getSimilarShoes(request, response, next) {
+    try {
+      const shoeDetails = await this.shoesService.getSimilarShoes(request.body);
       if (shoeDetails) {
         response.status(200).json(shoeDetails);
       } else {
@@ -49,4 +62,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new ShoeController();
