@@ -4,7 +4,7 @@ const dbConfig = require("../config");
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.CLUSTER}.eryiety.mongodb.net/${dbConfig.DB}?retryWrites=true&w=majority`,
+      `mongodb+srv://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.CLUSTER}.${dbConfig.TLD}.mongodb.net/${dbConfig.DB}?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

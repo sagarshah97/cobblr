@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validationSchema = {
+  _id: Joi.string().min(1).required(),
   code: Joi.string().min(1).required(),
   name: Joi.string().min(3).max(100).required(),
   subText: Joi.string().min(3).required(),
@@ -12,12 +13,19 @@ const validationSchema = {
   quantity: Joi.array().items(Joi.number()),
   images: Joi.array().items(Joi.string()),
   briefDescription: Joi.string().min(3).required(),
+  brand: Joi.string().min(3),
+  tags: Joi.array().items(Joi.string()),
+  category: Joi.string().min(1).required(),
+  gender: Joi.string().min(1).required(),
+  type: Joi.string().min(1).required(),
+  material: Joi.string().min(1).required(),
+  availability: Joi.boolean().required(),
 };
 
 module.exports = {
   getShoe: {
     body: Joi.object({
-      code: validationSchema.code,
+      _id: validationSchema._id,
     }),
   },
   createShoe: {
@@ -33,6 +41,19 @@ module.exports = {
       quantity: validationSchema.quantity,
       images: validationSchema.images,
       briefDescription: validationSchema.briefDescription,
+      brand: validationSchema.brand,
+      tags: validationSchema.tags,
+      category: validationSchema.category,
+      gender: validationSchema.gender,
+      type: validationSchema.type,
+      material: validationSchema.material,
+      availability: validationSchema.availability,
+    }),
+  },
+  getSimilarShoes: {
+    body: Joi.object({
+      _id: validationSchema._id,
+      tags: validationSchema.tags,
     }),
   },
 };

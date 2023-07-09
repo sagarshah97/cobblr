@@ -1,13 +1,19 @@
 const Shoe = require("./shoes.model");
 
 class ShoesDAL {
-  async getShoe(shoeCode) {
-    const shoes = Shoe.findOne({ code: shoeCode });
+  async getShoe(_id) {
+    const shoes = Shoe.findById(_id);
     return shoes;
   }
 
   async getShoes() {
     const shoes = Shoe.find({});
+    return shoes;
+  }
+
+  async getSimilarShoes(reqBody) {
+    const { tags } = reqBody;
+    const shoes = await Shoe.find({ tags: { $all: tags } });
     return shoes;
   }
 
