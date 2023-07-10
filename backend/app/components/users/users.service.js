@@ -1,4 +1,5 @@
 const UsersDal = require("./users.dal");
+const bcrypt = require("bcrypt");
 
 class UsersService {
   constructor() {
@@ -15,12 +16,13 @@ class UsersService {
         return false;
       }
 
+      const hashedPassword = await bcrypt.hash(password, 10);
       // Create a new user instance
       const newUser = {
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
       };
 
       // Save the user to the database
@@ -43,8 +45,9 @@ class UsersService {
       return null; // User not found
     }
 
+    const passwordMatch = await bcrypt.compare(password, user.password);
     // Compare the provided password with the stored password
-    if (user.password !== password) {
+    if (!passwordMatch) {
       return null; // Invalid password
     }
 
