@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
+import React from "react";
+import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
 
 const ShoeCard = ({ shoe }) => {
   const handleClick = () => {
@@ -7,15 +7,47 @@ const ShoeCard = ({ shoe }) => {
   };
 
   return (
-    <Card sx={{ height: '100%', cursor: 'pointer', '&:hover': { boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' } }} onClick={handleClick}>
-      <CardMedia component="img" height="200" src={shoe.image} alt={shoe.name} />
+    <Card
+      sx={{
+        height: "100%",
+        cursor: "pointer",
+        "&:hover": { boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" },
+      }}
+      onClick={handleClick}
+    >
+      <CardMedia
+        component="img"
+        height="200"
+        src={shoe.image}
+        alt={shoe.name}
+      />
       <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h7" component="div">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h7"
+            component="div"
+            sx={{ fontSize: { xs: "18px", md: "20px" } }}
+          >
             {shoe.name}
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h6" component="div">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ fontSize: { xs: "16px", md: "18px" } }}
+            >
               ${shoe.price}
             </Typography>
           </Box>
