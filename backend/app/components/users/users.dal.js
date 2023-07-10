@@ -3,7 +3,14 @@ const User = require("./users.model");
 class UsersDal {
   async getUserByEmail(email) {
     try {
-      return await User.findOne({ email });
+      const user = await User.findOne({ email });
+      if (user) {
+        return {
+          userId: user._id,
+          user: user,
+        };
+      }
+      return null;
     } catch (error) {
       console.error(error);
       throw error;

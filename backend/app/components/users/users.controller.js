@@ -23,7 +23,9 @@ class UserController {
     try {
       const loginResult = await this.usersService.loginUser(request.body);
       if (loginResult) {
-        response.status(200).json({ message: "Login successful" });
+        response
+          .status(200)
+          .json({ message: "Login successful", userId: loginResult.userId });
       } else {
         response.status(401).json({ message: "Invalid credentials" });
       }

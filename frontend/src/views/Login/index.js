@@ -26,6 +26,7 @@ export default function Login() {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [userId, setUserId] = useState("");
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return regex.test(email);
@@ -67,6 +68,9 @@ export default function Login() {
       .post("http://localhost:8000/users/login", params)
       .then((response) => {
         console.log(response);
+        const { userId } = response.data;
+        setUserId(userId);
+        console.log(userId);
         if (response.status === 200) {
           // setRegistrationError("");
           setLoginError("Login successful");

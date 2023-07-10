@@ -45,14 +45,17 @@ class UsersService {
       return null; // User not found
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.user.password);
     // Compare the provided password with the stored password
     if (!passwordMatch) {
       return null; // Invalid password
     }
 
     // If both email and password are valid, return the user
-    return user;
+    return {
+      userId: user.userId, // Assuming the user ID is stored in the "_id" field
+      success: true,
+    };
   }
 }
 
