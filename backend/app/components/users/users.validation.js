@@ -16,4 +16,10 @@ module.exports = {
       password: validationSchema.password,
     }),
   },
+  login: {
+    body: Joi.object({
+      email: validationSchema.email,
+      password: validationSchema.password,
+    }),
+  },
 };

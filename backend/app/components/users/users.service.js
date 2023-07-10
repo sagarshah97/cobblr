@@ -32,6 +32,25 @@ class UsersService {
       throw error;
     }
   }
+
+  async loginUser(loginData) {
+    const { email, password } = loginData;
+
+    // Retrieve the user from the database based on the email
+    const user = await this.usersDal.getUserByEmail(email);
+
+    if (!user) {
+      return null; // User not found
+    }
+
+    // Compare the provided password with the stored password
+    if (user.password !== password) {
+      return null; // Invalid password
+    }
+
+    // If both email and password are valid, return the user
+    return user;
+  }
 }
 
 module.exports = UsersService;

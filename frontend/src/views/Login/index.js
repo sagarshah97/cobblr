@@ -1,4 +1,5 @@
 import { useState } from "react";
+// axios
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,6 +15,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/images/Home/logo-illustration-vintage-sneakers-shoes-retro-style_194708-640-removebg-preview.png";
+import axios from "axios";
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 const defaultTheme = createTheme();
@@ -22,6 +24,8 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return regex.test(email);
@@ -37,17 +41,47 @@ export default function Login() {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+  };
+
   const validatePassword = (password) => {
     return password.length >= 8;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    if (!validateEmail(email)) {
+      setLoginError("Please enter a valid email");
+      return;
+    }
+
+    const params = {
+      email,
+      password,
+    };
+
+    axios
+      .post("http://localhost:8000/users/login", params)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          // setRegistrationError("");
+          setLoginError("Login successful");
+          setTimeout(() => {
+            navigate("/homepage");
+          }, 3000);
+        } else {
+          setLoginError("Invalid Credentials. Please try again.");
+          // setRegistrationMessage("");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoginError("Invalid Credentials. Please try again");
+      });
   };
 
   return (
@@ -174,6 +208,8 @@ export default function Login() {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
+                onChange={handlePasswordChange}
                 autoComplete="current-password"
                 InputProps={{
                   style: {
@@ -213,10 +249,19 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={() => navigate("/homepage")}
               >
                 Sign In
               </Button>
+              {loginError && (
+                <Typography
+                  variant="body2"
+                  color="error"
+                  align="center"
+                  sx={{ color: "white" }}
+                >
+                  {loginError}
+                </Typography>
+              )}
               {/* <Grid container>
                 <Grid item style={{}}> */}
               <Typography
@@ -254,8 +299,8 @@ export default function Login() {
                   textAlign: "center",
                 }}
               >
-                For now type any email and password and it will take you to the
-                HomePage for the purpose of this proposal
+                {/* For now type any email and password and it will take you to the
+                HomePage for the purpose of this proposal */}
               </Typography>
             </Box>
           </Box>

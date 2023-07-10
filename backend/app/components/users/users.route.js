@@ -8,4 +8,8 @@ router
   .route("/register")
   .post(validate(userValidation.register), userController.register);
 
+router
+  .route("/login")
+  .post(validate(userValidation.login), userController.login);
+
 module.exports = router;

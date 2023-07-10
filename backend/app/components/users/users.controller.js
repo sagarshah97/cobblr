@@ -19,6 +19,18 @@ class UserController {
       next(error);
     }
   };
+  login = async (request, response, next) => {
+    try {
+      const loginResult = await this.usersService.loginUser(request.body);
+      if (loginResult) {
+        response.status(200).json({ message: "Login successful" });
+      } else {
+        response.status(401).json({ message: "Invalid credentials" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = new UserController();
