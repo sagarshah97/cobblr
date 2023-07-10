@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../../assets/images/Home/drawing-pair-converse-shoes_897419-89-_1_-removebg-preview.png";
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
@@ -27,6 +28,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [registrationError, setRegistrationError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -104,7 +106,26 @@ export default function Register() {
     setConfirmPassword(value);
   };
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+
+  //   if (
+  //     firstName &&
+  //     lastName &&
+  //     email &&
+  //     password &&
+  //     confirmPassword &&
+  //     validateName(firstName) &&
+  //     validateName(lastName) &&
+  //     validateEmail(email) &&
+  //     validatePassword(password, confirmPassword)
+  //   ) {
+  //     navigate("/login");
+  //   } else {
+  //     setFormError("Please fill all details correctly");
+  //   }
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (
@@ -118,9 +139,32 @@ export default function Register() {
       validateEmail(email) &&
       validatePassword(password, confirmPassword)
     ) {
-      navigate("/login");
+      try {
+        const formData = new FormData();
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("email", email);
+        formData.append("password", password);
+
+        const response = await axios.post(
+          "http://localhost:7000/register",
+          formData
+        );
+
+        console.log(response.data);
+        setRegistrationError("Registration successful");
+      } catch (error) {
+        console.error(error);
+        // if (error.response && error.response.status === 409) {
+        //   setRegistrationError(
+        //     "Email already exists. Please use a different email."
+        //   );
+        // } else {
+        //   setRegistrationError("Registration failed. Please try again.");
+        // }
+      }
     } else {
-      setFormError("Please fill all details correctly");
+      setFormError("Please fill in all details correctly.");
     }
   };
 
