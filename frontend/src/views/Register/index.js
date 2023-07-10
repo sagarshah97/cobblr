@@ -140,28 +140,42 @@ export default function Register() {
       validatePassword(password, confirmPassword)
     ) {
       try {
-        const formData = new FormData();
-        formData.append("firstName", firstName);
-        formData.append("lastName", lastName);
-        formData.append("email", email);
-        formData.append("password", password);
+        const param = {
+          firstName,
+          lastName,
+          email,
+          password,
+        };
 
-        const response = await axios.post(
-          "http://localhost:7000/register",
-          formData
-        );
-
-        console.log(response.data);
-        setRegistrationError("Registration successful");
+        // const response = await
+        axios
+          .post("http://localhost:8000/users/register", param)
+          .then((response) => {
+            console.log(">>>> in resp " + JSON.stringify(response));
+            if (response.status === 200) {
+              // setRegistrationError("");
+              setRegistrationError("Registration successful");
+              setTimeout(() => {
+                navigate("/login");
+              }, 5000);
+            } else {
+              setRegistrationError("Registration failed. Please try again.");
+              // setRegistrationMessage("");
+            }
+          })
+          .catch((error) => {
+            console.log(">>>> in error " + JSON.stringify(error));
+            if (error.response && error.response.status === 409) {
+              setRegistrationError(
+                "Email already exists. Please use a different email."
+              );
+            } else {
+              setRegistrationError("Registration failed. Please try again.");
+            }
+            // setRegistrationMessage("");
+          });
       } catch (error) {
         console.error(error);
-        // if (error.response && error.response.status === 409) {
-        //   setRegistrationError(
-        //     "Email already exists. Please use a different email."
-        //   );
-        // } else {
-        //   setRegistrationError("Registration failed. Please try again.");
-        // }
       }
     } else {
       setFormError("Please fill in all details correctly.");
@@ -457,6 +471,17 @@ export default function Register() {
                   {formError}
                 </Typography>
               )}
+              {registrationError && (
+                <Typography
+                  variant="body2"
+                  color="error"
+                  align="center"
+                  sx={{ color: "white" }}
+                >
+                  {registrationError}
+                </Typography>
+              )}
+
               {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
