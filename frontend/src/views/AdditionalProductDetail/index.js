@@ -6,10 +6,10 @@ import Button from "@mui/material/Button";
 
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import p11 from "../../assets/images/ProductDetail/11.png";
 
 import "../../App.css";
 import Footer from "../HomePage/Footer";
+import Spinner from "../../utils/Spinner";
 
 const AdditionalDetails = () => {
   const navigate = useNavigate();
@@ -17,37 +17,28 @@ const AdditionalDetails = () => {
 
   const productDetails = location.state?.productDetails;
   const params = {
-    productId: 1,
+    productId: productDetails._id,
   };
 
   const [inventoryCheck, setInventoryCheck] = useState([]);
 
   useEffect(() => {
-    if (productDetails?.id) {
+    if (productDetails?.code) {
       checkForOutOfStock();
     }
   }, []);
 
   const checkForOutOfStock = () => {
-    let sizeQuantity = [];
-    for (let i = 0; i < productDetails.sizes.length; i++) {
-      sizeQuantity.push({
-        size: productDetails.sizes[i],
-        quantity: productDetails.quantity[i],
-      });
-    }
-    setInventoryCheck(sizeQuantity);
+    setInventoryCheck(productDetails.availableQuantity);
   };
 
   return (
     <>
-      {productDetails?.id ? (
+      {productDetails?.code ? (
         <>
           <div
             style={{
-              //   maxHeight: "auto",
               backgroundColor: "#0f0f0f",
-              //   paddingTop: "64px",
             }}
           >
             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -64,7 +55,10 @@ const AdditionalDetails = () => {
                       <div class="image-container">
                         <img
                           variant="top"
-                          src={p11}
+                          src={
+                            "data:image/png;base64," +
+                            productDetails.images[0].data
+                          }
                           className="image"
                           style={{
                             borderRadius: "15px",
@@ -208,7 +202,7 @@ const AdditionalDetails = () => {
                       color: "white",
                     }}
                     onClick={() =>
-                      navigate("/productDetail", { state: { params } })
+                      navigate(`/productDetail/${productDetails._id}`)
                     }
                   >
                     Back to product
@@ -220,7 +214,7 @@ const AdditionalDetails = () => {
         </>
       ) : (
         <>
-          <div>Page not found</div>
+          <Spinner />
         </>
       )}
       <Footer />

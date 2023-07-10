@@ -14,7 +14,7 @@ const FooterContainer = styled("footer")({
 
 const FooterGridContainer = styled(Grid)({
   maxWidth: "1200px",
-  margin: "0 auto",
+  // margin: "0 auto",
   padding: "0 20px",
 });
 
