@@ -17,6 +17,8 @@ import AdditionalDetails from "./views/AdditionalProductDetail/index.js";
 import ContactUs from "./views/ContactUs/ContactUs.js";
 import WishlistPage from "./views/Wishlist/index.js";
 import ProductListing from "./views/ProductListing/index.js";
+import BillingDetails from "./views/BillingDetails/index.js";
+import Payment from "./views/Payment/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -58,11 +60,13 @@ const Router = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/productDetail" element={<ProductDetail />} />
+          <Route path="/productDetail/:_id" element={<ProductDetail />} />
           <Route path="/details" element={<AdditionalDetails />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/productlisting" element={<ProductListing />} />
+          <Route path="/billing" element={<BillingDetails />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
       </Routes>
     </Suspense>

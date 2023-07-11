@@ -165,7 +165,7 @@
 }
 
 .MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list {
-  height: 15rem;
+  max-height: 15rem;
 }
 
 .padding-card-details {
@@ -216,3 +216,42 @@
 
 
 /* FOR PRODUCT LISTING PAGE END */
+/* FOR BILLING DETAILS START */
+
+.stepper-style .css-1vyamtt-MuiStepLabel-labelContainer {
+  color: white;
+}
+
+.stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-completed {
+  color: white;
+}
+
+.stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-active {
+  color: #009ce8;
+}
+
+.stepper-icon .MuiStepIcon-root {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.stepper-icon .MuiStepIcon-root.Mui-active {
+  border: 1px solid #009ce8;
+  border-radius: 50%;
+}
+
+.stepper-icon .MuiStepIcon-root.Mui-completed {
+  color: green;
+  border: 1px solid green;
+}
+
+.pay-radio.MuiRadio-root {
+  color: white;
+}
+
+.pay-btn.MuiButton-root.Mui-disabled {
+  color: grey;
+  border: 1px solid grey;
+}
+
+/* FOR BILLING DETAILS END */
