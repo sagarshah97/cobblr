@@ -79,19 +79,19 @@ const FilterColumn = ({
       >
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="M"
-          label="Men"
+          value="Male"
+          label="Male"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="W"
-          label="Women"
+          value="Female"
+          label="Female"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="U"
+          value="Unisex"
           label="Unisex"
           sx={{ color: "#fff" }}
         />

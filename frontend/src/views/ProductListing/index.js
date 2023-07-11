@@ -14,20 +14,7 @@ import Pagination from "./Pagination";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TuneIcon from "@mui/icons-material/Tune";
-
-import image1 from "../../assets/images/ProductListing/image1.jpeg";
-import image2 from "../../assets/images/ProductListing/image2.jpeg";
-import image3 from "../../assets/images/ProductListing/image3.jpeg";
-import image4 from "../../assets/images/ProductListing/image4.jpeg";
-import image5 from "../../assets/images/ProductListing/image5.jpeg";
-import image6 from "../../assets/images/ProductListing/image6.jpeg";
-import image7 from "../../assets/images/ProductListing/image7.jpeg";
-import image8 from "../../assets/images/ProductListing/image8.jpeg";
-import image9 from "../../assets/images/ProductListing/image9.jpeg";
-import image10 from "../../assets/images/ProductListing/image10.jpeg";
-import image11 from "../../assets/images/ProductListing/image11.jpeg";
-import image12 from "../../assets/images/ProductListing/image12.jpeg";
-import image13 from "../../assets/images/ProductListing/image13.jpeg";
+import axios from "axios";
 
 import Footer from "../HomePage/Footer";
 import "../../App.css";
@@ -75,179 +62,33 @@ const ProductListing = () => {
     handleModalClose();
   };
 
-  // Hardcoded shoe data
-  const originalShoeData = [
-    { image: image1, name: "Shoe 1", price: 120, gender: "U", size: [7, 8, 9] },
-    { image: image2, name: "Shoe 2", price: 98, gender: "M", size: [6, 8, 9] },
-    {
-      image: image13,
-      name: "Shoe 3",
-      price: 110,
-      gender: "W",
-      size: [6, 7, 8],
-    },
-    {
-      image: image12,
-      name: "Shoe 4",
-      price: 200,
-      gender: "U",
-      size: [7, 8, 10],
-    },
-    {
-      image: image11,
-      name: "Shoe 5",
-      price: 210,
-      gender: "M",
-      size: [6, 7, 8, 9, 10],
-    },
-    {
-      image: image10,
-      name: "Shoe 6",
-      price: 199,
-      gender: "W",
-      size: [6, 8, 9],
-    },
-    { image: image7, name: "Shoe 7", price: 89, gender: "U", size: [10, 8, 9] },
-    { image: image8, name: "Shoe 8", price: 134, gender: "M", size: [7, 8, 9] },
-    {
-      image: image9,
-      name: "Shoe 9",
-      price: 170,
-      gender: "W",
-      size: [7, 8, 9, 10],
-    },
-    {
-      image: image10,
-      name: "Shoe 10",
-      price: 189,
-      gender: "U",
-      size: [6, 7, 8, 9],
-    },
-    {
-      image: image11,
-      name: "Shoe 11",
-      price: 169,
-      gender: "U",
-      size: [7, 8, 9, 10],
-    },
-    {
-      image: image12,
-      name: "Shoe 12",
-      price: 156,
-      gender: "M",
-      size: [7, 8, 9, 10],
-    },
-    {
-      image: image6,
-      name: "Shoe 13",
-      price: 256,
-      gender: "M",
-      size: [6, 7, 8, 9],
-    },
-    {
-      image: image1,
-      name: "Shoe 14",
-      price: 498,
-      gender: "W",
-      size: [6, 7, 8, 9],
-    },
-    { image: image2, name: "Shoe 15", price: 201, gender: "W", size: [6, 10] },
-    { image: image3, name: "Shoe 16", price: 222, gender: "U", size: [7, 8] },
-    { image: image4, name: "Shoe 17", price: 333, gender: "U", size: [8, 9] },
-    {
-      image: image5,
-      name: "Shoe 18",
-      price: 444,
-      gender: "M",
-      size: [7, 8, 9, 10],
-    },
-    {
-      image: image6,
-      name: "Shoe 19",
-      price: 256,
-      gender: "M",
-      size: [6, 7, 8, 9],
-    },
-    {
-      image: image4,
-      name: "Shoe 20",
-      price: 498,
-      gender: "U",
-      size: [7, 8, 9, 10],
-    },
-    {
-      image: image3,
-      name: "Shoe 21",
-      price: 201,
-      gender: "W",
-      size: [8, 9, 10],
-    },
-    {
-      image: image5,
-      name: "Shoe 22",
-      price: 76,
-      gender: "W",
-      size: [7, 10, 9],
-    },
-    {
-      image: image4,
-      name: "Shoe 23",
-      price: 333,
-      gender: "M",
-      size: [7, 6, 9],
-    },
-    { image: image3, name: "Shoe 24", price: 444, gender: "U", size: [7, 9] },
-  ];
-
-  let shoeData = originalShoeData;
-
   useEffect(() => {
-    if (selectedFilters.sort !== null || selectedFilters.sort !== "") {
-      setSortValue(selectedFilters.sort);
+    if (isMobile) {
+      if (selectedFilters.sort === null || selectedFilters.sort === "" || selectedFilters.sortValue === undefined) {
+        setSortValue("sort1");
+      } else {
+        setSortValue(selectedFilters.sort);
+      }
     }
-    console.log(
-      "API call triggered with Sort:",
-      sortValue,
-      "Filters:",
-      selectedFilters
-    );
-    console.log("before", shoeData);
-    if (sortValue === "sort2") {
-      shoeData.sort((a, b) => a.price - b.price);
-    } else if (sortValue === "sort3") {
-      shoeData.sort((a, b) => b.price - a.price);
-    } else {
-      shoeData = originalShoeData;
-    }
-    if (Object.keys(selectedFilters).length !== 0) {
-      shoeData = originalShoeData.filter((shoe) => {
-        const {
-          sort = "",
-          gender = "",
-          size = "",
-          price = "",
-        } = selectedFilters;
-        if (
-          (gender === "" || shoe.gender === gender) &&
-          (size === "" || shoe.size.includes(parseInt(size))) &&
-          (price === "" ||
-            (price === "100" && shoe.price <= 100) ||
-            (price === "100_200" && shoe.price > 100 && shoe.price <= 200) ||
-            (price === "200" && shoe.price > 200))
-        ) {
-          return true;
-        }
-        return false;
-      });
-    }
-    // Pagination
-    const itemsPerPage = 8;
-    const totalItems = shoeData.length;
-    setTotalPages(Math.ceil(totalItems / itemsPerPage));
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setVisibleShoeData(shoeData.slice(startIndex, endIndex));
-    console.log("after", shoeData);
+    const filerReq = {
+      sortValue: sortValue,
+      selectedFilters: selectedFilters,
+      currentPage: currentPage,
+    };
+    const fetchFilteredShoes = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/shoes/filterShoes",
+          filerReq
+        );
+        const data = response.data;
+        setVisibleShoeData(data.visibleShoeData);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error("Error retrieving categories:", error);
+      }
+    };
+    fetchFilteredShoes();
   }, [sortValue, selectedFilters, currentPage, totalPages]);
 
   const handlePageChange = (pageNumber) => {
@@ -266,7 +107,7 @@ const ProductListing = () => {
                   sx={{
                     p: 2,
                     borderRadius: 4,
-                    backgroundColor: "black",
+                    backgroundColor: "transparent",
                     color: "white",
                     display: "flex",
                     justifyContent: "flex-end",
@@ -309,7 +150,7 @@ const ProductListing = () => {
               {visibleShoeData.map((shoe, index) => (
                 <Grid item xs={6} sm={3} key={index}>
                   <Box sx={{ p: 2 }}>
-                    <ShoeCard shoe={shoe} />
+                    <ShoeCard shoe={shoe} height="100" />
                   </Box>
                 </Grid>
               ))}
@@ -354,7 +195,7 @@ const ProductListing = () => {
                   sx={{
                     p: 2,
                     borderRadius: 4,
-                    backgroundColor: "black",
+                    backgroundColor: "transparent",
                     color: "white",
                   }}
                 >
@@ -372,7 +213,7 @@ const ProductListing = () => {
                   <Grid container spacing={2}>
                     {visibleShoeData.map((shoe, index) => (
                       <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                        <ShoeCard shoe={shoe} />
+                        <ShoeCard shoe={shoe} height="200" />
                       </Grid>
                     ))}
                   </Grid>
