@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,6 +19,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 // import logo from "./assets/images/logo-white.png";
+import axios from "axios";
+
 import "../../App.css";
 import Footer from "../HomePage/Footer";
 
@@ -30,7 +32,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function WishlistPage() {
   const navigate = useNavigate();
 
-  const [wishlist, setWishlist] = React.useState([1]);
+  const userId = "64ab7e1f1635107cce47fc87";
+
+  const [wishlist, setWishlist] = React.useState(null);
   const deleteItem = (index) => {
     handleClick();
     if (wishlist.length == 1) {
@@ -60,6 +64,65 @@ function WishlistPage() {
 
     setOpen(false);
   };
+
+  const removeWishlistItem = (userId, itemId) => {
+    axios
+      .post(`http://localhost:8000/wishlist/removeWishlistItem`, {
+        userId: userId,
+        itemId: itemId,
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          console.log(resp.data);
+          alert(resp.data.message);
+          setWishlist(resp.data.wishlistedItems);
+          // setPatientData(resp.data);
+          // if (resp.data.prescriptionDetails != null)
+          //   setPrescriptionMetadata(resp.data.prescriptionDetails);
+          // setBackdrop(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error.config);
+        console.log(error.message);
+        console.log(error.response);
+        // setBackdrop(false);
+        // setAlertMessage("Something went wrong, Please try again!");
+        // setAlertType("error");
+        // snackbarOpen();
+      });
+  };
+
+  const getWishlist = (usertId) => {
+    axios
+      .post(`http://localhost:8000/wishlist/getWishlist`, {
+        _id: usertId,
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          console.log(resp.data);
+          setWishlist(resp.data);
+          // setPatientData(resp.data);
+          // if (resp.data.prescriptionDetails != null)
+          //   setPrescriptionMetadata(resp.data.prescriptionDetails);
+          // setBackdrop(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error.config);
+        console.log(error.message);
+        console.log(error.response);
+        // setBackdrop(false);
+        // setAlertMessage("Something went wrong, Please try again!");
+        // setAlertType("error");
+        // snackbarOpen();
+      });
+  };
+
+  useEffect(() => {
+    getWishlist(userId);
+  }, []);
+
   return (
     <Box sx={{ backgroundColor: "#0F0F0F" }}>
       <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
@@ -73,27 +136,27 @@ function WishlistPage() {
               columns={{ xs: 4, sm: 8, md: 8 }}
               sx={{ p: 0 }}
             >
-              {wishlist.length > 0 &&
-                wishlist.map((index) => (
+              {wishlist?.length > 0 &&
+                wishlist.map((item, index) => (
                   <>
                     <Grid item xs={4} sm={4} md={4} key={index}>
                       <Grid container spacing={1}>
                         <Grid item xs={6}>
                           <img
                             className="card-image"
-                            alt=""
-                            src="https://secure-images.nike.com/is/image/DotCom/CW2288_111?align=0,1&amp;cropN=0,0,0,0&amp;resMode=sharp&amp;fmt=jpg&amp;bgc=f5f5f5"
+                            src={"data:image/png;base64," + item.images.data}
+                            alt={item.images.name}
                           />
                         </Grid>
                         <Grid item xs={6}>
-                          <Typography variant="h6">Nike Air Force 1</Typography>
+                          <Typography variant="h6">{item.name}</Typography>
                           <Typography sx={{ color: "gray", fontSize: "15px" }}>
-                            Sneakers
+                            {item.tags}
                           </Typography>
                           <Typography
                             sx={{ fontSize: "18px", marginBottom: "2%" }}
                           >
-                            $150
+                            {item.price}
                           </Typography>
                           {/* <Stack spacing={2} direction="column"> */}
                           <Grid container>
@@ -116,7 +179,8 @@ function WishlistPage() {
                                 variant="outlined"
                                 sx={{ width: "6rem" }}
                                 onClick={() => {
-                                  deleteItem(index);
+                                  //deleteItem(index);
+                                  removeWishlistItem(userId, item._id);
                                 }}
                               >
                                 Remove
@@ -129,7 +193,7 @@ function WishlistPage() {
                     </Grid>
                   </>
                 ))}
-              {wishlist.length == 0 && (
+              {(wishlist?.length == 0 || !wishlist) && (
                 <>
                   <Typography variant="h6" sx={{ p: 5 }}>
                     Products added to your Wishlist will be saved here.
