@@ -23,7 +23,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/faq/getfaq");
+        const response = await axios.get("http://localhost:8000/faq/getfaq");
         const data = response.data;
         console.log("faq",data);
         setCategories(data);
