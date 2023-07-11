@@ -22,6 +22,9 @@ class WishlistDAL {
             name: "$wishlistItems.name",
             code: "$wishlistItems.code",
             brand: "$wishlistItems.brand",
+            tags: { $arrayElemAt: ["$wishlistItems.tags", 0] },
+            images: { $arrayElemAt: ["$wishlistItems.images", 0] },
+            price: "$wishlistItems.price",
           },
         },
       ]);
@@ -56,17 +59,16 @@ class WishlistDAL {
     try {
       const userId = body.userId;
       const itemId = body.itemId;
-      console.log("userId:", userId);
-      console.log("itemId:", itemId);
+      // console.log("userId:", userId);
+      // console.log("itemId:", itemId);
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $pull: { wishlistedItems: itemId } },
         { new: true }
       )
-        .populate("wishlistedItems", "name code brand")
+        .populate("wishlistedItems", "name code brand tags price images")
         .select({ wishlistedItems: 1, _id: 0 });
 
-      console.log(updatedUser);
       return updatedUser;
     } catch (error) {
       console.log(error);

@@ -30,7 +30,35 @@ class WishlistService {
   async removeWishlistItem(body) {
     try {
       const response = await this.wishlistDAL.removeWishlistItem(body);
-      return response;
+      // console.log(">>>>");
+      // console.log(response.wishlistedItems);
+      const tempWishlist = response.wishlistedItems.map((item) => {
+        const firstImage = item.images[0];
+        const firstTag = item.tags[0];
+
+        return {
+          _id: item._id,
+          name: item.name,
+          code: item.code,
+          brand: item.brand,
+          tags: firstTag,
+          images: firstImage,
+          price: item.price,
+        };
+      });
+      //  wishlistedItems;
+      // console.log(">>>>");
+      // console.log(response.wishlistedItems);
+      // console.log(">>>>");
+      // console.log(tempWishlist);
+      // console.log(">>>>");
+
+      let resObj = response.toObject();
+      resObj.wishlistedItems = tempWishlist;
+
+      // console.log(resObj);
+
+      return resObj;
     } catch (error) {
       throw error;
     } finally {

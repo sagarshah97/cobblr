@@ -38,10 +38,11 @@ class WishlistController {
     try {
       const res = await this.wishlistService.removeWishlistItem(request.body);
       if (res) {
-        let resObj = res.toObject();
-        resObj.message = "Product removed from wishlist!";
-        console.log(resObj);
-        response.status(200).json(resObj);
+        // let resObj = res.toObject();
+        // let resObj = res;
+        res.message = "Product removed from wishlist!";
+        // console.log(resObj);
+        response.status(200).json(res);
       } else {
         response.status(404).json({ error: "No record found." });
       }
