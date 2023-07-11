@@ -21,9 +21,13 @@ class ShoeService {
       const shoeDetails = await this.shoesDAL.getSimilarShoes(reqBody);
 
       let filteredList = [];
-      let keys = ["_id", "code", "name", "subText", "price", "thumbnail"];
+      let keys = ["_id", "code", "name", "subText", "price"];
       shoeDetails.forEach((obj) => {
-        const filteredDetails = extractKeysFromObject(obj, keys);
+        let filteredDetails = extractKeysFromObject(obj, keys);
+        filteredDetails = {
+          ...filteredDetails,
+          thumbnail: obj.images[0],
+        };
         filteredList.push(filteredDetails);
       });
       filteredList = filteredList.filter(
