@@ -56,4 +56,14 @@ module.exports = {
       tags: validationSchema.tags,
     }),
   },
+  filterShoes: {
+    body: Joi.object({
+      sortValue: Joi.string()
+        .valid("sort1", "sort2", "sort3")
+        .default("sort1")
+        .required(),
+      selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
+      currentPage: Joi.number().default(1).required(),
+    }),
+  },
 };

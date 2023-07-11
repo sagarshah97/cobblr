@@ -34,4 +34,12 @@ router
     shoesController.createShoe.bind(shoesController)
   );
 
+  // sort and filter api
+  router
+  .route("/filterShoes")
+  .post(
+    validate(shoesValidation.filterShoes),
+    shoesController.filterShoes.bind(shoesController)
+  );
+
 module.exports = router;
