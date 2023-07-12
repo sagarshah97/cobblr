@@ -63,6 +63,68 @@ class ShoeService {
       //finally block
     }
   }
+
+  async filterShoes(sortValue, selectedFilters, currentPage, searchKeyword) {
+    try {
+      let originalShoeData = await this.shoesDAL.getShoes();
+      if(searchKeyword !== null || searchKeyword !== undefined || searchKeyword !== ""){
+        originalShoeData = originalShoeData.filter(shoe => {
+          const { name, brand, category, type } = shoe;
+          const searchTerm = searchKeyword.toLowerCase();
+          return (
+            name.toLowerCase().includes(searchTerm) ||
+            brand.toLowerCase().includes(searchTerm) ||
+            category.toLowerCase().includes(searchTerm) ||
+            type.toLowerCase().includes(searchTerm)
+          );
+        });
+      }
+      let shoeData = originalShoeData;
+      if (sortValue === "sort2") {
+        shoeData.sort((a, b) => a.price - b.price);
+      } else if (sortValue === "sort3") {
+        shoeData.sort((a, b) => b.price - a.price);
+      } else {
+        shoeData = originalShoeData;
+      }
+      if (selectedFilters != null || selectedFilters != undefined) {
+        if (Object.keys(selectedFilters).length !== 0) {
+          shoeData = originalShoeData.filter((shoe) => {
+            const { gender = "", size = "", price = "" } = selectedFilters;
+
+            if (
+              (gender === "" || shoe.gender === gender) &&
+              (size === "" ||
+                shoe.availableQuantity.some(
+                  (quantity) => quantity.size === size
+                )) &&
+              (price === "" ||
+                (price === "100" && shoe.price <= 100) ||
+                (price === "100_200" &&
+                  shoe.price > 100 &&
+                  shoe.price <= 200) ||
+                (price === "200" && shoe.price > 200))
+            ) {
+              return true;
+            }
+            return false;
+          });
+        }
+      }
+      //Pagination
+      const itemsPerPage = 8;
+      const totalItems = shoeData.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const visibleShoeData = shoeData.slice(startIndex, endIndex);
+      return { visibleShoeData, totalPages };
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
 }
 
 module.exports = ShoeService;

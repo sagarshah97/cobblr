@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -11,69 +11,29 @@ import {
 } from "@mui/material";
 import { Search, ExpandMore } from "@mui/icons-material";
 import faq from "../../assets/images/faqIcon.png";
+import axios from "axios";
 
 import Footer from "../HomePage/Footer";
 
 const FAQ = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  const categories = [
-    {
-      id: 1,
-      name: "Delivery and dispatch",
-      questions: [
-        {
-          id: 1.1,
-          question: "How long it takes to deliver my shoes?",
-          answer:
-            "The estimated delivery takes around 4-5 business days. However it might take longer if the point of delivery is farther from the outlet. You can always check you estimated delivery date in your order details.",
-        },
-        {
-          id: 1.2,
-          question: "How will I know if my order has been dispatched?",
-          answer:
-            "The delivery service agency sends out notifications on your phone number provided during the billing process. You can check on your phone number for any messages and alerts from the delivery service.",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Returns",
-      questions: [
-        {
-          id: 2.1,
-          question: "Can I return my shoes?",
-          answer:
-            "Yes, you can initiate a return for your order if they do not fit the size or for any products that were damaged upon arrival. Make sure to initiate your return within 7 days upon receiving your order",
-        },
-        {
-          id: 2.2,
-          question: "When will I get my refund after returning the product?",
-          answer:
-            "Once the return has been initiated and picked by our service agent, the refund process would be initiated. It might take upto 5 business days for the refund to be processed back into your account.",
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Exchanges",
-      questions: [
-        {
-          id: 3.1,
-          question: "Can I exchange my shoes?",
-          answer:
-            "Yes, we have a hassle-free return and exchange policy. You can initiate a return or exchange within 30 days of purchase.",
-        },
-        {
-          id: 3.2,
-          question: "How do I initiate a exchange?",
-          answer:
-            "Please contact our customer support team or visit our Returns and Exchanges page for detailed instructions.",
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/faq/getfaq");
+        const data = response.data;
+        console.log("faq",data);
+        setCategories(data);
+      } catch (error) {
+        console.error("Error retrieving categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSearchTextChange = (event) => {
     const searchText = event.target.value;
