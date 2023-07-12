@@ -31,6 +31,7 @@ const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchText, setSearchText] = React.useState("");
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -106,8 +107,6 @@ const ProductListing = () => {
     setCurrentPage(pageNumber);
   };
 
-  const [searchText, setSearchText] = React.useState("");
-
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
   };
@@ -117,6 +116,7 @@ const ProductListing = () => {
       console.log("before navigate:", searchText);
       const searchKeyword = event.target.value;
       setSearchKeyword(searchKeyword);
+      setSearchText("");
     }
   };
 
