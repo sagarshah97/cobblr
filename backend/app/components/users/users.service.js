@@ -114,6 +114,62 @@ class UsersService {
       throw error;
     }
   }
+
+  async changePasswordResult(userData) {
+    try {
+      const { email, currentPassword, newPassword } = userData;
+      const updatedValues = {
+        currentPassword,
+        newPassword,
+      };
+
+      const user = await this.usersDal.getUserByEmail(email);
+
+      // Compare the current password with the stored hashed password
+      const isPasswordMatch = await bcrypt.compare(
+        currentPassword,
+        user.user.password
+      );
+
+      if (!isPasswordMatch) {
+        return { success: false, message: "Invalid current password" };
+      }
+
+      // Generate a new hashed password for the new password
+      const newHashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update the user's password in the database
+      const updatedUser = await this.usersDal.updateUserPassword(
+        email,
+        newHashedPassword
+      );
+
+      return {
+        success: true,
+        message: "Password changed successfully",
+        user: updatedUser,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  updateProfileVisibility = async (email, profileVisibility) => {
+    try {
+      // const profileVisibility = visibility === "private";
+      // Call the DAL function to update the profile visibility in the database
+      const updatedUser = await this.usersDal.updateProfileVisibility(
+        email,
+        profileVisibility
+      );
+
+      // Additional logic or validations if needed
+
+      return updatedUser;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = UsersService;

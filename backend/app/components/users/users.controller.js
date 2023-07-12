@@ -85,6 +85,42 @@ class UserController {
       next(error);
     }
   };
+
+  changepassword = async (request, response, next) => {
+    try {
+      const changeResult = await this.usersService.changePasswordResult(
+        request.body
+      );
+      if (changeResult.success) {
+        response.status(200).json({ message: "Changed Succesfully" });
+      } else {
+        response
+          .status(404)
+          .json({ message: "Invalid Credentials. Try Again" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  updateProfileVisibility = async (req, res, next) => {
+    try {
+      const { visibility, email } = req.body;
+      // const userEmail = req.user.email; // Assuming you have user authentication in place
+      const profileVisibility = visibility === "public" ? false : true;
+      const updatedUser = await this.usersService.updateProfileVisibility(
+        email,
+        profileVisibility
+      );
+
+      res.status(200).json({
+        message: "Profile visibility updated successfully",
+        user: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = new UserController();

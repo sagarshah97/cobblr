@@ -55,6 +55,35 @@ class UsersDal {
       throw error;
     }
   }
+
+  async updateUserPassword(email, newPassword) {
+    try {
+      // Retrieve the user from the database
+      const user = await User.findOne({ email });
+
+      // Update the user's password
+      user.password = newPassword;
+      await user.save();
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updateProfileVisibility(email, profileVisibility) {
+    try {
+      // Find the user by email
+      const user = await User.findOneAndUpdate(
+        { email: email },
+        { profileVisibility },
+        { new: true }
+      );
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UsersDal;

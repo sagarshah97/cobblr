@@ -18,4 +18,10 @@ router.route("/profileupdate").post(userController.profileupdate);
 
 router.route("/displaytext").post(userController.displaytext);
 
+router.route("/changepassword").post(userController.changepassword);
+
+router
+  .route("/profile-visibility")
+  .post(userController.updateProfileVisibility);
+
 module.exports = router;

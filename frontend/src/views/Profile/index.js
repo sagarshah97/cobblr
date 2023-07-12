@@ -75,6 +75,7 @@ export default function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const renderIcon = (label) => {
     switch (label) {
       case "First Name":
@@ -95,6 +96,28 @@ export default function Profile() {
   const [email, setEmail] = useState("");
 
   const handlePasswordChange = () => {
+    const data = {
+      currentPassword,
+      newPassword,
+      email,
+    };
+
+    axios
+      .post("http://localhost:8000/users/changepassword", data)
+      .then((response) => {
+        // Handle the response from the backend
+        console.log("Password changed successfully");
+        setMessage("Password changed successfully");
+        // Additional logic or actions after successful password change
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the password change
+        setMessage("Failed to change password");
+        console.error("Error changing password:", error);
+      });
+
+    setCurrentPassword("");
+    setNewPassword("");
     setIsConfirmationOpen(true);
   };
 
@@ -136,6 +159,22 @@ export default function Profile() {
   };
 
   const handleSaves = () => {
+    const visibilityValue = selectedOption === "private" ? true : "public";
+
+    // Make a POST request to the backend to save the visibility value
+    axios
+      .post("http://localhost:8000/users/profile-visibility", {
+        visibility: visibilityValue,
+        email: email,
+      })
+      .then((response) => {
+        // Handle the response from the backend
+        console.log("Visibility saved successfully");
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the save
+        console.error("Error saving visibility:", error);
+      });
     handleModalClose();
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1105,7 +1144,7 @@ export default function Profile() {
                             <FormControlLabel
                               value="private"
                               control={<Radio />}
-                              label="Private : Profile visible to only you"
+                              label="Private: Profile visible to only you"
                               style={{ marginBottom: "10px" }}
                             />
                             <FormControlLabel
@@ -1151,26 +1190,32 @@ export default function Profile() {
                 <AccordionDetails>
                   <Typography>
                     <Dialog
-                      open={isConfirmationOpen}
-                      onClose={handleConfirmationClose}
+                    // open={isConfirmationOpen}
+                    // onClose={handleConfirmationClose}
                     >
                       <DialogTitle>Confirm Password Change</DialogTitle>
                       <DialogContent>
                         Are you sure you want to change your password?
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={handleConfirmationClose}>
+                        {/* <Button onClick={handleConfirmationClose}>
                           Cancel
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setIsPasswordChanged(true);
-                            handleConfirmationClose();
-                          }}
-                          color="primary"
+                        </Button> */}
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          sx={{ marginRight: "100px" }}
                         >
-                          Change Password
-                        </Button>
+                          <Button
+                            onClick={() => {
+                              setIsPasswordChanged(true);
+                              handleConfirmationClose();
+                            }}
+                            color="primary"
+                          >
+                            Change Passworddd
+                          </Button>
+                        </Box>
                       </DialogActions>
                     </Dialog>
 
@@ -1210,6 +1255,16 @@ export default function Profile() {
                       </Button>
                     </div>
                   </Typography>
+                  {message && (
+                    <Typography
+                      variant="body1"
+                      color={
+                        message.includes("successfully") ? "success" : "error"
+                      }
+                    >
+                      {message}
+                    </Typography>
+                  )}
                 </AccordionDetails>
               </Accordion>
             </div>

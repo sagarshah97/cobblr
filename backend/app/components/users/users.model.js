@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
   password: String,
   phone: String,
   inputText: String,
+  profileVisibility: {
+    type: Boolean,
+    default: false, // Set the default visibility to false (e.g., private)
+  },
 });
 
 module.exports = mongoose.model("Users", userSchema);
