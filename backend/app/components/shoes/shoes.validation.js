@@ -20,6 +20,13 @@ const validationSchema = {
   type: Joi.string().min(1).required(),
   material: Joi.string().min(1).required(),
   availability: Joi.boolean().required(),
+  sortValue: Joi.string()
+    .valid("sort1", "sort2", "sort3")
+    .default("sort1")
+    .required(),
+  selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
+  currentPage: Joi.number().default(1).required(),
+  searchKeyword: Joi.string().allow("", null).optional(),
 };
 
 module.exports = {
@@ -58,12 +65,10 @@ module.exports = {
   },
   filterShoes: {
     body: Joi.object({
-      sortValue: Joi.string()
-        .valid("sort1", "sort2", "sort3")
-        .default("sort1")
-        .required(),
-      selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
-      currentPage: Joi.number().default(1).required(),
+      sortValue: validationSchema.sortValue,
+      selectedFilters: validationSchema.selectedFilters,
+      currentPage: validationSchema.currentPage,
+      searchKeyword: validationSchema.searchKeyword,
     }),
   },
 };

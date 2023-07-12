@@ -64,9 +64,21 @@ class ShoeService {
     }
   }
 
-  async filterShoes(sortValue, selectedFilters, currentPage) {
+  async filterShoes(sortValue, selectedFilters, currentPage, searchKeyword) {
     try {
-      const originalShoeData = await this.shoesDAL.getShoes();
+      let originalShoeData = await this.shoesDAL.getShoes();
+      if(searchKeyword !== null || searchKeyword !== undefined || searchKeyword !== ""){
+        originalShoeData = originalShoeData.filter(shoe => {
+          const { name, brand, category, type } = shoe;
+          const searchTerm = searchKeyword.toLowerCase();
+          return (
+            name.toLowerCase().includes(searchTerm) ||
+            brand.toLowerCase().includes(searchTerm) ||
+            category.toLowerCase().includes(searchTerm) ||
+            type.toLowerCase().includes(searchTerm)
+          );
+        });
+      }
       let shoeData = originalShoeData;
       if (sortValue === "sort2") {
         shoeData.sort((a, b) => a.price - b.price);
