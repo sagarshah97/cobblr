@@ -6,7 +6,7 @@ const SortDropdown = ({ value, handleSortChange }) => {
   const longestOptionLabel = "Price: Low to High";
 
   return (
-    <Box sx={{ p: 2, borderRadius: 4, position: "sticky" }}>
+    <Box sx={{ borderRadius: 4, position: "sticky" }}>
       <FormControl variant="outlined" sx={{ width: "100%" }}>
         <InputLabel sx={{ color: "#fff" }} id="sort-label">
           Sort
@@ -16,6 +16,7 @@ const SortDropdown = ({ value, handleSortChange }) => {
           label="Sort"
           value={value}
           onChange={handleSortChange}
+          fullWidth
           MenuProps={{
             anchorOrigin: {
               vertical: "bottom",
@@ -33,7 +34,7 @@ const SortDropdown = ({ value, handleSortChange }) => {
           }}
           sx={{
             height: "100%",
-            width: `${longestOptionLabel.length * 10}px`, // Adjust the multiplier as needed
+            // width: `${longestOptionLabel.length * 10}px`, // Adjust the multiplier as needed
             "& .MuiOutlinedInput-input": {
               color: "#fff",
             },
