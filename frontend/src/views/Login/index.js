@@ -71,11 +71,12 @@ export default function Login() {
         const { userId } = response.data;
         setUserId(userId);
         console.log(userId);
+        sessionStorage.setItem("userId", userId);
         if (response.status === 200) {
           // setRegistrationError("");
           setLoginError("Login successful");
           setTimeout(() => {
-            navigate("/homepage");
+            navigate("/profile");
           }, 3000);
         } else {
           setLoginError("Invalid Credentials. Please try again.");

@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
+// import axios from "axios";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -32,6 +33,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import Footer from "../HomePage/Footer";
+import axios from "axios";
 
 const profileStyles = {
   container: {
@@ -87,6 +89,11 @@ export default function Profile() {
     }
   };
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
   const handlePasswordChange = () => {
     setIsConfirmationOpen(true);
   };
@@ -133,11 +140,11 @@ export default function Profile() {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState({
-    line1: "123 Main Street",
-    line2: "Kings Road",
-    city: "City",
-    state: "State",
-    postalCode: "12345",
+    line1: "",
+    line2: "",
+    city: "",
+    state: "",
+    postalCode: "",
   });
 
   const [newAddressModal, setNewAddressModal] = useState(false);
@@ -210,8 +217,52 @@ export default function Profile() {
     }));
   };
 
+  const userId = sessionStorage.getItem("userId");
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/users/profile/${userId}`)
+      .then((response) => {
+        console.log(response.data.user.firstName);
+        // const { firstName, lastName, phone, email } = response.data;
+        setFirstName(response.data.user.firstName);
+        setLastName(response.data.user.lastName);
+        setPhone(response.data.user.phone);
+        setEmail(response.data.user.email);
+        setDisplayText(response.data.user.inputText);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [userId]);
+
+  const handleSaveChangesForEdit = () => {
+    const updatedData = {
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+    };
+
+    axios
+      .post("http://localhost:8000/users/profileupdate", updatedData)
+      .then((response) => {
+        // Handle the success case
+        console.log("User data updated successfully:", response.data);
+      })
+      .catch((error) => {
+        // Handle the error case
+        console.error("Error updating user data:", error);
+      });
+
+    console.log("Updated user data:", updatedData);
+    setIsModalOpenP(false);
+  };
+
+  // const [profileValues, setProfileValues] = useState([]);
+
   const labels = ["First Name", "Last Name", "Email", "Phone"];
-  const initialValues = ["John", "Doe", "johndoe@example.com", "1234567890"];
+  const initialValues = [];
   const [values, setValues] = useState(initialValues);
 
   const [profileValues, setProfileValues] = useState(initialValues);
@@ -270,6 +321,23 @@ export default function Profile() {
 
   const handleSaveText = () => {
     setDisplayText(inputText);
+    const data = {
+      inputText,
+      email,
+    };
+
+    axios
+      .post("http://localhost:8000/users/displaytext", data)
+      .then((response) => {
+        // Handle the response from the backend
+        console.log("Text saved successfully");
+        // Additional logic or actions after successful save
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the save
+        console.error("Error saving text:", error);
+      });
+
     setInputText("");
     setIsAddModalOpen(false);
   };
@@ -361,6 +429,7 @@ export default function Profile() {
                       variant="body1"
                       color="text.secondary"
                       sx={{ fontStyle: "italic" }}
+                      value={inputText}
                     >
                       Tell me something about yourself...
                     </Typography>
@@ -426,7 +495,7 @@ export default function Profile() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    <Grid container spacing={2}>
+                    {/* <Grid container spacing={2}>
                       {labels.map((label, index) => (
                         <Grid item xs={12} sm={6} key={index}>
                           {renderIcon(label)}
@@ -447,7 +516,82 @@ export default function Profile() {
                           </Typography>
                         </Grid>
                       ))}
+                    </Grid> */}
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        {renderIcon("First Name")}
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          fontWeight="bold"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          First Name:
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          {firstName}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        {renderIcon("Last Name")}
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          fontWeight="bold"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          Last Name:
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          {lastName}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        {renderIcon("Phone")}
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          fontWeight="bold"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          Phone:
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          {phone}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        {renderIcon("Email")}
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          fontWeight="bold"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          Email:
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          display="inline"
+                          sx={{ ml: 1, overflowWrap: "anywhere" }}
+                        >
+                          {email}
+                        </Typography>
+                      </Grid>
                     </Grid>
+
                     <Grid item xs={12}>
                       <Box display="flex" justifyContent="center">
                         <Button
@@ -476,41 +620,161 @@ export default function Profile() {
                           p: 4,
                         }}
                       >
-                        <form>
-                          {labels.map((label, index) => (
-                            <TextField
-                              key={index}
-                              label={label}
-                              fullWidth
-                              value={profileValues[index]}
-                              onChange={(e) => handleInputChange(e, index)}
-                              margin="normal"
-                            />
-                          ))}
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "flex-end",
-                              marginTop: 2,
-                            }}
+                        <Typography>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                fontWeight="bold"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                First Name: {firstName}
+                              </Typography>
+                              {/* <Typography
+                                variant="subtitle1"
+                                display="inline"  
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                {firstName}
+                              </Typography> */}
+                            </Grid>
+                            {/* <Grid item xs={12} sm={6}>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                fontWeight="bold"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                Last Name: {lastName}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                {lastName}
+                              </Typography>
+                            </Grid> */}
+                            <Grid item xs={12} sm={6}>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                fontWeight="bold"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                Phone: {phone}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                {phone}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                fontWeight="bold"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                Email: {email}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                display="inline"
+                                sx={{ ml: 1, overflowWrap: "anywhere" }}
+                              >
+                                {email}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Box display="flex" justifyContent="center">
+                              <Button
+                                variant="contained"
+                                onClick={handleModalOpen}
+                                size="small"
+                                startIcon={<EditIcon />}
+                              >
+                                Edit
+                              </Button>
+                            </Box>
+                          </Grid>
+                          <Modal
+                            open={isModalOpenP}
+                            onClose={handleModalCloseForPersonal}
                           >
-                            <Button
-                              onClick={handleSaveChanges}
-                              variant="contained"
-                              color="primary"
-                              sx={{ marginRight: 1 }}
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: 400,
+                                bgcolor: "background.paper",
+                                boxShadow: 24,
+                                p: 4,
+                              }}
                             >
-                              Save
-                            </Button>
-                            <Button
-                              onClick={handleModalCloseForPersonal}
-                              variant="contained"
-                              color="secondary"
-                            >
-                              Close
-                            </Button>
-                          </Box>
-                        </form>
+                              <form>
+                                <TextField
+                                  label="First Name"
+                                  fullWidth
+                                  value={firstName}
+                                  onChange={(e) => setFirstName(e.target.value)}
+                                  margin="normal"
+                                />
+                                <TextField
+                                  label="Last Name"
+                                  fullWidth
+                                  value={lastName}
+                                  onChange={(e) => setLastName(e.target.value)}
+                                  margin="normal"
+                                />
+                                <TextField
+                                  label="Phone"
+                                  fullWidth
+                                  value={phone}
+                                  onChange={(e) => setPhone(e.target.value)}
+                                  margin="normal"
+                                />
+                                <TextField
+                                  label="Email"
+                                  fullWidth
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                  margin="normal"
+                                />
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    marginTop: 2,
+                                  }}
+                                >
+                                  <Button
+                                    onClick={handleSaveChangesForEdit}
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ marginRight: 1 }}
+                                  >
+                                    Save
+                                  </Button>
+                                  <Button
+                                    onClick={handleModalCloseForPersonal}
+                                    variant="contained"
+                                    color="secondary"
+                                  >
+                                    Close
+                                  </Button>
+                                </Box>
+                              </form>
+                            </Box>
+                          </Modal>
+                        </Typography>
                       </Box>
                     </Modal>
                   </Typography>
@@ -605,18 +869,18 @@ export default function Profile() {
                           </>
                         ))}
                       <Grid item xs={12}>
-                        <Button
+                        {/* <Button
                           variant="outlined"
                           onClick={() => {
                             setNewAddressModal(true);
                           }}
                         >
                           Add Address
-                        </Button>
+                        </Button> */}
                       </Grid>
                     </Grid>
 
-                    <Modal open={isModalOpen} onClose={handleModalClose}>
+                    {/* <Modal open={isModalOpen} onClose={handleModalClose}>
                       <div
                         className="modal"
                         style={{
@@ -779,7 +1043,7 @@ export default function Profile() {
                           Close
                         </Button>
                       </div>
-                    </Modal>
+                    </Modal> */}
                   </Typography>
                 </AccordionDetails>
               </Accordion>

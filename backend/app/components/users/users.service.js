@@ -57,6 +57,63 @@ class UsersService {
       success: true,
     };
   }
+
+  async getUserProfile(userId) {
+    try {
+      const user = await this.usersDal.findUserById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateUserProfile(userData) {
+    try {
+      const { firstName, lastName, email, phone } = userData;
+
+      // Check if the email already exists in the database
+      // const user = await this.usersDal.getUserByEmail(email);
+      // if (!user) {
+      //   return null; // User not found
+      // }
+      // Create a new user instance
+      const updatedValues = {
+        firstName,
+        lastName,
+        email,
+        phone,
+      };
+
+      // Save the user to the database
+      const profileResult = await this.usersDal.updateUser(
+        email,
+        updatedValues
+      );
+
+      return profileResult;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async displayUserText(userData) {
+    try {
+      const { email, inputText } = userData;
+      const updatedValues = {
+        inputText,
+      };
+      const displayResult = await this.usersDal.updateUser(
+        email,
+        updatedValues
+      );
+
+      return displayResult;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 module.exports = UsersService;
