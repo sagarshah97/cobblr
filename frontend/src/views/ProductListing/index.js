@@ -30,11 +30,10 @@ const ProductListing = () => {
   const [totalPages, setTotalPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const location = useLocation();
-  const searchKeyword = location.state?.searchKeyword || "";
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -117,7 +116,7 @@ const ProductListing = () => {
     if (event.key === "Enter") {
       console.log("before navigate:", searchText);
       const searchKeyword = event.target.value;
-      //event.target.value = ""; // Clear the search input field
+      setSearchKeyword(searchKeyword);
     }
   };
 
@@ -130,6 +129,54 @@ const ProductListing = () => {
           {isMobile ? (
             // Mobile view
             <Grid container>
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="search"
+                    label="Search"
+                    variant="outlined"
+                    autoComplete="off"
+                    value={searchText}
+                    fullWidth
+                    onChange={handleSearchTextChange}
+                    onKeyDown={handleSearch}
+                    InputProps={{
+                      endAdornment: <Search />,
+                      style: {
+                        color: "white",
+                      },
+                      sx: {
+                        "& fieldset": {
+                          borderColor: "white",
+                          borderRadius: 1.5,
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "white",
+                          borderRadius: 1.5,
+                        },
+                        "&:focus-within fieldset, &:focus-visible fieldset": {
+                          borderColor: "white",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: {
+                        color: "white",
+                      },
+                    }}
+                    InputOutlineProps={{
+                      style: {
+                        color: "white",
+                      },
+                    }}
+                    sx={{
+                      ml: { xs: "auto" },
+                      // width: { xs: "150px", sm: "230px" },
+                      mr: "25px",
+                    }}
+                  />
+                </Box>
+              </Grid>
               <Grid item xs={12}>
                 <Box
                   sx={{
