@@ -84,6 +84,57 @@ class UsersDal {
       throw error;
     }
   }
+
+  async updateAddress(email, updatedFields) {
+    try {
+      // Retrieve the user from the database based on the email
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update the user object with the provided address fields
+      user.line1 = updatedFields.line1;
+      user.line2 = updatedFields.line2;
+      user.city = updatedFields.city;
+      user.state = updatedFields.state;
+      user.postalCode = updatedFields.postalCode;
+      user.label = updatedFields.label;
+
+      // Save the updated user to the database
+      await user.save();
+
+      // Return the updated user object or any other desired result
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async updateImage(file, email) {
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update the user's profileImage field
+      user.profileImage = file;
+
+      // Save the updated user
+      const updatedUser = await user.save();
+
+      // Return the updated user data or any other relevant response
+      return updatedUser;
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = UsersDal;

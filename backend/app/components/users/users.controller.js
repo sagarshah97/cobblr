@@ -121,6 +121,34 @@ class UserController {
       next(error);
     }
   };
+
+  address = async (request, response, next) => {
+    try {
+      const addressResult = await this.usersService.saveAddress(request.body);
+      if (addressResult) {
+        response.status(200).json({ message: "Saved Succesfully" });
+      } else {
+        response.status(404).json({ message: "Error" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  uploadImage = async (request, response, next) => {
+    try {
+      const uploadResult = await this.usersService.imageUploadService(
+        request.body
+      );
+      if (uploadResult) {
+        response.status(200).json({ message: "Saved Succesfully" });
+      } else {
+        response.status(404).json({ message: "Error" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = new UserController();

@@ -24,4 +24,7 @@ router
   .route("/profile-visibility")
   .post(userController.updateProfileVisibility);
 
+router.route("/address").post(userController.address);
+
+router.route("/uploadImage").post(userController.uploadImage);
 module.exports = router;

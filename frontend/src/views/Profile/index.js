@@ -246,7 +246,29 @@ export default function Profile() {
   };
 
   const handleSaveAddress = () => {
-    handleModalCloses();
+    const data = {
+      email,
+      line1: address.line1,
+      line2: address.line2,
+      city: address.city,
+      state: address.state,
+      postalCode: address.postalCode,
+      label: addressLabel,
+    };
+
+    axios
+      .post("http://localhost:8000/users/address", data)
+      .then((response) => {
+        // Handle the response from the backend if needed
+        console.log(response.data); // Assuming the response contains the saved address information
+
+        // Close the modal or perform any other actions
+        handleModalCloses();
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the API call
+        console.error("Error saving address:", error);
+      });
   };
 
   const handleChanges = (e) => {
@@ -262,8 +284,23 @@ export default function Profile() {
     axios
       .get(`http://localhost:8000/users/profile/${userId}`)
       .then((response) => {
-        console.log(response.data.user.firstName);
+        console.log(response.data);
         // const { firstName, lastName, phone, email } = response.data;
+        const { line1, line2, city, state, postalCode } = response.data.user;
+
+        setAddress({
+          line1,
+          line2,
+          city,
+          state,
+          postalCode,
+        });
+
+        setProfilePhoto(
+          response.data.user.profileImage
+            ? `data:image/png;base64,${response.data.user.profileImage}`
+            : defaultImage
+        );
         setFirstName(response.data.user.firstName);
         setLastName(response.data.user.lastName);
         setPhone(response.data.user.phone);
@@ -335,7 +372,43 @@ export default function Profile() {
   const handleModalCloseProfile = () => {
     setIsModalOpenProfile(false);
   };
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleSavePhoto = () => {
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(",")[1];
+
+        axios
+          .post("http://localhost:8000/users/uploadImage", {
+            file: base64String,
+            email,
+          })
+          .then((response) => {
+            console.log(response.data);
+            // Handle the response or perform any additional actions
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+            // Handle the error or display an error message
+          });
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+    setIsModalOpenProfile(false);
+  };
+  // const handlePhotoChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setProfilePhoto(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   const handlePhotoChange = (event) => {
+    setSelectedFile(event.target.files[0]);
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -405,7 +478,7 @@ export default function Profile() {
               <Card style={profileStyles.root}>
                 <CardMedia
                   style={profileStyles.media}
-                  image={profilePhoto || defaultImage}
+                  image={profilePhoto}
                   alt="Profile"
                 />
                 <Button
@@ -433,7 +506,7 @@ export default function Profile() {
                     style={{ marginBottom: "16px" }}
                   />
 
-                  <Button variant="contained" onClick={handleModalCloseProfile}>
+                  <Button variant="contained" onClick={handleSavePhoto}>
                     Save & Close
                   </Button>
                 </Box>
@@ -867,59 +940,9 @@ export default function Profile() {
                           }}
                         />
                       </Grid>
-
-                      {addressArray.length > 0 &&
-                        addressArray.map((row, index) => (
-                          <>
-                            <Grid item xs={10}>
-                              <Box
-                                sx={{
-                                  border: "1px solid #ccc",
-                                  borderRadius: "4px",
-                                  padding: "10px",
-                                  marginBottom: "10px",
-                                  backgroundColor: "#f9f9f9",
-                                }}
-                              >
-                                <Typography variant="body1">
-                                  {row["label"]}:
-                                </Typography>
-
-                                <Typography variant="body1">
-                                  Address: {row["line1"]}, {row["line2"]},{" "}
-                                  {row["city"]}, {row["state"]}{" "}
-                                  {row["postalCode"]}
-                                </Typography>
-                              </Box>
-                            </Grid>
-
-                            <Grid item xs={2}>
-                              <EditIcon
-                                onClick={() => {
-                                  editNewAddress(row, index);
-                                }}
-                                sx={{
-                                  fontSize: 24,
-                                  color: "#888",
-                                  cursor: "pointer",
-                                }}
-                              />
-                            </Grid>
-                          </>
-                        ))}
-                      <Grid item xs={12}>
-                        {/* <Button
-                          variant="outlined"
-                          onClick={() => {
-                            setNewAddressModal(true);
-                          }}
-                        >
-                          Add Address
-                        </Button> */}
-                      </Grid>
                     </Grid>
 
-                    {/* <Modal open={isModalOpen} onClose={handleModalClose}>
+                    <Modal open={isModalOpen} onClose={handleModalClose}>
                       <div
                         className="modal"
                         style={{
@@ -995,94 +1018,6 @@ export default function Profile() {
                         </Button>
                       </div>
                     </Modal>
-                    <Modal
-                      open={newAddressModal}
-                      onClose={() => {
-                        closeNewAddressModal();
-                      }}
-                    >
-                      <div
-                        className="modal"
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          backgroundColor: "white",
-                          boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-                          padding: "20px",
-                          borderRadius: "4px",
-                          width: "300px",
-                        }}
-                      >
-                        <h2 style={{ marginBottom: "20px" }}>Address</h2>
-                        <TextField
-                          label="Address Line 1"
-                          name="line1"
-                          value={tempAddress.line1}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="Address Line 2"
-                          name="line2"
-                          value={tempAddress.line2}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="City"
-                          name="city"
-                          value={tempAddress.city}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="State"
-                          name="state"
-                          value={tempAddress.state}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="Postal Code"
-                          name="postalCode"
-                          value={tempAddress.postalCode}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="Address Label"
-                          name="label"
-                          value={tempAddress.label}
-                          onChange={setNewTempAddress}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            addNewAddress();
-                          }}
-                          style={{ marginRight: "10px" }}
-                        >
-                          Save Address
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            closeNewAddressModal();
-                          }}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </Modal> */}
                   </Typography>
                 </AccordionDetails>
               </Accordion>

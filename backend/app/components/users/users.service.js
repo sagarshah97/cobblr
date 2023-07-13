@@ -170,6 +170,37 @@ class UsersService {
       throw error;
     }
   };
+
+  async saveAddress(userData) {
+    try {
+      const { email, line1, line2, city, state, label, postalCode } = userData;
+
+      const addressResult = await this.usersDal.updateAddress(email, {
+        line1,
+        line2,
+        city,
+        state,
+        label,
+        postalCode,
+      });
+      return addressResult;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async imageUploadService(userData) {
+    try {
+      const { file, email } = userData;
+      // console.log(file);
+      const imageData = await this.usersDal.updateImage(file, email);
+      return imageData;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 module.exports = UsersService;
