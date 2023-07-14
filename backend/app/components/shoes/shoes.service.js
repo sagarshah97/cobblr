@@ -64,11 +64,21 @@ class ShoeService {
     }
   }
 
-  async filterShoes(sortValue, selectedFilters, currentPage, searchKeyword) {
+  async filterShoes(
+    sortValue,
+    selectedFilters,
+    currentPage,
+    searchKeyword,
+    pageChangeType
+  ) {
     try {
       let originalShoeData = await this.shoesDAL.getShoes();
-      if(searchKeyword !== null || searchKeyword !== undefined || searchKeyword !== ""){
-        originalShoeData = originalShoeData.filter(shoe => {
+      if (
+        searchKeyword !== null ||
+        searchKeyword !== undefined ||
+        searchKeyword !== ""
+      ) {
+        originalShoeData = originalShoeData.filter((shoe) => {
           const { name, brand, category, type } = shoe;
           const searchTerm = searchKeyword.toLowerCase();
           return (
@@ -112,13 +122,28 @@ class ShoeService {
         }
       }
       //Pagination
-      const itemsPerPage = 8;
-      const totalItems = shoeData.length;
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const visibleShoeData = shoeData.slice(startIndex, endIndex);
-      return { visibleShoeData, totalPages };
+      if (
+        pageChangeType === null ||
+        pageChangeType === undefined ||
+        pageChangeType === ""
+      ) {
+        currentPage = 1;
+        const itemsPerPage = 8;
+        const totalItems = shoeData.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const visibleShoeData = shoeData.slice(startIndex, endIndex);
+        return { visibleShoeData, totalPages, currentPage };
+      } else {
+        const itemsPerPage = 8;
+        const totalItems = shoeData.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const visibleShoeData = shoeData.slice(startIndex, endIndex);
+        return { visibleShoeData, totalPages, currentPage };
+      }
     } catch (error) {
       throw error;
     } finally {

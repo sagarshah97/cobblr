@@ -63,8 +63,14 @@ class ShoeController {
 
   async filterShoes(request, response, next) {
     try {
-      const { sortValue, selectedFilters, currentPage, searchKeyword } = request.body;
-      if (!sortValue || !currentPage) {
+      const {
+        sortValue,
+        selectedFilters,
+        currentPage,
+        searchKeyword,
+        pageChangeType,
+      } = request.body;
+      if (!sortValue) {
         return response
           .status(400)
           .json({ error: "Missing required parameters." });
@@ -73,7 +79,8 @@ class ShoeController {
         sortValue,
         selectedFilters,
         currentPage,
-        searchKeyword
+        searchKeyword,
+        pageChangeType
       );
       if (filteredShoes.length === 0) {
         return response
