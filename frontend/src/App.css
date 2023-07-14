@@ -210,8 +210,9 @@
   align-items: center;
   justify-content: center;
   padding: 6px 16px;
-  /* border: 1px solid #fff; */
-  color: #fff;
+  border: 1px solid  #CCCCCC;
+  border-radius: 6px;
+  color:  #CCCCCC;
 }
 
 

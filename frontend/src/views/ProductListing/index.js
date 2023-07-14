@@ -7,6 +7,9 @@ import {
   Dialog,
   DialogContent,
   TextField,
+  IconButton,
+  Typography,
+  Chip,
 } from "@mui/material";
 import SortDropdown from "./SortDropdown";
 import FilterColumn from "./FilterColumn";
@@ -15,12 +18,11 @@ import Pagination from "./Pagination";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TuneIcon from "@mui/icons-material/Tune";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-
 import { Search } from "@mui/icons-material";
-
 import Footer from "../HomePage/Footer";
+import Spinner from "../../utils/Spinner";
 import "../../App.css";
 
 const ProductListing = () => {
@@ -31,6 +33,15 @@ const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filterReq, setFilterReq] = useState({
+    sortValue: sortValue,
+    selectedFilters: selectedFilters,
+    currentPage: currentPage,
+    searchKeyword: searchKeyword,
+  });
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -57,14 +68,14 @@ const ProductListing = () => {
     setCurrentPage(1);
   };
 
-  const handleApplyFilters = (filters) => {
-    handleModalClose();
-  };
-
   const handleResetFilters = () => {
     setSelectedFilters({});
     setCurrentPage(1);
     handleModalClose();
+  };
+
+  const handleSearchClose = () => {
+    setSearchKeyword("");
   };
 
   useEffect(() => {
@@ -80,33 +91,65 @@ const ProductListing = () => {
         setSortValue(selectedFilters.sort);
       }
     }
-    const filerReq = {
+    const newFilterReq = {
       sortValue: sortValue,
       selectedFilters: selectedFilters,
-      currentPage: currentPage,
       searchKeyword: searchKeyword,
     };
+    setFilterReq(newFilterReq);
+  }, [sortValue, selectedFilters, searchKeyword]);
+
+  useEffect(() => {
     const fetchFilteredShoes = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/shoes/filterShoes",
-          filerReq
-        );
+        setIsLoading(true); // Set loading state to true
+        setHasLoaded(false);
+        const response = await axios.post("/shoes/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
+        setIsLoading(false); // Set loading state to false
+        setHasLoaded(true);
       } catch (error) {
-        console.error("Error retrieving categories:", error);
+        console.error("Error retrieving shoes:", error);
+        setVisibleShoeData([]);
+        setTotalPages([]);
+        setIsLoading(false); // Set loading state to false
+        setHasLoaded(true);
       }
     };
-    fetchFilteredShoes();
-  }, [sortValue, selectedFilters, currentPage, totalPages, searchKeyword]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (filterReq) {
+      fetchFilteredShoes();
+    }
+  }, [filterReq]);
+
+  const handlePageChange = async (pageNumber) => {
+    const pageChangeType = pageNumber > currentPage ? "next" : "previous"; // Identify type of page change
+
+    try {
+      setIsLoading(true); // Set loading state to true
+      setHasLoaded(false);
+      const response = await axios.post("/shoes/filterShoes", {
+        ...filterReq,
+        pageChangeType,
+        currentPage: pageNumber,
+      });
+      const data = response.data;
+      setVisibleShoeData(data.visibleShoeData);
+      setTotalPages(data.totalPages);
+      setCurrentPage(pageNumber);
+      setIsLoading(false); // Set loading state to false
+      setHasLoaded(true);
+    } catch (error) {
+      console.error("Error retrieving shoes:", error);
+      setVisibleShoeData([]);
+      setTotalPages([]);
+      setCurrentPage(1);
+      setIsLoading(false); // Set loading state to false
+      setHasLoaded(true);
+    }
   };
-
-  const [searchText, setSearchText] = React.useState("");
 
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
@@ -114,17 +157,15 @@ const ProductListing = () => {
 
   const handleSearch = (event) => {
     if (event.key === "Enter") {
-      console.log("before navigate:", searchText);
       const searchKeyword = event.target.value;
       setSearchKeyword(searchKeyword);
+      setSearchText("");
     }
   };
 
   return (
     <div>
       <Box sx={{ minHeight: "100vh" }}>
-        {/* <div style={{ borderBottom: "1px solid #3b3b3b" }}></div> */}
-
         <Container sx={{ maxWidth: "none !important", p: 2 }}>
           {isMobile ? (
             // Mobile view
@@ -147,15 +188,15 @@ const ProductListing = () => {
                       },
                       sx: {
                         "& fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                           borderRadius: 1.5,
                         },
                         "&:hover fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                           borderRadius: 1.5,
                         },
                         "&:focus-within fieldset, &:focus-visible fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                         },
                       },
                     }}
@@ -171,7 +212,6 @@ const ProductListing = () => {
                     }}
                     sx={{
                       ml: { xs: "auto" },
-                      // width: { xs: "150px", sm: "230px" },
                       mr: "25px",
                     }}
                   />
@@ -188,18 +228,46 @@ const ProductListing = () => {
                     justifyContent: "flex-end",
                   }}
                 >
+                  {searchKeyword && (
+                    <Grid item xs={12}>
+                      <Box>
+                        <Chip
+                          label={`Result For: ${searchKeyword}`}
+                          color="primary"
+                          onDelete={handleSearchClose}
+                          deleteIcon={<CloseIcon />}
+                          sx={{ marginTop: 2, marginBottom: 2 }}
+                        />
+                      </Box>
+                    </Grid>
+                  )}
                   <Button
                     variant="outlined"
                     startIcon={<TuneIcon />}
                     onClick={handleModalOpen}
                   >
-                    Sort & Filter
+                    Filter
                   </Button>
                   <Dialog
                     open={isModalOpen}
                     onClose={handleModalClose}
-                    fullScreen={isMobile} // Set fullScreen prop based on isMobile
+                    fullScreen={isMobile}
                   >
+                    <Grid container justifyContent="center" alignItems="center">
+                      <IconButton
+                        color="inherit"
+                        aria-label="close"
+                        onClick={handleModalClose}
+                        sx={{
+                          position: "absolute",
+                          right: 8,
+                          top: 8,
+                          color: "white",
+                        }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Grid>
                     <DialogContent
                       sx={{
                         backgroundColor: "#262626",
@@ -207,6 +275,7 @@ const ProductListing = () => {
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
+                        paddingTop: 6,
                       }}
                     >
                       <Box sx={{ flex: 1, overflow: "auto" }}>
@@ -214,7 +283,6 @@ const ProductListing = () => {
                           selectedFilters={selectedFilters}
                           handleFilterChange={handleFilterChange}
                           handleResetFilters={handleResetFilters}
-                          handleApplyFilters={handleApplyFilters}
                           isMobileScreen={true}
                         />
                       </Box>
@@ -222,13 +290,28 @@ const ProductListing = () => {
                   </Dialog>
                 </Box>
               </Grid>
-              {visibleShoeData.map((shoe, index) => (
-                <Grid item xs={6} sm={3} key={index}>
-                  <Box sx={{ p: 2 }}>
-                    <ShoeCard shoe={shoe} height="100" />
-                  </Box>
+              {isLoading ? ( // Show the spinner component while loading
+                <Grid item xs={12}>
+                  <Spinner />
                 </Grid>
-              ))}
+              ) : visibleShoeData.length > 0 ? (
+                visibleShoeData.map((shoe, index) => (
+                  <Grid item xs={6} sm={3} key={index}>
+                    <Box sx={{ p: 2 }}>
+                      <ShoeCard shoe={shoe} height="100" />
+                    </Box>
+                  </Grid>
+                ))
+              ) : (
+                hasLoaded &&
+                visibleShoeData.length === 0 && (
+                  <Grid item xs={12}>
+                    <Typography variant="h6" color="white">
+                      No shoes found.
+                    </Typography>
+                  </Grid>
+                )
+              )}
               <Grid item xs={12}>
                 <Box
                   sx={{
@@ -260,7 +343,6 @@ const ProductListing = () => {
                   paddingTop: "3%",
                 }}
               >
-                {/* <Grid item lg={3} md={3} sm={0} xs={3}></Grid> */}
                 <Grid item lg={10} md={9} sm={8} xs={6}>
                   <Grid container>
                     <Grid item xs={12}>
@@ -270,7 +352,6 @@ const ProductListing = () => {
                           label="Search"
                           variant="outlined"
                           autoComplete="off"
-                          // size="small"
                           value={searchText}
                           fullWidth
                           onChange={handleSearchTextChange}
@@ -282,16 +363,16 @@ const ProductListing = () => {
                             },
                             sx: {
                               "& fieldset": {
-                                borderColor: "white",
+                                borderColor: "white !important",
                                 borderRadius: 1.5,
                               },
                               "&:hover fieldset": {
-                                borderColor: "white",
+                                borderColor: "white !important",
                                 borderRadius: 1.5,
                               },
                               "&:focus-within fieldset, &:focus-visible fieldset":
                                 {
-                                  borderColor: "white",
+                                  borderColor: "white !important",
                                 },
                             },
                           }}
@@ -307,7 +388,6 @@ const ProductListing = () => {
                           }}
                           sx={{
                             ml: { xs: "auto" },
-                            // width: { xs: "150px", sm: "230px" },
                             mr: "25px",
                           }}
                         />
@@ -316,17 +396,7 @@ const ProductListing = () => {
                   </Grid>
                 </Grid>
                 <Grid item lg={2} md={3} sm={4} xs={6}>
-                  <Box
-                    sx={
-                      {
-                        // position: "sticky",
-                        // top: "64px",
-                        // display: "flex",
-                        // justifyContent: "flex-end",
-                        // paddingRight: "16px",
-                      }
-                    }
-                  >
+                  <Box>
                     <SortDropdown
                       value={sortValue}
                       handleSortChange={handleSortChange}
@@ -334,6 +404,20 @@ const ProductListing = () => {
                   </Box>
                 </Grid>
               </Grid>
+
+              {searchKeyword && (
+                <Grid item xs={12}>
+                  <Box>
+                    <Chip
+                      label={`Result For: ${searchKeyword}`}
+                      color="primary"
+                      onDelete={handleSearchClose}
+                      deleteIcon={<CloseIcon />}
+                      sx={{ marginTop: 2, marginBottom: 2 }}
+                    />
+                  </Box>
+                </Grid>
+              )}
 
               <Grid container>
                 <Grid item xs={3} sm={3} md={3}>
@@ -349,20 +433,30 @@ const ProductListing = () => {
                       selectedFilters={selectedFilters}
                       handleFilterChange={handleFilterChange}
                       handleResetFilters={handleResetFilters}
-                      handleApplyFilters={handleApplyFilters}
                       isMobileScreen={false}
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
-                    <Grid container spacing={2}>
-                      {visibleShoeData.map((shoe, index) => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                          <ShoeCard shoe={shoe} height="200" />
-                        </Grid>
-                      ))}
-                    </Grid>
+                    {isLoading ? ( // Show the spinner component while loading
+                      <Spinner />
+                    ) : visibleShoeData.length > 0 ? (
+                      <Grid container spacing={2}>
+                        {visibleShoeData.map((shoe, index) => (
+                          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                            <ShoeCard shoe={shoe} height="200" />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    ) : (
+                      hasLoaded &&
+                      visibleShoeData.length === 0 && (
+                        <Typography variant="h6" color="white">
+                          No shoes found.
+                        </Typography>
+                      )
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={12}>

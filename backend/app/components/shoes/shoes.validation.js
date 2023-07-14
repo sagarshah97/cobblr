@@ -25,8 +25,9 @@ const validationSchema = {
     .default("sort1")
     .required(),
   selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
-  currentPage: Joi.number().default(1).required(),
+  currentPage: Joi.number().default(1).optional(),
   searchKeyword: Joi.string().allow("", null).optional(),
+  pageChangeType: Joi.string().allow("", null).optional(),
 };
 
 module.exports = {
@@ -69,6 +70,7 @@ module.exports = {
       selectedFilters: validationSchema.selectedFilters,
       currentPage: validationSchema.currentPage,
       searchKeyword: validationSchema.searchKeyword,
+      pageChangeType: validationSchema.pageChangeType,
     }),
   },
 };

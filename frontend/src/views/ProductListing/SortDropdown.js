@@ -44,6 +44,18 @@ const SortDropdown = ({ value, handleSortChange }) => {
             "& .MuiSelect-icon": {
               color: "#fff",
             },
+            "&:hover": {
+              // Add hover styles
+              "& .MuiOutlinedInput-input": {
+                color: "#fff",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#fff",
+              },
+              "& .MuiSelect-icon": {
+                color: "#fff",
+              },
+            },
           }}
         >
           <MenuItem value="sort1" sx={{ color: "#fff" }}>
