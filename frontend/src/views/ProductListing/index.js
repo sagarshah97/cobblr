@@ -9,6 +9,7 @@ import {
   TextField,
   IconButton,
   Typography,
+  Chip,
 } from "@mui/material";
 import SortDropdown from "./SortDropdown";
 import FilterColumn from "./FilterColumn";
@@ -60,14 +61,18 @@ const ProductListing = () => {
     setCurrentPage(1);
   };
 
-  const handleApplyFilters = (filters) => {
-    handleModalClose();
-  };
+  // const handleApplyFilters = (filters) => {
+  //   handleModalClose();
+  // };
 
   const handleResetFilters = () => {
     setSelectedFilters({});
     setCurrentPage(1);
     handleModalClose();
+  };
+
+  const handleSearchClose = () => {
+    setSearchKeyword("");
   };
 
   useEffect(() => {
@@ -149,15 +154,15 @@ const ProductListing = () => {
                       },
                       sx: {
                         "& fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                           borderRadius: 1.5,
                         },
                         "&:hover fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                           borderRadius: 1.5,
                         },
                         "&:focus-within fieldset, &:focus-visible fieldset": {
-                          borderColor: "white",
+                          borderColor: "white !important",
                         },
                       },
                     }}
@@ -173,7 +178,6 @@ const ProductListing = () => {
                     }}
                     sx={{
                       ml: { xs: "auto" },
-                      // width: { xs: "150px", sm: "230px" },
                       mr: "25px",
                     }}
                   />
@@ -190,12 +194,25 @@ const ProductListing = () => {
                     justifyContent: "flex-end",
                   }}
                 >
+                  {searchKeyword && (
+                    <Grid item xs={12}>
+                      <Box>
+                        <Chip
+                          label={`Result For: ${searchKeyword}`}
+                          color="primary"
+                          onDelete={handleSearchClose}
+                          deleteIcon={<CloseIcon />}
+                          sx={{ marginTop: 2, marginBottom: 2 }}
+                        />
+                      </Box>
+                    </Grid>
+                  )}
                   <Button
                     variant="outlined"
                     startIcon={<TuneIcon />}
                     onClick={handleModalOpen}
                   >
-                    Sort & Filter
+                    Filter
                   </Button>
                   <Dialog
                     open={isModalOpen}
@@ -306,16 +323,16 @@ const ProductListing = () => {
                             },
                             sx: {
                               "& fieldset": {
-                                borderColor: "white",
+                                borderColor: "white !important",
                                 borderRadius: 1.5,
                               },
                               "&:hover fieldset": {
-                                borderColor: "white",
+                                borderColor: "white !important",
                                 borderRadius: 1.5,
                               },
                               "&:focus-within fieldset, &:focus-visible fieldset":
                                 {
-                                  borderColor: "white",
+                                  borderColor: "white !important",
                                 },
                             },
                           }}
@@ -347,6 +364,20 @@ const ProductListing = () => {
                   </Box>
                 </Grid>
               </Grid>
+
+              {searchKeyword && (
+                <Grid item xs={12}>
+                  <Box>
+                    <Chip
+                      label={`Result For: ${searchKeyword}`}
+                      color="primary"
+                      onDelete={handleSearchClose}
+                      deleteIcon={<CloseIcon />}
+                      sx={{ marginTop: 2, marginBottom: 2 }}
+                    />
+                  </Box>
+                </Grid>
+              )}
 
               <Grid container>
                 <Grid item xs={3} sm={3} md={3}>

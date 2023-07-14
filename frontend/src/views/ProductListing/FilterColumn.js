@@ -12,7 +12,7 @@ const FilterColumn = ({
   selectedFilters,
   handleFilterChange,
   handleResetFilters,
-  handleApplyFilters,
+  //handleApplyFilters,
   isMobileScreen,
 }) => {
   console.log("Selected Filters:", selectedFilters);
@@ -26,9 +26,9 @@ const FilterColumn = ({
     handleResetFilters();
   };
 
-  const handleApply = () => {
-    handleApplyFilters();
-  };
+  // const handleApply = () => {
+  //   handleApplyFilters();
+  // };
 
   const { sort = "", gender = "", size = "", price = "" } = selectedFilters;
 
@@ -169,7 +169,7 @@ const FilterColumn = ({
         />
       </RadioGroup>
 
-      {isMobileScreen && (
+      {/* {isMobileScreen && (
         <Button
           variant="outlined"
           onClick={handleApply}
@@ -177,7 +177,7 @@ const FilterColumn = ({
         >
           Apply Filters
         </Button>
-      )}
+      )} */}
       <Button
         variant="outlined"
         onClick={handleReset}
