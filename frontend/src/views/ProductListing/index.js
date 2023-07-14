@@ -7,6 +7,8 @@ import {
   Dialog,
   DialogContent,
   TextField,
+  IconButton,
+  Typography,
 } from "@mui/material";
 import SortDropdown from "./SortDropdown";
 import FilterColumn from "./FilterColumn";
@@ -15,6 +17,7 @@ import Pagination from "./Pagination";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TuneIcon from "@mui/icons-material/Tune";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 import { Search } from "@mui/icons-material";
@@ -80,7 +83,7 @@ const ProductListing = () => {
         setSortValue(selectedFilters.sort);
       }
     }
-    const filerReq = {
+    const filterReq = {
       sortValue: sortValue,
       selectedFilters: selectedFilters,
       currentPage: currentPage,
@@ -90,17 +93,19 @@ const ProductListing = () => {
       try {
         const response = await axios.post(
           "http://localhost:8000/shoes/filterShoes",
-          filerReq
+          filterReq
         );
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
       } catch (error) {
-        console.error("Error retrieving categories:", error);
+        console.error("Error retrieving shoes:", error);
+        setVisibleShoeData([]);
+        setTotalPages([]);
       }
     };
     fetchFilteredShoes();
-  }, [sortValue, selectedFilters, currentPage, totalPages, searchKeyword]);
+  }, [sortValue, selectedFilters, currentPage, searchKeyword]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -122,8 +127,6 @@ const ProductListing = () => {
   return (
     <div>
       <Box sx={{ minHeight: "100vh" }}>
-        {/* <div style={{ borderBottom: "1px solid #3b3b3b" }}></div> */}
-
         <Container sx={{ maxWidth: "none !important", p: 2 }}>
           {isMobile ? (
             // Mobile view
@@ -199,6 +202,21 @@ const ProductListing = () => {
                     onClose={handleModalClose}
                     fullScreen={isMobile} // Set fullScreen prop based on isMobile
                   >
+                    <Grid container justifyContent="center" alignItems="center">
+                      <IconButton
+                        color="inherit"
+                        aria-label="close"
+                        onClick={handleModalClose}
+                        sx={{
+                          position: "absolute",
+                          right: 8,
+                          top: 8,
+                          color: "white",
+                        }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Grid>
                     <DialogContent
                       sx={{
                         backgroundColor: "#262626",
@@ -206,6 +224,7 @@ const ProductListing = () => {
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
+                        paddingTop: 6,
                       }}
                     >
                       <Box sx={{ flex: 1, overflow: "auto" }}>
@@ -213,7 +232,7 @@ const ProductListing = () => {
                           selectedFilters={selectedFilters}
                           handleFilterChange={handleFilterChange}
                           handleResetFilters={handleResetFilters}
-                          handleApplyFilters={handleApplyFilters}
+                          //handleApplyFilters={handleApplyFilters}
                           isMobileScreen={true}
                         />
                       </Box>
@@ -221,13 +240,21 @@ const ProductListing = () => {
                   </Dialog>
                 </Box>
               </Grid>
-              {visibleShoeData.map((shoe, index) => (
-                <Grid item xs={6} sm={3} key={index}>
-                  <Box sx={{ p: 2 }}>
-                    <ShoeCard shoe={shoe} height="100" />
-                  </Box>
+              {visibleShoeData.length > 0 ? (
+                visibleShoeData.map((shoe, index) => (
+                  <Grid item xs={6} sm={3} key={index}>
+                    <Box sx={{ p: 2 }}>
+                      <ShoeCard shoe={shoe} height="100" />
+                    </Box>
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography variant="h6" color="white">
+                    No shoes found.
+                  </Typography>
                 </Grid>
-              ))}
+              )}
               <Grid item xs={12}>
                 <Box
                   sx={{
@@ -259,7 +286,6 @@ const ProductListing = () => {
                   paddingTop: "3%",
                 }}
               >
-                {/* <Grid item lg={3} md={3} sm={0} xs={3}></Grid> */}
                 <Grid item lg={10} md={9} sm={8} xs={6}>
                   <Grid container>
                     <Grid item xs={12}>
@@ -269,7 +295,6 @@ const ProductListing = () => {
                           label="Search"
                           variant="outlined"
                           autoComplete="off"
-                          // size="small"
                           value={searchText}
                           fullWidth
                           onChange={handleSearchTextChange}
@@ -306,7 +331,6 @@ const ProductListing = () => {
                           }}
                           sx={{
                             ml: { xs: "auto" },
-                            // width: { xs: "150px", sm: "230px" },
                             mr: "25px",
                           }}
                         />
@@ -315,17 +339,7 @@ const ProductListing = () => {
                   </Grid>
                 </Grid>
                 <Grid item lg={2} md={3} sm={4} xs={6}>
-                  <Box
-                    sx={
-                      {
-                        // position: "sticky",
-                        // top: "64px",
-                        // display: "flex",
-                        // justifyContent: "flex-end",
-                        // paddingRight: "16px",
-                      }
-                    }
-                  >
+                  <Box>
                     <SortDropdown
                       value={sortValue}
                       handleSortChange={handleSortChange}
@@ -348,20 +362,26 @@ const ProductListing = () => {
                       selectedFilters={selectedFilters}
                       handleFilterChange={handleFilterChange}
                       handleResetFilters={handleResetFilters}
-                      handleApplyFilters={handleApplyFilters}
+                      //handleApplyFilters={handleApplyFilters}
                       isMobileScreen={false}
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
-                    <Grid container spacing={2}>
-                      {visibleShoeData.map((shoe, index) => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                          <ShoeCard shoe={shoe} height="200" />
-                        </Grid>
-                      ))}
-                    </Grid>
+                    {visibleShoeData.length > 0 ? (
+                      <Grid container spacing={2}>
+                        {visibleShoeData.map((shoe, index) => (
+                          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                            <ShoeCard shoe={shoe} height="200" />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    ) : (
+                      <Typography variant="h6" color="white">
+                        No shoes found.
+                      </Typography>
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
