@@ -16,7 +16,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 
 import { Search } from "@mui/icons-material";
 
