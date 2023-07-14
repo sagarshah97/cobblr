@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
 
 const ShoeCard = ({ shoe, height }) => {
+  const navigate = useNavigate();
   const handleClick = () => {
-    console.log(shoe.name);
+    navigate(`/productDetail/${shoe._id}`);
+    //navigate("/orderconfirmation/64b19b874d5883d09edec9de");
   };
 
   return (
@@ -20,7 +23,7 @@ const ShoeCard = ({ shoe, height }) => {
         height={height} // Use the height value passed from the parent component
         src={`data:image/jpeg;base64, ${shoe.images[0].data}`}
         alt={shoe.name}
-        sx={{ padding: "1em 1em 0 1em"}}
+        sx={{ padding: "1em 1em 0 1em" }}
       />
       <CardContent>
         <Box
