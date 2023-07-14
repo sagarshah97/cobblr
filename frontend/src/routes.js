@@ -68,7 +68,10 @@ const Router = () => {
           <Route path="/productlisting" element={<ProductListing />} />
           <Route path="/billing" element={<BillingDetails />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
+          <Route
+            path="/orderconfirmation/:_id"
+            element={<OrderConfirmationPage />}
+          />
         </Route>
       </Routes>
     </Suspense>

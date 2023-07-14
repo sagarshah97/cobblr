@@ -15,7 +15,7 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
-const InvoiceCard = ({ order }) => {
+const InvoiceCard = ({ orderDetails }) => {
   const cardRef = useRef(null);
 
   const handleDownloadInvoice = () => {
@@ -78,16 +78,16 @@ const InvoiceCard = ({ order }) => {
               Invoice
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Invoice Date: {order.date}
+              Invoice Date: {orderDetails?.date}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Invoice Number: {order.invoiceNumber}
+              Invoice Number: {orderDetails?.invoiceNumber}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Address: {order.address}
+              Address: {orderDetails?.address}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Contact Number: {order.phone}
+              Contact Number: {orderDetails?.phone}
             </Typography>
           </div>
         </div>
@@ -102,7 +102,7 @@ const InvoiceCard = ({ order }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {order.items.map((item) => (
+              {orderDetails?.items.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell align="right">{item.quantity}</TableCell>
@@ -114,19 +114,19 @@ const InvoiceCard = ({ order }) => {
                 <TableCell colSpan={3} align="right">
                   Subtotal
                 </TableCell>
-                <TableCell align="right">{order.subtotal}</TableCell>
+                <TableCell align="right">{orderDetails?.subtotal}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan={3} align="right">
                   Tax
                 </TableCell>
-                <TableCell align="right">{order.tax}</TableCell>
+                <TableCell align="right">{orderDetails?.tax}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan={3} align="right">
                   Total
                 </TableCell>
-                <TableCell align="right">{order.total}</TableCell>
+                <TableCell align="right">{orderDetails?.total}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

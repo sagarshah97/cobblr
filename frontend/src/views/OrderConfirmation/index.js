@@ -1,92 +1,41 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Typography, Grid, Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 import ShoeCard from "./ShoeCard";
 import InvoiceCard from "./InvoiceCard";
 import Footer from "../HomePage/Footer";
 
-import image1 from "../../assets/images/ProductListing/image1.jpeg";
-import image2 from "../../assets/images/ProductListing/image2.jpeg";
-
 const OrderConfirmationPage = () => {
+  const navigate = useNavigate();
+  const { _id } = useParams();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  // Replace the following data with actual order details
-  const order = {
-    orderId: "1234",
-    invoiceNumber: "INV123456",
-    date: "2023-06-29",
-    address: "660 francklyn Street",
-    phone: "1234567890",
-    items: [
-      {
-        id: 1,
-        name: "Shoe 1",
-        image: image1,
-        quantity: 2,
-        size: "9",
-        price: 50.99,
-        total: 101.98,
-      },
-      {
-        id: 2,
-        name: "Shoe 2",
-        image: image2,
-        quantity: 1,
-        size: "8",
-        price: 69.99,
-        total: 69.99,
-      },
-      {
-        id: 3,
-        name: "Shoe 3",
-        image: image1,
-        quantity: 2,
-        size: "9",
-        price: 50.99,
-        total: 101.98,
-      },
-      {
-        id: 4,
-        name: "Shoe 4",
-        image: image1,
-        quantity: 2,
-        size: "9",
-        price: 50.99,
-        total: 101.98,
-      },
-      {
-        id: 5,
-        name: "Shoe 5",
-        image: image1,
-        quantity: 2,
-        size: "9",
-        price: 50.99,
-        total: 101.98,
-      },
-      {
-        id: 6,
-        name: "Shoe 6",
-        image: image1,
-        quantity: 2,
-        size: "9",
-        price: 50.99,
-        total: 101.98,
-      },
-    ],
-    subtotal: 171.97,
-    tax: 10.32,
-    total: 182.29,
-  };
 
-  // const handleDownloadInvoice = () => {
-  //   console.log("invoice Downloaded");
-  // };
-  const naigateToMyOrders = () => {
-    console.log("invoice Downloaded");
+  const [orderDetails, setOrderDetails] = useState();
+
+  useEffect(() => {
+    console.log("id is:", _id);
+    const getOrderDetails = async () => {
+      try {
+        const response = await axios.get(
+          `/orders/getorder?_id=${_id ? _id : "64b19b874d5883d09edec9de"}`
+        );
+        const data = response.data;
+        setOrderDetails(data);
+      } catch (error) {
+        console.error("Error retrieving order:", error);
+      }
+    };
+    getOrderDetails();
+  }, [_id]);
+
+  const navigateToMyOrders = () => {
+    navigate("/myorders");
   };
 
   const shoeCardHeight = isMobile ? 100 : 200;
@@ -114,7 +63,7 @@ const OrderConfirmationPage = () => {
               Order Placed Successfully
             </Typography>
             <Typography variant="subtitle1" color="white" align="center">
-              Order ID: {order.orderId}
+              Order ID: {orderDetails?.orderId}
             </Typography>
           </Grid>
           <Grid
@@ -126,7 +75,7 @@ const OrderConfirmationPage = () => {
           >
             <Grid item xs={12} md={8} lg={8} xl={8}>
               <Grid container spacing={2} justifyContent="flex-start">
-                {order.items.map((item) => (
+                {orderDetails?.items.map((item) => (
                   <Grid item xs={6} sm={6} md={4} lg={3} key={item.id}>
                     <ShoeCard item={item} shoeCardHeight={shoeCardHeight} />
                   </Grid>
@@ -134,10 +83,7 @@ const OrderConfirmationPage = () => {
               </Grid>
             </Grid>
             <Grid item xs={12} md={4} lg={4} xl={4}>
-              <InvoiceCard
-                order={order}
-                // handleDownloadInvoice={handleDownloadInvoice}
-              />
+              <InvoiceCard orderDetails={orderDetails} />
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -150,7 +96,7 @@ const OrderConfirmationPage = () => {
               <Button
                 variant="outlined"
                 fullWidth
-                onClick={naigateToMyOrders}
+                onClick={navigateToMyOrders}
                 sx={{ marginBottom: "8px" }}
               >
                 My Orders
