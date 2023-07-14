@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import React from "react";
+import { Box, Button, Typography } from "@mui/material";
 import "../../App.css";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -8,9 +8,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-end" }} spacing={2}>
       {currentPage > 1 && (
-        <Button variant="outlined" onClick={() => handlePageChange(currentPage - 1)}>
+        <Button
+          variant="outlined"
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
           Prev
         </Button>
       )}
@@ -18,7 +21,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         {currentPage}
       </Typography>
       {currentPage < totalPages && (
-        <Button variant="outlined" onClick={() => handlePageChange(currentPage + 1)}>
+        <Button
+          variant="outlined"
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
           Next
         </Button>
       )}

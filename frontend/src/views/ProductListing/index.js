@@ -20,10 +20,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import TuneIcon from "@mui/icons-material/Tune";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-
 import { Search } from "@mui/icons-material";
-
 import Footer from "../HomePage/Footer";
+import Spinner from "../../utils/Spinner";
 import "../../App.css";
 
 const ProductListing = () => {
@@ -34,7 +33,15 @@ const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchText, setSearchText] = React.useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filterReq, setFilterReq] = useState({
+    sortValue: sortValue,
+    selectedFilters: selectedFilters,
+    currentPage: currentPage,
+    searchKeyword: searchKeyword,
+  });
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -61,10 +68,6 @@ const ProductListing = () => {
     setCurrentPage(1);
   };
 
-  // const handleApplyFilters = (filters) => {
-  //   handleModalClose();
-  // };
-
   const handleResetFilters = () => {
     setSelectedFilters({});
     setCurrentPage(1);
@@ -88,32 +91,64 @@ const ProductListing = () => {
         setSortValue(selectedFilters.sort);
       }
     }
-    const filterReq = {
+    const newFilterReq = {
       sortValue: sortValue,
       selectedFilters: selectedFilters,
-      currentPage: currentPage,
       searchKeyword: searchKeyword,
     };
+    setFilterReq(newFilterReq);
+  }, [sortValue, selectedFilters, searchKeyword]);
+
+  useEffect(() => {
     const fetchFilteredShoes = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/shoes/filterShoes",
-          filterReq
-        );
+        setIsLoading(true); // Set loading state to true
+        setHasLoaded(false);
+        const response = await axios.post("/shoes/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
+        setIsLoading(false); // Set loading state to false
+        setHasLoaded(true);
       } catch (error) {
         console.error("Error retrieving shoes:", error);
         setVisibleShoeData([]);
         setTotalPages([]);
+        setIsLoading(false); // Set loading state to false
+        setHasLoaded(true);
       }
     };
-    fetchFilteredShoes();
-  }, [sortValue, selectedFilters, currentPage, searchKeyword]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (filterReq) {
+      fetchFilteredShoes();
+    }
+  }, [filterReq]);
+
+  const handlePageChange = async (pageNumber) => {
+    const pageChangeType = pageNumber > currentPage ? "next" : "previous"; // Identify type of page change
+
+    try {
+      setIsLoading(true); // Set loading state to true
+      setHasLoaded(false);
+      const response = await axios.post("/shoes/filterShoes", {
+        ...filterReq,
+        pageChangeType,
+        currentPage: pageNumber,
+      });
+      const data = response.data;
+      setVisibleShoeData(data.visibleShoeData);
+      setTotalPages(data.totalPages);
+      setCurrentPage(pageNumber);
+      setIsLoading(false); // Set loading state to false
+      setHasLoaded(true);
+    } catch (error) {
+      console.error("Error retrieving shoes:", error);
+      setVisibleShoeData([]);
+      setTotalPages([]);
+      setCurrentPage(1);
+      setIsLoading(false); // Set loading state to false
+      setHasLoaded(true);
+    }
   };
 
   const handleSearchTextChange = (event) => {
@@ -122,7 +157,6 @@ const ProductListing = () => {
 
   const handleSearch = (event) => {
     if (event.key === "Enter") {
-      console.log("before navigate:", searchText);
       const searchKeyword = event.target.value;
       setSearchKeyword(searchKeyword);
       setSearchText("");
@@ -217,7 +251,7 @@ const ProductListing = () => {
                   <Dialog
                     open={isModalOpen}
                     onClose={handleModalClose}
-                    fullScreen={isMobile} // Set fullScreen prop based on isMobile
+                    fullScreen={isMobile}
                   >
                     <Grid container justifyContent="center" alignItems="center">
                       <IconButton
@@ -249,7 +283,6 @@ const ProductListing = () => {
                           selectedFilters={selectedFilters}
                           handleFilterChange={handleFilterChange}
                           handleResetFilters={handleResetFilters}
-                          //handleApplyFilters={handleApplyFilters}
                           isMobileScreen={true}
                         />
                       </Box>
@@ -257,7 +290,11 @@ const ProductListing = () => {
                   </Dialog>
                 </Box>
               </Grid>
-              {visibleShoeData.length > 0 ? (
+              {isLoading ? ( // Show the spinner component while loading
+                <Grid item xs={12}>
+                  <Spinner />
+                </Grid>
+              ) : visibleShoeData.length > 0 ? (
                 visibleShoeData.map((shoe, index) => (
                   <Grid item xs={6} sm={3} key={index}>
                     <Box sx={{ p: 2 }}>
@@ -266,11 +303,14 @@ const ProductListing = () => {
                   </Grid>
                 ))
               ) : (
-                <Grid item xs={12}>
-                  <Typography variant="h6" color="white">
-                    No shoes found.
-                  </Typography>
-                </Grid>
+                hasLoaded &&
+                visibleShoeData.length === 0 && (
+                  <Grid item xs={12}>
+                    <Typography variant="h6" color="white">
+                      No shoes found.
+                    </Typography>
+                  </Grid>
+                )
               )}
               <Grid item xs={12}>
                 <Box
@@ -393,14 +433,15 @@ const ProductListing = () => {
                       selectedFilters={selectedFilters}
                       handleFilterChange={handleFilterChange}
                       handleResetFilters={handleResetFilters}
-                      //handleApplyFilters={handleApplyFilters}
                       isMobileScreen={false}
                     />
                   </Box>
                 </Grid>
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
-                    {visibleShoeData.length > 0 ? (
+                    {isLoading ? ( // Show the spinner component while loading
+                      <Spinner />
+                    ) : visibleShoeData.length > 0 ? (
                       <Grid container spacing={2}>
                         {visibleShoeData.map((shoe, index) => (
                           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -409,9 +450,12 @@ const ProductListing = () => {
                         ))}
                       </Grid>
                     ) : (
-                      <Typography variant="h6" color="white">
-                        No shoes found.
-                      </Typography>
+                      hasLoaded &&
+                      visibleShoeData.length === 0 && (
+                        <Typography variant="h6" color="white">
+                          No shoes found.
+                        </Typography>
+                      )
                     )}
                   </Box>
                 </Grid>
