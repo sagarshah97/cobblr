@@ -19,7 +19,6 @@ const OrderConfirmationPage = () => {
   const [orderDetails, setOrderDetails] = useState();
 
   useEffect(() => {
-    console.log("id is:", _id);
     const getOrderDetails = async () => {
       try {
         const response = await axios.get(
