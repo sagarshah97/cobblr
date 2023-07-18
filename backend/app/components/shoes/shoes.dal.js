@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Shoe = require("./shoes.model");
 
 class ShoesDAL {
@@ -12,8 +13,24 @@ class ShoesDAL {
   }
 
   async getSimilarShoes(reqBody) {
-    const { tags } = reqBody;
-    const shoes = await Shoe.find({ tags: { $all: tags } });
+    const desiredKeys = {
+      name: 1,
+      brand: 1,
+      code: 1,
+      subText: 1,
+      price: 1,
+      images: { $slice: 1 },
+    };
+    const { tags, _ids } = reqBody;
+    const currentShoesObjectIds = _ids.map(
+      (shoeId) => new mongoose.Types.ObjectId(shoeId)
+    );
+
+    const shoes = await Shoe.find(
+      { tags: { $all: tags }, _id: { $nin: currentShoesObjectIds } },
+      desiredKeys
+    );
+
     return shoes;
   }
 
