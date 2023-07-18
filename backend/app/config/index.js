@@ -15,4 +15,5 @@ module.exports = {
     timeoutWithRememberedMe: process.env.TIMEOUT_WITH_REMEMBERED_ME,
     timeoutWithoutRememberedMe: process.env.TIMEOUT_WITHOUT_REMEMBERED_ME,
   },
+  stripeApiKey: process.env.STRIPE_API_KEY,
 };

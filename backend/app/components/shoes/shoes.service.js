@@ -19,22 +19,7 @@ class ShoeService {
   async getSimilarShoes(reqBody) {
     try {
       const shoeDetails = await this.shoesDAL.getSimilarShoes(reqBody);
-
-      let filteredList = [];
-      let keys = ["_id", "code", "name", "subText", "price"];
-      shoeDetails.forEach((obj) => {
-        let filteredDetails = extractKeysFromObject(obj, keys);
-        filteredDetails = {
-          ...filteredDetails,
-          thumbnail: obj.images[0],
-        };
-        filteredList.push(filteredDetails);
-      });
-      filteredList = filteredList.filter(
-        (obj) => obj._id.toString() !== reqBody._id
-      );
-
-      return filteredList;
+      return shoeDetails;
     } catch (error) {
       throw error;
     } finally {

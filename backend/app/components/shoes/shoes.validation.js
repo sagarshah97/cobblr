@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 const validationSchema = {
   _id: Joi.string().min(1).required(),
+  _ids: Joi.array().items(Joi.string()),
   code: Joi.string().min(1).required(),
   name: Joi.string().min(3).max(100).required(),
   subText: Joi.string().min(3).required(),
@@ -60,7 +61,7 @@ module.exports = {
   },
   getSimilarShoes: {
     body: Joi.object({
-      _id: validationSchema._id,
+      _ids: validationSchema._ids,
       tags: validationSchema.tags,
     }),
   },

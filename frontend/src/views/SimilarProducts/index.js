@@ -22,11 +22,11 @@ const SimilarProducts = (props) => {
     axios
       .post(`/shoes/getSimilarShoes`, {
         tags: props.tags,
-        _id: id,
+        _ids: [id],
       })
       .then((res) => {
         setOldId(id);
-        setSimilarProducts(res.data);
+        setSimilarProducts(res?.data);
       });
   };
 
@@ -84,8 +84,8 @@ const SimilarProducts = (props) => {
                     <div class="image-container">
                       <img
                         variant="top"
-                        src={"data:image/png;base64," + shoe.thumbnail.data}
-                        alt={shoe.thumbnail.name}
+                        src={"data:image/png;base64," + shoe.images[0].data}
+                        alt={shoe.images[0].name}
                         className="image"
                         style={{
                           borderRadius: "15px",
