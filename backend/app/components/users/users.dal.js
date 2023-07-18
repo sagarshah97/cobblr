@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const User = require("./users.model");
 
 class UsersDal {
@@ -23,6 +24,59 @@ class UsersDal {
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  }
+
+  async getWishlistCart(userId) {
+    try {
+      const query = { _id: new mongoose.Types.ObjectId(userId) };
+      const projection = { wishlist: 1, cart: 1 };
+      return await User.findOne(query, projection);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async addToWishlist(reqBody) {
+    try {
+      const { _id, wishlistedItem } = reqBody;
+
+      const filter = { _id: new mongoose.Types.ObjectId(_id) };
+      const update = { $addToSet: { wishlist: wishlistedItem } };
+
+      return await User.findOneAndUpdate(filter, update, { new: true });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async addToCart(reqBody) {
+    try {
+      const { _id, selectedItem } = reqBody;
+
+      const filter = { _id: new mongoose.Types.ObjectId(_id) };
+      const update = { $addToSet: { cart: selectedItem } };
+
+      return await User.findOneAndUpdate(filter, update, { new: true });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getUserDetails(_id) {
+    try {
+      const desiredKeys = {
+        name: 1,
+        phone: 1,
+        email: 1,
+        address: 1,
+      };
+      return await User.findOne(
+        { _id: new mongoose.Types.ObjectId(_id) },
+        desiredKeys
+      );
+    } catch (error) {
+      return error;
     }
   }
 }
