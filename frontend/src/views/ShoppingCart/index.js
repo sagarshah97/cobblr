@@ -38,14 +38,6 @@ const Cart = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const addItem = (item) => {
-    if (item.quantity < 5 || items.length === 0) {
-      setItems([...items, item]);
-    } else {
-      setShowErrorModal(true);
-    }
-  };
-
   const updateQuantity = (index, newQuantity) => {
     if (newQuantity >= 0 && newQuantity <= 5) {
       const updatedItems = [...items];
@@ -184,19 +176,6 @@ const Cart = () => {
                   ))}
                 </List>
               )}
-
-              {/* Add item button */}
-              <Button
-                className="add-item-button"
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  addItem({ name: 'Shoe', price: 100, quantity: 1, image: 'shoe.png', size: 'US 8' })
-                }
-                disabled={showConfirmationModal}
-              >
-                Add Item
-              </Button>
             </CardContent>
           </Card>
         </Grid>
