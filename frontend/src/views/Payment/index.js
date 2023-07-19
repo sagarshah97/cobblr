@@ -15,7 +15,7 @@ const PaymentContainer = () => {
   return (
     <>
       <Elements stripe={stripePromise}>
-        <PaymentPage amount={params.amount} />
+        <PaymentPage details={params} />
       </Elements>
       <Footer />
     </>

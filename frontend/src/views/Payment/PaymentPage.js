@@ -1,18 +1,34 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Button, TextField, Grid, Container, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Grid,
+  Container,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import PaymentIcon from "@mui/icons-material/Payment";
 import "../../App.css";
+import axios from "axios";
 
 const PaymentPage = (props) => {
-  const amount = props.amount;
+  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
+
+  const orderDetails = props.details;
+  const amount = props.details.total;
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [cardType, setCardType] = useState("");
   const [cardDetailsComplete, setCardDetailsComplete] = useState(false);
   const [disablePay, setDisablePay] = useState(true);
   const [payBtnVariant, setPayBtnVariant] = useState("outlined");
+  const [paid, setPaid] = useState(false);
+  const [payInitiated, setPayInitiated] = useState(false);
 
   const handleName = (event) => {
     setName(event.target.value);
@@ -39,6 +55,7 @@ const PaymentPage = (props) => {
   };
 
   const handleSubmit = async (event) => {
+    setPayInitiated(true);
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -54,18 +71,41 @@ const PaymentPage = (props) => {
     if (error) {
       console.error(error);
     } else {
-      console.log(paymentMethod);
-      // Make API call to complete the payment process
-      //   try {
-      //     const response = await axios.post("/api/complete-payment", {
-      //       paymentMethodId: paymentMethod.id,
-      //       amount: 1000, // Example amount (in cents)
-      //     });
-      //     console.log(response.data); // Handle the API response
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
+      try {
+        const response = await axios.post(`/orders/makePayment`, {
+          paymentMethodId: paymentMethod.id,
+          amount: amount * 100, //amount (in cents)
+        });
+        if (response?.data?.success) {
+          createOrder();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
+  };
+
+  const createOrder = () => {
+    const body = {
+      ...orderDetails,
+      invoiceNumber: loggedInUserId.slice(-5) + "-" + Date.now(),
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      userId: loggedInUserId,
+    };
+
+    axios
+      .post(`/orders/create`, body)
+      .then((res) => {
+        if (res?.data?._id) {
+          setPaid(true);
+          setPayInitiated(false);
+          navigate(`/orderconfirmation/${res.data._id}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -167,7 +207,11 @@ const PaymentPage = (props) => {
                 color="success"
                 disabled={disablePay}
               >
-                Pay
+                {payInitiated && !paid ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Pay"
+                )}
               </Button>
             </Grid>
             <Grid item xs={3} sm={2} md={2} lg={2}>

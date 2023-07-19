@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import {
   Grid,
@@ -28,11 +28,18 @@ import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductDetail = () => {
+  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
+  const location = useLocation();
   const navigate = useNavigate();
   const { _id } = useParams();
 
-  const actualWishlistCount = 0; //todo: get from user in db
-  const actualBagCount = 0; //todo: get from user in db
+  useEffect(() => {
+    const currentId = location.pathname.split("/").pop();
+    if (currentId !== window.sessionStorage.getItem("prevId")) {
+      window.location.reload();
+    }
+    window.sessionStorage.setItem("prevId", currentId);
+  }, [_id]);
 
   const [isMethodExecuted, setIsMethodExecuted] = useState(false);
   const [bagCount, setBagCount] = useState(0);
@@ -41,14 +48,17 @@ const ProductDetail = () => {
   const [alertVariant, setAlertVariant] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [disableBag, setDisableBag] = useState(false);
+  const [disableWishlist, setDisableWishlist] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [bagLabel, setBagBtnLabel] = useState("Add to Bag");
   const [wishBtnLabel, setWishBtnLabel] = useState("Add to Wishlist");
   const [inventoryCheck, setInventoryCheck] = useState([]);
   const [productDetails, setProductDetails] = useState();
+  const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
     getProductDetail();
+    getUserWishlistCart();
     if (isMethodExecuted) {
       const timer = setTimeout(() => {
         hideAlert();
@@ -67,12 +77,33 @@ const ProductDetail = () => {
 
   const getProductDetail = () => {
     axios
-      .post(`/shoes/getShoe`, {
-        _id: _id ? _id : "649dc5a07b56de6519346d47", //todo: need to remove hardcoded id
-      })
+      .post(`/shoes/getShoe`, { _id })
       .then((res) => {
         setProductDetails(res.data);
         checkForOutOfStock(res.data.availableQuantity);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getUserWishlistCart = () => {
+    axios
+      .post(`/users/getWishlistCart`, { _id: loggedInUserId })
+      .then((res) => {
+        if (res?.data?.userDetails) {
+          setUserDetails(res.data.userDetails);
+          const details = res.data.userDetails;
+          setBagCount(details.cart.items.length);
+          setWishlistCount(details.wishlist.length);
+          if (details.wishlist.includes(_id)) {
+            setWishBtnLabel("wishlisted");
+            setDisableWishlist(true);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -83,7 +114,6 @@ const ProductDetail = () => {
         sizeQuantity.push(data[i]);
       }
     }
-    console.log(sizeQuantity);
     setInventoryCheck(sizeQuantity);
   };
 
@@ -91,36 +121,76 @@ const ProductDetail = () => {
     setShowAlert(false);
   };
 
-  const handleAddToBag = () => {
-    console.log(selectedSize);
+  const handleAddToBag = async () => {
     if (selectedSize && selectedSize !== "Select size") {
-      setDisableBag(true);
-      setAlertMsg("Item added to the bag successfully!");
-      setAlertVariant("success");
-      setShowAlert(true);
-      setBagCount(actualBagCount + 1);
-      setBagBtnLabel("Added to Bag");
-      setIsMethodExecuted(true);
+      const resp = await checkForAlreadyInBag();
+      if (!resp) {
+        updateUserCart();
+      } else {
+        setAlertMsg("Item already in the bag!");
+        setShowAlert(true);
+      }
     } else {
       window.alert("Please select a size");
     }
   };
 
-  const handleAddToWishlist = () => {
-    if (wishlistCount != actualWishlistCount) {
-      setAlertMsg("Item removed from the wishlist successfully!");
-      setAlertVariant("success");
-      setShowAlert(true);
-      setWishlistCount(wishlistCount - 1);
-      setWishBtnLabel("Add to Wishlist");
+  const checkForAlreadyInBag = () => {
+    if (userDetails.cart?.items?.length < 1) {
+      return false;
     } else {
-      setAlertMsg("Item added to the wishlist successfully!");
-      setAlertVariant("success");
-      setShowAlert(true);
-      setWishlistCount(wishlistCount + 1);
-      setWishBtnLabel("Wishlisted");
+      return userDetails.cart.items.find(
+        (ele) => ele.shoeId === _id && ele.size === selectedSize
+      );
     }
-    setIsMethodExecuted(true);
+  };
+
+  const updateUserCart = () => {
+    axios
+      .post(`/users/addToCart`, {
+        _id: loggedInUserId,
+        selectedItem: { shoeId: _id, size: selectedSize, quantity: 1 },
+      })
+      .then((res) => {
+        if (res?.data?.message.toLowerCase().includes("added to cart")) {
+          setDisableBag(true);
+          setAlertMsg("Item added to the bag successfully!");
+          setAlertVariant("success");
+          setShowAlert(true);
+          setBagCount(bagCount + 1);
+          setBagBtnLabel("Added to Bag");
+          setIsMethodExecuted(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleAddToWishlist = () => {
+    updateUserWishlist();
+  };
+
+  const updateUserWishlist = () => {
+    axios
+      .post(`/users/addToWishlist`, {
+        _id: loggedInUserId,
+        wishlistedItem: _id,
+      })
+      .then((res) => {
+        if (res?.data?.message.toLowerCase().includes("added to wishlist")) {
+          setDisableWishlist(true);
+          setAlertMsg("Item added to the wishlist successfully!");
+          setAlertVariant("success");
+          setShowAlert(true);
+          setWishlistCount(wishlistCount + 1);
+          setWishBtnLabel("Wishlisted");
+          setIsMethodExecuted(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -248,7 +318,6 @@ const ProductDetail = () => {
                           label="Select size"
                           value={selectedSize}
                           onChange={(e) => {
-                            console.log(e.target.value);
                             setSelectedSize(e.target.value);
                           }}
                           style={{
@@ -323,6 +392,7 @@ const ProductDetail = () => {
                           marginBottom: "3%",
                         }}
                         onClick={handleAddToWishlist}
+                        disabled={disableWishlist}
                       >
                         {wishBtnLabel}
                       </Button>

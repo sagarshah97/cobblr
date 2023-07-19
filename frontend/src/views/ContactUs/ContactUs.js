@@ -15,6 +15,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 import Footer from "../HomePage/Footer";
 
@@ -73,9 +74,8 @@ const ContactUs = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      setIsPopupOpen(true);
-      // Print form data to console
-      console.log("Form Data:", formData);
+      // call api to save
+      submitForm(formData);
       // Reset form fields
       setFormData({
         name: "",
@@ -83,6 +83,17 @@ const ContactUs = () => {
         phone: "",
         message: "",
       });
+    }
+  };
+
+  const submitForm = async (formData) => {
+    try {
+      const response = await axios.post("/contact/save", formData);
+      console.log(response.data);
+      setIsPopupOpen(true);
+    } catch (error) {
+      console.error(error);
+      alert("Unable to save mesaage. Please try again!!");
     }
   };
 
