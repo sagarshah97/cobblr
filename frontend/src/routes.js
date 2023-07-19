@@ -20,6 +20,7 @@ import ProductListing from "./views/ProductListing/index.js";
 import BillingDetails from "./views/BillingDetails/index.js";
 import Payment from "./views/Payment/index.js";
 import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
+import Review from "./views/CustomerReviews/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -60,6 +61,7 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/order" element={<Review />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/productDetail/:_id" element={<ProductDetail />} />
           <Route path="/details" element={<AdditionalDetails />} />

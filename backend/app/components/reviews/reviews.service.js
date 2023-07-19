@@ -76,6 +76,18 @@ class ReviewService {
       //finally block
     }
   }
+
+  async getReviewsByUserAndShoe(postedBy, shoeId) {
+    try {
+      const review = await this.reviewsDAL.getReviewsByUserAndShoe(
+        postedBy,
+        shoeId
+      );
+      return review;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = ReviewService;

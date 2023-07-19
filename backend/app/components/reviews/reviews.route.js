@@ -41,4 +41,9 @@ router.route("/deleteReviews/:reviewId").delete(
   reviewsController.deleteReview.bind(reviewsController)
 );
 
+router.route("/getReviewsByShoeIdUserId").post(
+  // validate(reviewsValidation.deleteReview),
+  reviewsController.getReviewsByUserAndShoe.bind(reviewsController)
+);
+
 module.exports = router;

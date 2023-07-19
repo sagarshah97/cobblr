@@ -50,5 +50,14 @@ class ReviewDAL {
     const reviews = await Review.find({ shoeId: _shoeId });
     return reviews;
   }
+
+  async getReviewsByUserAndShoe(postedBy, shoeId) {
+    try {
+      const review = await Review.find({ postedBy: postedBy, shoeId });
+      return review;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 module.exports = ReviewDAL;

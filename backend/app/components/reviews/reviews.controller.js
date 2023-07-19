@@ -5,6 +5,27 @@ class ReviewController {
     this.reviewService = new ReviewService();
   }
 
+  async getReviewsByUserAndShoe(request, response, next) {
+    try {
+      const { postedBy, shoeId } = request.body;
+
+      const review = await this.reviewService.getReviewsByUserAndShoe(
+        postedBy,
+        shoeId
+      );
+
+      if (review) {
+        response.status(200).json(review);
+      } else {
+        response
+          .status(404)
+          .json({ error: "No reviews found for the specified user and shoe." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async addReview(request, response, next) {
     try {
       const newReview = await this.reviewService.addReview(request.body);
@@ -17,7 +38,7 @@ class ReviewController {
   async updateReview(request, response, next) {
     try {
       const updatedReview = await this.reviewService.updateReview(
-        request.params.reviewId, // Corrected parameter name
+        request.params.reviewId,
         request.body
       );
       response.status(200).json(updatedReview);
