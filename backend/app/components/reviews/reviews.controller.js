@@ -1,0 +1,84 @@
+const ReviewService = require("./reviews.service");
+
+class ReviewController {
+  constructor() {
+    this.reviewService = new ReviewService();
+  }
+
+  async addReview(request, response, next) {
+    try {
+      const newReview = await this.reviewService.addReview(request.body);
+      response.status(201).json(newReview);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateReview(request, response, next) {
+    try {
+      const updatedReview = await this.reviewService.updateReview(
+        request.params.reviewId, // Corrected parameter name
+        request.body
+      );
+      response.status(200).json(updatedReview);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteReview(request, response, next) {
+    try {
+      const deletedReview = await this.reviewService.deleteReview(
+        request.params.reviewId
+      );
+      response.status(200).json(deletedReview);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getReviewByReviewId(request, response, next) {
+    try {
+      const review = await this.reviewService.getReviewByReviewId(
+        request.body._id
+      );
+      if (review) {
+        response.status(200).json(review);
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getReviewByShoeId(request, response, next) {
+    try {
+      const reviews = await this.reviewService.getReviewByShoeId(
+        request.body._shoeId
+      );
+      if (reviews) {
+        response.status(200).json(reviews);
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllReviews(request, response, next) {
+    try {
+      const allReviews = await this.reviewService.getAllReviews();
+      if (allReviews) {
+        response.status(200).json(allReviews);
+      } else {
+        response.status(404).json({ error: "No records found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+module.exports = new ReviewController();
