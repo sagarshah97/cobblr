@@ -25,6 +25,15 @@ class UsersDal {
       throw error;
     }
   }
+
+  async getUserById(userId) {
+    try {
+      const user = await User.findById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UsersDal;

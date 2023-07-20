@@ -76,7 +76,22 @@ class ReviewController {
   async getReviewByShoeId(request, response, next) {
     try {
       const reviews = await this.reviewService.getReviewByShoeId(
-        request.body._shoeId
+        request.body.shoeId
+      );
+      if (reviews) {
+        response.status(200).json(reviews);
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getReviewByUserId(request, response, next) {
+    try {
+      const reviews = await this.reviewService.getReviewByUserId(
+        request.body.userId
       );
       if (reviews) {
         response.status(200).json(reviews);

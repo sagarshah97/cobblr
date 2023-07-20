@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
+
 import {
   Grid,
   Card,
@@ -21,6 +22,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 
 import Footer from "../HomePage/Footer";
 import SimilarProducts from "../SimilarProducts/index";
+import DisplayReview from "../CustomerReviews/DisplayReviews";
 import Spinner from "../../utils/Spinner";
 import "../../App.css";
 import axios from "axios";
@@ -196,7 +198,6 @@ const ProductDetail = () => {
                 </div>
               </Grid>
             </Grid>
-
             <Grid
               container
               rowSpacing={1}
@@ -331,6 +332,25 @@ const ProductDetail = () => {
                 </Card>
               </Grid>
             </Grid>
+            <div
+              style={{
+                marginTop: "5%",
+                marginBottom: "2%",
+                marginLeft: "3%",
+                color: "white",
+                fontSize: "xx-large",
+                fontWeight: "200",
+              }}
+            >
+              Customer Reviews
+            </div>
+            {/* display customer review component tag   */}
+            <div style={{ paddingLeft: "3%" }}>
+              {" "}
+              {/* Add padding to the left */}
+              <DisplayReview shoeId={_id} />
+            </div>
+
             {_id && <SimilarProducts tags={productDetails.tags} _id={_id} />}
           </div>
         </>

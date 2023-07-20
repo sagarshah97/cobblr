@@ -51,6 +51,11 @@ class ReviewDAL {
     return reviews;
   }
 
+  async getReviewByUserId(userId) {
+    const reviews = await Review.find({ postedBy: userId });
+    return reviews;
+  }
+
   async getReviewsByUserAndShoe(postedBy, shoeId) {
     try {
       const review = await Review.find({ postedBy: postedBy, shoeId });

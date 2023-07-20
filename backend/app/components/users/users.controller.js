@@ -33,6 +33,19 @@ class UserController {
       next(error);
     }
   };
+  getUserById = async (request, response, next) => {
+    try {
+      const { userId } = request.body;
+      const user = await this.usersService.getUserById(userId);
+      if (user) {
+        response.status(200).json(user);
+      } else {
+        response.status(404).json({ error: "User not found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = new UserController();

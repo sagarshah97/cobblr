@@ -66,6 +66,17 @@ class ReviewService {
     }
   }
 
+  async getReviewByUserId(userId) {
+    try {
+      const reviews = await this.reviewsDAL.getReviewByUserId(userId);
+      return reviews;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
   async getAllReviews() {
     try {
       const allReviews = await this.reviewsDAL.getAllReviews();

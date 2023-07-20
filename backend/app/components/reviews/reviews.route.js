@@ -19,6 +19,11 @@ router.route("/getReviewsByShoeId").post(
   reviewsController.getReviewByShoeId.bind(reviewsController)
 );
 
+router.route("/getReviewsByUserId").post(
+  // validate(reviewsValidation.getReviewByUserId),
+  reviewsController.getReviewByUserId.bind(reviewsController)
+);
+
 // get single review record based on review id
 router.route("/getReviewsByReviewId").post(
   // validate(reviewsValidation.getReviewByReviewId),
