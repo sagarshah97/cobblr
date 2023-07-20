@@ -55,7 +55,7 @@ class UsersDal {
       const { _id, selectedItem } = reqBody;
 
       const filter = { _id: new mongoose.Types.ObjectId(_id) };
-      const update = { $addToSet: { cart: selectedItem } };
+      const update = { $push: { "cart.items": selectedItem } };
 
       return await User.findOneAndUpdate(filter, update, { new: true });
     } catch (error) {

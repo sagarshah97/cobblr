@@ -28,7 +28,7 @@ import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductDetail = () => {
-  const loggedInUserId = "64b2f00b42d23daa74325bce"; //todo: get from session storage
+  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
   const location = useLocation();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -54,6 +54,7 @@ const ProductDetail = () => {
   const [wishBtnLabel, setWishBtnLabel] = useState("Add to Wishlist");
   const [inventoryCheck, setInventoryCheck] = useState([]);
   const [productDetails, setProductDetails] = useState();
+  const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
     getProductDetail();
@@ -91,16 +92,13 @@ const ProductDetail = () => {
       .post(`/users/getWishlistCart`, { _id: loggedInUserId })
       .then((res) => {
         if (res?.data?.userDetails) {
-          const userDetails = res.data.userDetails;
-          setBagCount(userDetails.cart.length);
-          setWishlistCount(userDetails.wishlist.length);
-          if (userDetails.wishlist.includes(_id)) {
+          setUserDetails(res.data.userDetails);
+          const details = res.data.userDetails;
+          setBagCount(details.cart.items.length);
+          setWishlistCount(details.wishlist.length);
+          if (details.wishlist.includes(_id)) {
             setWishBtnLabel("wishlisted");
             setDisableWishlist(true);
-          }
-          if (userDetails.cart.includes(_id)) {
-            setBagBtnLabel("added to bag");
-            setDisableBag(true);
           }
         }
       })
@@ -123,11 +121,27 @@ const ProductDetail = () => {
     setShowAlert(false);
   };
 
-  const handleAddToBag = () => {
+  const handleAddToBag = async () => {
     if (selectedSize && selectedSize !== "Select size") {
-      updateUserCart();
+      const resp = await checkForAlreadyInBag();
+      if (!resp) {
+        updateUserCart();
+      } else {
+        setAlertMsg("Item already in the bag!");
+        setShowAlert(true);
+      }
     } else {
       window.alert("Please select a size");
+    }
+  };
+
+  const checkForAlreadyInBag = () => {
+    if (userDetails.cart?.items?.length < 1) {
+      return false;
+    } else {
+      return userDetails.cart.items.find(
+        (ele) => ele.shoeId === _id && ele.size === selectedSize
+      );
     }
   };
 
@@ -135,7 +149,7 @@ const ProductDetail = () => {
     axios
       .post(`/users/addToCart`, {
         _id: loggedInUserId,
-        selectedItem: _id,
+        selectedItem: { shoeId: _id, size: selectedSize, quantity: 1 },
       })
       .then((res) => {
         if (res?.data?.message.toLowerCase().includes("added to cart")) {

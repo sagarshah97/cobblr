@@ -9,7 +9,11 @@ const validationSchema = {
   wishlist: Joi.array().items(Joi.string()),
   cart: Joi.array().items(Joi.string()),
   wishlistedItem: Joi.string().min(1).required(),
-  selectedItem: Joi.string().min(1).required(),
+  selectedItem: Joi.object({
+    shoeId: Joi.string().required(),
+    size: Joi.string().required(),
+    quantity: Joi.number().required(),
+  }),
 };
 
 module.exports = {

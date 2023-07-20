@@ -14,7 +14,7 @@ import "../../App.css";
 import axios from "axios";
 
 const PaymentPage = (props) => {
-  const loggedInUserId = "64b2f00b42d23daa74325bce"; //todo: get from session storage
+  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
 
   const orderDetails = props.details;
   const amount = props.details.total;
