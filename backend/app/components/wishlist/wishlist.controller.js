@@ -22,13 +22,13 @@ class WishlistController {
     try {
       const res = await this.wishlistService.addItemToWishlist(request.body);
 
-      if (res) {
-        let resObj = {};
-        resObj.messag = "Product added to wishlist!";
-        response.status(200).json(resObj);
-      } else {
-        response.status(404).json({ error: "No record found." });
-      }
+      // if (res!=null) {
+      //   let resObj = {};
+      //   resObj.messag = "Product added to wishlist!";
+      response.status(200).json(res);
+      // } else {
+      //   response.status(404).json({ error: "No record found." });
+      // }
     } catch (error) {
       next(error);
     }

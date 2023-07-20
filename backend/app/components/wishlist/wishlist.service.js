@@ -1,5 +1,4 @@
 const WishlistDAL = require("./wishlist.dal");
-const extractKeysFromObject = require("../../helpers/utils");
 class WishlistService {
   constructor() {
     this.wishlistDAL = new WishlistDAL();
@@ -8,6 +7,7 @@ class WishlistService {
   async getWishlist(userId) {
     try {
       const wishlistItems = await this.wishlistDAL.getWishlistItems(userId);
+      //console.log(wishlistItems);
       return wishlistItems;
     } catch (error) {
       throw error;
@@ -31,34 +31,32 @@ class WishlistService {
     try {
       const response = await this.wishlistDAL.removeWishlistItem(body);
       // console.log(">>>>");
-      // console.log(response.wishlistedItems);
-      const tempWishlist = response.wishlistedItems.map((item) => {
-        const firstImage = item.images[0];
-        const firstTag = item.tags[0];
+      // console.log(response);
 
-        return {
-          _id: item._id,
-          name: item.name,
-          code: item.code,
-          brand: item.brand,
-          tags: firstTag,
-          images: firstImage,
-          price: item.price,
-        };
-      });
-      //  wishlistedItems;
-      // console.log(">>>>");
-      // console.log(response.wishlistedItems);
-      // console.log(">>>>");
-      // console.log(tempWishlist);
-      // console.log(">>>>");
+      const wishlistItems = await this.wishlistDAL.getWishlistItems(
+        response?._id
+      );
+      // const tempWishlist = response.wishlistedItems?.map((item) => {
+      //   const firstImage = item.images[0];
+      //   const firstTag = item.tags[0];
 
-      let resObj = response.toObject();
-      resObj.wishlistedItems = tempWishlist;
+      //   return {
+      //     _id: item._id,
+      //     name: item.name,
+      //     code: item.code,
+      //     brand: item.brand,
+      //     tags: firstTag,
+      //     images: firstImage,
+      //     price: item.price,
+      //   };
+      // });
+
+      // let resObj = response.toObject();
+      // resObj.wishlistedItems = tempWishlist;
 
       // console.log(resObj);
-
-      return resObj;
+      return wishlistItems;
+      // return resObj;
     } catch (error) {
       throw error;
     } finally {

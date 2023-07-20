@@ -1,4 +1,4 @@
-const User = require("./users.model");
+const User = require("../users/users.model");
 const Shoe = require("../shoes/shoes.model");
 const mongoose = require("mongoose");
 
@@ -10,21 +10,21 @@ class WishlistDAL {
         {
           $lookup: {
             from: "shoes",
-            localField: "wishlistedItems",
+            localField: "wishlist",
             foreignField: "_id",
-            as: "wishlistItems",
+            as: "wishlist",
           },
         },
-        { $unwind: "$wishlistItems" },
+        { $unwind: "$wishlist" },
         {
           $project: {
-            _id: "$wishlistItems._id",
-            name: "$wishlistItems.name",
-            code: "$wishlistItems.code",
-            brand: "$wishlistItems.brand",
-            tags: { $arrayElemAt: ["$wishlistItems.tags", 0] },
-            images: { $arrayElemAt: ["$wishlistItems.images", 0] },
-            price: "$wishlistItems.price",
+            _id: "$wishlist._id",
+            name: "$wishlist.name",
+            code: "$wishlist.code",
+            brand: "$wishlist.brand",
+            tags: "$wishlist.tags",
+            images: { $arrayElemAt: ["$wishlist.images", 0] },
+            price: "$wishlist.price",
           },
         },
       ]);
@@ -41,13 +41,13 @@ class WishlistDAL {
     try {
       const userId = body.userId;
       const itemId = body.itemId;
-      console.log(body);
+      //console.log(body);
       const updatedUser = await User.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(userId) },
         { $addToSet: { wishlistedItems: new mongoose.Types.ObjectId(itemId) } },
         { new: true }
       );
-      console.log(updatedUser);
+      // console.log(updatedUser);
       return updatedUser;
     } catch (error) {
       console.error(error);
@@ -63,11 +63,12 @@ class WishlistDAL {
       // console.log("itemId:", itemId);
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
-        { $pull: { wishlistedItems: itemId } },
+        { $pull: { wishlist: itemId } },
         { new: true }
       )
-        .populate("wishlistedItems", "name code brand tags price images")
-        .select({ wishlistedItems: 1, _id: 0 });
+        // .populate("wishlist", "name code brand tags price images")
+        // .select({ wishlist: 1, _id: 0 });
+        .select({ _id: 0 });
 
       return updatedUser;
     } catch (error) {
