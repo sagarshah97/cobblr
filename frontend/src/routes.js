@@ -10,6 +10,8 @@ import UnderConstruction from "./views/UnderConstruction/index.js";
 import FAQ from "./views/FAQ/index.js";
 import Layout from "./utils/Layout.js";
 import Login from "./views/Login";
+import ShoppingCart from "./views/ShoppingCart";
+import Orders from "./views/Orders";
 import Register from "./views/Register";
 import Profile from "./views/Profile";
 import ProductDetail from "./views/ProductDetail/index.js";
@@ -65,6 +67,8 @@ const Router = () => {
           <Route path="/details" element={<AdditionalDetails />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/productlisting" element={<ProductListing />} />
           <Route path="/billing" element={<BillingDetails />} />
           <Route path="/payment" element={<Payment />} />

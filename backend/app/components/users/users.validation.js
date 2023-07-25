@@ -7,7 +7,12 @@ const validationSchema = {
   email: Joi.string().min(5).required(),
   password: Joi.string().min(1).required(),
   wishlist: Joi.array().items(Joi.string()),
-  cart: Joi.array().items(Joi.string()),
+  cart: Joi.object({
+    items: Joi.array(),
+    subtotal: Joi.number(),
+    tax: Joi.number(),
+    total: Joi.number(),
+  }),
   wishlistedItem: Joi.string().min(1).required(),
   selectedItem: Joi.object({
     shoeId: Joi.string().required(),

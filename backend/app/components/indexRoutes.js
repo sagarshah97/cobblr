@@ -7,6 +7,7 @@ const contactRoutes = require("./contact/contact.route");
 const orderRoutes = require("./orders/orders.route");
 const adminRoutes = require("./admin/admin.route");
 const wishlistRoutes = require("./wishlist/wishlist.route");
+const cartRoutes = require("./cart/cart.route");
 
 const healthCheck = (request, response) => {
   response.status(200).send({
@@ -21,6 +22,8 @@ router.use("/contact", contactRoutes);
 router.use("/orders", orderRoutes);
 router.use("/admin", adminRoutes);
 router.use("/wishlist", wishlistRoutes);
+router.use("/cart", cartRoutes);
+
 
 module.exports.router = router;
 module.exports.healthCheck = healthCheck;

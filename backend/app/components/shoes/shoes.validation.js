@@ -7,7 +7,7 @@ const validationSchema = {
   name: Joi.string().min(3).max(100).required(),
   subText: Joi.string().min(3).required(),
   shortDescription: Joi.string().min(3).required(),
-  price: Joi.string().min(3).max(10).required(),
+  price: Joi.number().min(3).max(10).required(),
   color: Joi.string().min(1).max(100).required(),
   thumbnail: Joi.string().min(3),
   sizes: Joi.array().items(Joi.string()),
