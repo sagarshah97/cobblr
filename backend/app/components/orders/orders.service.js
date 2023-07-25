@@ -8,7 +8,7 @@ class OrderService {
   }
 
   async getOrderById(_id) {
-    return this.orderDAL.getOrderById(_id);
+    return await this.orderDAL.getOrderById(_id);
   }
 
   async create(orderDetails) {
