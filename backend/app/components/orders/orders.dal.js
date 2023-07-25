@@ -9,7 +9,7 @@ class OrderDAL {
       let order = await orders.findById(_id);
 
       if (!order) {
-        throw new Error("Order not found");
+        return null;
       }
       const itemsWithShoeDetails = await Promise.all(
         order.items.map(async (item) => {
@@ -29,7 +29,7 @@ class OrderDAL {
       order.items = itemsWithShoeDetails;
       return order;
     } catch (error) {
-      throw new Error(error);
+      return null;
     }
   }
 

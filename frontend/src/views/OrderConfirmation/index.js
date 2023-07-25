@@ -99,7 +99,7 @@ const OrderConfirmationPage = () => {
           >
             <Grid item xs={12} md={8} lg={8} xl={8}>
               <Grid container spacing={2} justifyContent="flex-start">
-                {orderDetails?.items.map((item) => (
+                {orderDetails?.items?.map((item) => (
                   <Grid item xs={12} sm={12} md={12} lg={12} key={item._id}>
                     <ShoeCard item={item} shoeCardHeight={shoeCardHeight} />
                   </Grid>
