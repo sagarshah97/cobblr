@@ -31,24 +31,7 @@ const orderSchema = new mongoose.Schema({
   },
   items: [
     {
-      id: {
-        type: String,
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      image: {
-        name: {
-          type: String,
-          required: true,
-        },
-        data: {
-          type: String,
-          required: true,
-        },
-      },
+      shoeId: { type: mongoose.Types.ObjectId, required: true },
       quantity: {
         type: Number,
         required: true,
