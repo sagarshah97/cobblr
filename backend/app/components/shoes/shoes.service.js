@@ -79,19 +79,17 @@ class ShoeService {
         shoeData.sort((a, b) => a.price - b.price);
       } else if (sortValue === "sort3") {
         shoeData.sort((a, b) => b.price - a.price);
-      } else {
-        shoeData = originalShoeData;
       }
       if (selectedFilters != null || selectedFilters != undefined) {
         if (Object.keys(selectedFilters).length !== 0) {
           shoeData = originalShoeData.filter((shoe) => {
             const { gender = "", size = "", price = "" } = selectedFilters;
+            const availableSizes = shoe.availableQuantity.map((quantity) =>
+              quantity.size.toLowerCase()
+            );
             if (
               (gender === "" || shoe.gender === gender) &&
-              (size === "" ||
-                shoe.availableQuantity.some(
-                  (quantity) => quantity.size === size
-                )) &&
+              (size === "" || availableSizes.includes(size.toLowerCase())) &&
               (price === "" ||
                 (price === "100" && shoe.price <= 100) ||
                 (price === "100_200" &&
