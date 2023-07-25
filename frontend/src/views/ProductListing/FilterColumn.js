@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FormControlLabel,
   Radio,
@@ -109,34 +109,154 @@ const FilterColumn = ({
       >
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="6"
-          label="6"
+          value="US W 5.5 / M 4.5"
+          label="US W 5.5 / M 4.5"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="7"
-          label="7"
+          value="US W 6 / M 5"
+          label="US W 6 / M 5"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="8"
-          label="8"
+          value="US W 6.5 / M 5.5"
+          label="US W 6.5 / M 5.5"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="9"
-          label="9"
+          value="US W 7.5 / M 6"
+          label="US W 7.5 / M 6"
           sx={{ color: "#fff" }}
         />
         <FormControlLabel
           control={<Radio sx={{ color: "#fff" }} />}
-          value="10"
-          label="10"
+          value="US W 7.5 / M 6.5"
+          label="US W 7.5 / M 6.5"
           sx={{ color: "#fff" }}
         />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 8 / M 7"
+          label="US W 8 / M 7"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 8.5 / M 8"
+          label="US W 8.5 / M 8"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 9 / M 8.5"
+          label="US W 9 / M 8.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 9.5 / M 9"
+          label="US W 9.5 / M 9"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 10 / M 9.5"
+          label="US W 10 / M 9.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 10.5 / M 10"
+          label="US W 10.5 / M 10"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 11 / M 10.5"
+          label="US W 11 / M 10.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 11.5 / M 11"
+          label="US W 11.5 / M 11"
+          sx={{ color: "#fff" }}
+        />
+        {/* <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 12 / M 11.5"
+          label="US W 12 / M 11.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 12.5 / M 12"
+          label="US W 12.5 / M 12"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 13 / M 12.5"
+          label="US W 13 / M 12.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 13.5 / M 13"
+          label="US W 13.5 / M 13"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 14 / M 13.5"
+          label="US W 14 / M 13.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 15 / M 14"
+          label="US W 15 / M 14"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 15.5 / M 14.5"
+          label="US W 15.5 / M 14.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 16 / M 15"
+          label="US W 16 / M 15"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 16.5 / M 15.5"
+          label="US W 16.5 / M 15.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 17 / M 16"
+          label="US W 17 / M 16"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 17.5 / M 16.5"
+          label="US W 17.5 / M 16.5"
+          sx={{ color: "#fff" }}
+        />
+        <FormControlLabel
+          control={<Radio sx={{ color: "#fff" }} />}
+          value="US W 18 / M 17"
+          label="US W 18 / M 17"
+          sx={{ color: "#fff" }}
+        /> */}
       </RadioGroup>
 
       <Box sx={{ borderBottom: "1px solid #ccc", marginBottom: "8px" }} />
