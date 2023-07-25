@@ -86,7 +86,6 @@ class ShoeService {
         if (Object.keys(selectedFilters).length !== 0) {
           shoeData = originalShoeData.filter((shoe) => {
             const { gender = "", size = "", price = "" } = selectedFilters;
-
             if (
               (gender === "" || shoe.gender === gender) &&
               (size === "" ||
@@ -106,29 +105,26 @@ class ShoeService {
           });
         }
       }
-      //Pagination
+      let visibleShoeData = shoeData.map((shoe) => {
+        const { images, ...rest } = shoe.toObject();
+        const firstImage = images.length > 0 ? [images[0]] : [];
+        return { ...rest, images: firstImage };
+      });
+
       if (
         pageChangeType === null ||
         pageChangeType === undefined ||
         pageChangeType === ""
       ) {
         currentPage = 1;
-        const itemsPerPage = 8;
-        const totalItems = shoeData.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const visibleShoeData = shoeData.slice(startIndex, endIndex);
-        return { visibleShoeData, totalPages, currentPage };
-      } else {
-        const itemsPerPage = 8;
-        const totalItems = shoeData.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const visibleShoeData = shoeData.slice(startIndex, endIndex);
-        return { visibleShoeData, totalPages, currentPage };
       }
+      const itemsPerPage = 8;
+      const totalItems = visibleShoeData.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      visibleShoeData = visibleShoeData.slice(startIndex, endIndex);
+      return { visibleShoeData, totalPages, currentPage };
     } catch (error) {
       throw error;
     } finally {
