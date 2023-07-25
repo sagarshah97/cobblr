@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
@@ -14,19 +14,21 @@ import {
   CardContent,
   Modal,
   Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from '@mui/material';
-import { Delete as DeleteIcon, Remove as RemoveIcon, Add as AddIcon } from '@mui/icons-material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+} from "@mui/material";
+import {
+  Delete as DeleteIcon,
+  Remove as RemoveIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import "../../App.css";
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#000000',
+      main: "#000000",
     },
   },
 });
@@ -38,35 +40,132 @@ const Cart = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const updateQuantity = (index, newQuantity) => {
-    if (newQuantity >= 0 && newQuantity <= 5) {
-      const updatedItems = [...items];
-      updatedItems[index].quantity = newQuantity;
-      setItems(updatedItems);
-      if (newQuantity === 0) {
-        setItemToRemove(index);
-        setShowConfirmationModal(true);
+  useEffect(() => {
+    // Fetch cart items from the backend API
+    fetchCartItems()
+      .then((data) => {
+        setItems(data);
+        console.log(data);
+        const subtotal = calculatesubtotal(data);
+        const tax = subtotal * 0.15;
+        const total = subtotal + tax;
+
+        updateCartTotals(subtotal, tax, total);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const calculatesubtotal = (cartItems) => {
+    let subtotal = 0;
+    cartItems.forEach((item) => {
+      const itemPrice = item.price * item.quantity;
+      subtotal += itemPrice;
+    });
+    return subtotal;
+  };
+
+  const fetchCartItems = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/cart/getCart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: "64b813345ab966a0d7cd61a5" }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        throw new Error("Unable to fetch cart items");
       }
-    } else if (newQuantity > 5) {
-      setShowErrorModal(true);
+    } catch (error) {
+      throw new Error("Unable to fetch cart items");
     }
   };
 
-  const removeItem = () => {
-    if (itemToRemove !== null) {
-      const updatedItems = [...items];
-      updatedItems.splice(itemToRemove, 1);
-      setItems(updatedItems);
-      setItemToRemove(null);
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-      }, 2000);
+  const updateCartTotals = async (subtotal, tax, total) => {
+    try {
+      const body = {
+        userId: "64b813345ab966a0d7cd61a5",
+        subtotal,
+        tax,
+        total,
+      };
+      await axios.post("/cart/updateCartTotals", body);
+    } catch (error) {
+      console.error(error);
     }
-    setShowConfirmationModal(false);
   };
 
-  const cancelRemoveItem = () => {
+  const updateCartItemQuantity = async (index, newQuantity) => {
+    try {
+      if (newQuantity >= 0 && newQuantity <= 5) {
+        const updatedItems = [...items];
+        updatedItems[index].quantity = newQuantity;
+        setItems(updatedItems);
+        if (newQuantity === 0) {
+          setItemToRemove(index);
+          setShowConfirmationModal(true);
+        }
+        // Update cart item quantity in the backend API
+        await updateCartItemQuantityInBackend(updatedItems[index]);
+      } else if (newQuantity > 5) {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateCartItemQuantityInBackend = async (item) => {
+    try {
+      const body = {
+        userId: "64b813345ab966a0d7cd61a5",
+        cartItemId: item._id,
+        quantity: item.quantity,
+        size: item.size,
+      };
+      await axios.post("/cart/updateCartItemQuantity", body);
+    } catch (error) {
+      throw new Error("Unable to update cart item quantity");
+    }
+  };
+
+  const removeCartItem = async () => {
+    try {
+      if (itemToRemove !== null) {
+        const updatedItems = [...items];
+        updatedItems.splice(itemToRemove, 1);
+        setItems(updatedItems);
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+        }, 2000);
+        // Remove cart item from the backend API
+        await removeCartItemFromBackend(items[itemToRemove]);
+      }
+      setShowConfirmationModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeCartItemFromBackend = async (item) => {
+    try {
+      const body = {
+        userId: "64b813345ab966a0d7cd61a5",
+        cartItemId: item._id,
+        quantity: item.quantity,
+        size: item.size,
+      };
+      await axios.post("/cart/removeCartItem", body);
+    } catch (error) {
+      throw new Error("Unable to remove cart item");
+    }
+  };
+
+  const cancelRemoveCartItem = () => {
     setShowConfirmationModal(false);
     if (itemToRemove !== null) {
       const updatedItems = [...items];
@@ -97,7 +196,7 @@ const Cart = () => {
 
   const handleCheckout = () => {
     // Logic for handling checkout
-    alert('Proceeding to checkout.');
+    alert("Proceeding to checkout.");
   };
 
   const handleBackdropClick = (event) => {
@@ -110,9 +209,15 @@ const Cart = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        style={{
+          padding: "3%",
+        }}
+      >
         {/* Cart items */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={12} md={8} lg={8}>
           <Card>
             {/* Card header */}
             <CardHeader title="Cart" />
@@ -127,29 +232,52 @@ const Cart = () => {
                 <List>
                   {items.map((item, index) => (
                     <ListItem key={index}>
-                      {/* Item avatar */}
-                      <ListItemAvatar>
-                        <Avatar src={item.image} alt={item.name} />
-                      </ListItemAvatar>
+                      <img
+                        variant="top"
+                        src={"data:image/png;base64," + item.images.data}
+                        alt={item.images.name}
+                        height="120px"
+                        width="120px"
+                        style={{
+                          borderRadius: "10px",
+                          backgroundColor: "transparent",
+                          marginRight: "3%",
+                        }}
+                      />
+                      {/* </div> */}
                       {/* Item details */}
                       <ListItemText
                         primary={item.name}
-                        secondary={`Size: ${item.size}`}
-                        primaryTypographyProps={{ variant: 'h6' }}
-                        secondaryTypographyProps={{ variant: 'body2' }}
+                        secondary={`${item.size}`}
+                        primaryTypographyProps={{ variant: "h6" }}
+                        secondaryTypographyProps={{
+                          variant: "body2",
+                        }}
+                        style={{ width: "250px" }}
                       />
                       {/* Quantity and remove buttons */}
-                      <Grid container alignItems="center">
-                        <Typography variant="body1">Quantity: {item.quantity}</Typography>
+                      <Grid
+                        container
+                        alignItems="center"
+                        style={{ marginLeft: "2%" }}
+                      >
+                        <Typography
+                          variant="body1"
+                          style={{ paddingRight: "10px" }}
+                        >
+                          Quantity: {item.quantity}
+                        </Typography>
                         <IconButton
-                          onClick={() => updateQuantity(index, item.quantity - 1)}
-                          disabled={showConfirmationModal}
+                          onClick={() =>
+                            updateCartItemQuantity(index, item.quantity - 1)
+                          }
                         >
                           <RemoveIcon />
                         </IconButton>
                         <IconButton
-                          onClick={() => updateQuantity(index, item.quantity + 1)}
-                          disabled={showConfirmationModal}
+                          onClick={() =>
+                            updateCartItemQuantity(index, item.quantity + 1)
+                          }
                         >
                           <AddIcon />
                         </IconButton>
@@ -162,8 +290,11 @@ const Cart = () => {
                             setItemToRemove(index);
                             setShowConfirmationModal(true);
                           }}
-                          disabled={showConfirmationModal}
-                          style={{ color: '#fff' }}
+                          style={{
+                            marginLeft: "10px",
+                            color: "white",
+                            borderColor: "grey",
+                          }}
                         >
                           Remove
                         </Button>
@@ -181,7 +312,7 @@ const Cart = () => {
         </Grid>
 
         {/* Invoice summary */}
-        <Grid item xs={6} md={6}>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
           <Card>
             {/* Card header */}
             <CardHeader title="Invoice Summary" />
@@ -191,45 +322,77 @@ const Cart = () => {
               {items.length > 0 ? (
                 <Grid container>
                   <Grid item xs={6}>
-                    <Typography variant="body1" style={{ marginBottom: '1rem' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem" }}
+                    >
                       Subtotal:
                     </Typography>
-                    <Typography variant="body1" style={{ marginBottom: '1rem' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem" }}
+                    >
                       Delivery Fee:
                     </Typography>
-                    <Typography variant="body1" style={{ marginBottom: '1rem' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem" }}
+                    >
                       Taxes:
                     </Typography>
                     <hr />
-                    <Typography variant="body1" style={{ marginBottom: '1rem' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem" }}
+                    >
                       Total:
                     </Typography>
                     <hr />
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1" style={{ marginBottom: '1rem', textAlign: 'right' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem", textAlign: "right" }}
+                    >
                       ${calculateSubtotal()}
                     </Typography>
-                    <Typography variant="body1" style={{ marginBottom: '1rem', textAlign: 'right' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem", textAlign: "right" }}
+                    >
                       Free
                     </Typography>
-                    <Typography variant="body1" style={{ marginBottom: '1rem', textAlign: 'right' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem", textAlign: "right" }}
+                    >
                       ${calculateSubtotal() * 0.15}
                     </Typography>
                     <hr />
-                    <Typography variant="body1" style={{ marginBottom: '1rem', textAlign: 'right' }}>
+                    <Typography
+                      variant="body1"
+                      style={{ marginBottom: "1rem", textAlign: "right" }}
+                    >
                       ${calculateTotal()}
                     </Typography>
                     <hr />
                     <br />
-                    <Button
-                      className="checkout-button"
-                      variant="contained"
-                      color="primary"
-                      onClick={handleCheckout}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}
                     >
-                      Checkout
-                    </Button>
+                      <Button
+                        // className="checkout-button"
+                        variant="contained"
+                        color="success"
+                        onClick={handleCheckout}
+                      >
+                        Checkout
+                      </Button>
+                    </div>
                   </Grid>
                 </Grid>
               ) : (
@@ -245,11 +408,11 @@ const Cart = () => {
       {/* Confirmation modal */}
       <Modal
         open={showConfirmationModal}
-        onClose={cancelRemoveItem}
+        onClose={cancelRemoveCartItem}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         BackdropProps={{
           onClick: handleBackdropClick,
@@ -257,21 +420,21 @@ const Cart = () => {
       >
         <Paper
           style={{
-            backgroundColor: '#000',
-            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-            padding: '2%',
-            margin: '4%',
-            width: '30rem',
+            backgroundColor: "#000",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+            padding: "2%",
+            margin: "4%",
+            width: "30rem",
           }}
         >
           <Typography
             variant="h2"
             style={{
-              paddingBottom: '8%',
-              paddingLeft: '2%',
-              paddingRight: '2%',
-              paddingTop: '3%',
-              fontSize: '1.5rem',
+              paddingBottom: "8%",
+              paddingLeft: "2%",
+              paddingRight: "2%",
+              paddingTop: "3%",
+              fontSize: "1.5rem",
               fontWeight: 200,
             }}
           >
@@ -280,10 +443,10 @@ const Cart = () => {
           <Typography
             variant="body1"
             style={{
-              paddingBottom: '10%',
-              paddingLeft: '2%',
-              paddingRight: '2%',
-              fontSize: '1rem',
+              paddingBottom: "10%",
+              paddingLeft: "2%",
+              paddingRight: "2%",
+              fontSize: "1rem",
               fontWeight: 200,
             }}
           >
@@ -293,17 +456,17 @@ const Cart = () => {
             container
             spacing={1}
             style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
           >
             <Grid item>
               <Button
                 variant="contained"
                 color="error"
-                style={{ marginTop: '16px' }}
-                onClick={removeItem}
+                style={{ marginTop: "16px" }}
+                onClick={removeCartItem}
               >
                 Yes
               </Button>
@@ -312,8 +475,8 @@ const Cart = () => {
               <Button
                 variant="contained"
                 color="primary"
-                style={{ marginTop: '16px' }}
-                onClick={cancelRemoveItem}
+                style={{ marginTop: "16px" }}
+                onClick={cancelRemoveCartItem}
               >
                 No
               </Button>
@@ -321,15 +484,14 @@ const Cart = () => {
           </Grid>
         </Paper>
       </Modal>
-
       {/* Error modal */}
       <Modal
         open={showErrorModal}
         onClose={closeErrorModal}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         BackdropProps={{
           onClick: handleBackdropClick,
@@ -337,21 +499,21 @@ const Cart = () => {
       >
         <Paper
           style={{
-            backgroundColor: '#000',
-            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-            padding: '2%',
-            margin: '4%',
-            width: '30rem',
+            backgroundColor: "#000",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+            padding: "2%",
+            margin: "4%",
+            width: "30rem",
           }}
         >
           <Typography
             variant="h2"
             style={{
-              paddingBottom: '8%',
-              paddingLeft: '2%',
-              paddingRight: '2%',
-              paddingTop: '3%',
-              fontSize: '1.5rem',
+              paddingBottom: "8%",
+              paddingLeft: "2%",
+              paddingRight: "2%",
+              paddingTop: "3%",
+              fontSize: "1.5rem",
               fontWeight: 200,
             }}
           >
@@ -360,10 +522,10 @@ const Cart = () => {
           <Typography
             variant="body1"
             style={{
-              paddingBottom: '10%',
-              paddingLeft: '2%',
-              paddingRight: '2%',
-              fontSize: '1rem',
+              paddingBottom: "10%",
+              paddingLeft: "2%",
+              paddingRight: "2%",
+              fontSize: "1rem",
               fontWeight: 200,
             }}
           >
@@ -373,16 +535,16 @@ const Cart = () => {
             container
             spacing={1}
             style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
           >
             <Grid item>
               <Button
                 variant="contained"
                 color="primary"
-                style={{ marginTop: '16px' }}
+                style={{ marginTop: "16px" }}
                 onClick={closeErrorModal}
               >
                 OK
@@ -392,7 +554,9 @@ const Cart = () => {
         </Paper>
       </Modal>
 
-      {showNotification && <div className="notification">Item removed successfully!</div>}
+      {showNotification && (
+        <div className="notification">Item removed successfully!</div>
+      )}
     </ThemeProvider>
   );
 };
