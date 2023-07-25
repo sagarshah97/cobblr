@@ -1,47 +1,57 @@
 import React from "react";
-import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 
 const ShoeCard = ({ item, shoeCardHeight }) => {
   return (
-    <Card>
+    <Card sx={{ display: "flex", height: "100%", width: "100%" }}>
       <CardMedia
         component="img"
-        height={shoeCardHeight} // Adjust the height value as needed
+        height={shoeCardHeight}
         src={`data:image/jpeg;base64, ${item.image.data}`}
         alt={item.image.name}
-        sx={{ objectFit: "cover" }} // Ensure the image scales down to fit the card
+        sx={{
+          objectFit: "cover",
+          width: "39%",
+          borderTopLeftRadius: "4px",
+          borderBottomLeftRadius: "4px",
+        }}
       />
-      <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            //alignItems: "",
-          }}
+      <CardContent sx={{ flex: "1", display: "flex", flexDirection: "column" }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ fontSize: { xs: "20px", md: "22px" } }}
         >
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{ fontSize: { xs: "16px", md: "18px" } }}
-          >
-            {item.name}
-          </Typography>
-          <Typography
-            variant="h8"
-            component="div"
-            sx={{ fontSize: { xs: "14px", md: "16px" } }}
-          >
-            Quantity: {item.quantity}
-          </Typography>
-          <Typography
-            variant="h8"
-            component="div"
-            sx={{ fontSize: { xs: "14px", md: "16px" } }}
-          >
-            Size: {item.size}
-          </Typography>
-        </Box>
+          <strong>{item.name}</strong>
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="div"
+          sx={{ fontSize: { xs: "18px", md: "20px" }, marginBottom: "8px" }}
+        >
+          <strong>Quantity:</strong> {item.quantity}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="div"
+          sx={{ fontSize: { xs: "18px", md: "20px" } }}
+        >
+          <strong>Size:</strong> {item.size}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="div"
+          sx={{ fontSize: { xs: "18px", md: "20px" } }}
+        >
+          <strong>Price:</strong> ${item.price}
+        </Typography>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ fontSize: { xs: "18px", md: "20px" } }}
+        >
+          {item.subText}
+        </Typography>
       </CardContent>
     </Card>
   );

@@ -37,7 +37,7 @@ const OrderConfirmationPage = () => {
     navigate("/myorders");
   };
 
-  const shoeCardHeight = isMobile ? 100 : 200;
+  const shoeCardHeight = isMobile ? 150 : 250;
 
   return (
     <div>
@@ -95,17 +95,18 @@ const OrderConfirmationPage = () => {
             paddingLeft={6}
             paddingRight={6}
             paddingTop={2}
+            justifyItems={"center"}
           >
             <Grid item xs={12} md={8} lg={8} xl={8}>
               <Grid container spacing={2} justifyContent="flex-start">
                 {orderDetails?.items.map((item) => (
-                  <Grid item xs={6} sm={6} md={4} lg={3} key={item._id}>
+                  <Grid item xs={12} sm={12} md={12} lg={12} key={item._id}>
                     <ShoeCard item={item} shoeCardHeight={shoeCardHeight} />
                   </Grid>
                 ))}
               </Grid>
             </Grid>
-            <Grid item xs={12} md={4} lg={4} xl={4}>
+            <Grid item xs={12} md={4} lg={4} xl={4} marginBottom={2}>
               <InvoiceCard orderDetails={orderDetails} />
             </Grid>
           </Grid>

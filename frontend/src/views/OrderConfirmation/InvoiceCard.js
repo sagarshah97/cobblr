@@ -30,10 +30,8 @@ const InvoiceCard = ({ orderDetails }) => {
     html2canvas(cardElement).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
-      pdf.addImage(imgData, "PNG", 10, 10, 190, 277); // Adjust the positioning and size of the image as needed
+      pdf.addImage(imgData, "PNG", 10, 10, 190, 277);
       pdf.save("invoice.pdf");
-
-      // Restore the visibility of the download icon element
       if (iconElement) {
         iconElement.style.visibility = "visible";
       }
