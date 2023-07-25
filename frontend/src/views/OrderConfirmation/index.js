@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react";
-import { Typography, Grid, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Typography, Grid, Button, Divider } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -62,28 +62,8 @@ const OrderConfirmationPage = () => {
               Order Placed Successfully
             </Typography>
             <Typography variant="subtitle1" color="white" align="center">
-              Order ID: {orderDetails?.orderId}
+              Order ID: {orderDetails?._id}
             </Typography>
-          </Grid>
-          <Grid
-            container
-            spacing={2}
-            paddingLeft={6}
-            paddingRight={6}
-            paddingTop={6}
-          >
-            <Grid item xs={12} md={8} lg={8} xl={8}>
-              <Grid container spacing={2} justifyContent="flex-start">
-                {orderDetails?.items.map((item) => (
-                  <Grid item xs={6} sm={6} md={4} lg={3} key={item.id}>
-                    <ShoeCard item={item} shoeCardHeight={shoeCardHeight} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={4} lg={4} xl={4}>
-              <InvoiceCard orderDetails={orderDetails} />
-            </Grid>
           </Grid>
           <Grid item xs={12}>
             <div
@@ -93,14 +73,41 @@ const OrderConfirmationPage = () => {
               }}
             >
               <Button
-                variant="outlined"
-                fullWidth
+                variant="contained"
                 onClick={navigateToMyOrders}
                 sx={{ marginBottom: "8px" }}
               >
                 My Orders
               </Button>
             </div>
+            <Divider
+              variant="middle"
+              sx={{
+                backgroundColor: "white",
+                marginBottom: "16px",
+                marginTop: "16px",
+              }}
+            />
+          </Grid>
+          <Grid
+            container
+            spacing={2}
+            paddingLeft={6}
+            paddingRight={6}
+            paddingTop={2}
+          >
+            <Grid item xs={12} md={8} lg={8} xl={8}>
+              <Grid container spacing={2} justifyContent="flex-start">
+                {orderDetails?.items.map((item) => (
+                  <Grid item xs={6} sm={6} md={4} lg={3} key={item._id}>
+                    <ShoeCard item={item} shoeCardHeight={shoeCardHeight} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4} xl={4}>
+              <InvoiceCard orderDetails={orderDetails} />
+            </Grid>
           </Grid>
         </Grid>
       </div>

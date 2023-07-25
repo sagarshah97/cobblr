@@ -7,8 +7,8 @@ const ShoeCard = ({ item, shoeCardHeight }) => {
       <CardMedia
         component="img"
         height={shoeCardHeight} // Adjust the height value as needed
-        src={`data:image/jpeg;base64, ${item.image}`}
-        alt={item.name}
+        src={`data:image/jpeg;base64, ${item.image.data}`}
+        alt={item.image.name}
         sx={{ objectFit: "cover" }} // Ensure the image scales down to fit the card
       />
       <CardContent>

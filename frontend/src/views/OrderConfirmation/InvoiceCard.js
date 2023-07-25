@@ -103,7 +103,7 @@ const InvoiceCard = ({ orderDetails }) => {
             </TableHead>
             <TableBody>
               {orderDetails?.items.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item._id}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell align="right">{item.quantity}</TableCell>
                   <TableCell align="right">{item.price}</TableCell>
