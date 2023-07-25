@@ -305,11 +305,17 @@ const ProductListing = () => {
               ) : (
                 hasLoaded &&
                 visibleShoeData.length === 0 && (
-                  <Grid item xs={12}>
-                    <Typography variant="h6" color="white">
-                      No shoes found.
-                    </Typography>
-                  </Grid>
+                  <>
+                    <div
+                      style={{
+                        textAlign: "center",
+                        fontSize: "2rem",
+                        fontWeight: 100,
+                      }}
+                    >
+                      No results
+                    </div>
+                  </>
                 )
               )}
               <Grid item xs={12}>
@@ -452,9 +458,17 @@ const ProductListing = () => {
                     ) : (
                       hasLoaded &&
                       visibleShoeData.length === 0 && (
-                        <Typography variant="h6" color="white">
-                          No shoes found.
-                        </Typography>
+                        <>
+                          <div
+                            style={{
+                              textAlign: "center",
+                              fontSize: "2rem",
+                              fontWeight: 100,
+                            }}
+                          >
+                            No results
+                          </div>
+                        </>
                       )
                     )}
                   </Box>
