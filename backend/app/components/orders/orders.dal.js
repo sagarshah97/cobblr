@@ -21,6 +21,7 @@ class OrderDAL {
               shoeDetails && shoeDetails.images.length > 0
                 ? shoeDetails.images[0]
                 : null,
+            subText: shoeDetails ? shoeDetails.subText : null,
           };
         })
       );
