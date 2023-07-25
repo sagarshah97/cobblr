@@ -116,7 +116,7 @@ class ShoeService {
       ) {
         currentPage = 1;
       }
-      const itemsPerPage = 8;
+      const itemsPerPage = 12;
       const totalItems = visibleShoeData.length;
       const totalPages = Math.ceil(totalItems / itemsPerPage);
       const startIndex = (currentPage - 1) * itemsPerPage;
