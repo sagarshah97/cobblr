@@ -8,7 +8,6 @@ import {
   DialogContent,
   TextField,
   IconButton,
-  Typography,
   Chip,
 } from "@mui/material";
 import SortDropdown from "./SortDropdown";
@@ -40,7 +39,7 @@ const ProductListing = () => {
     currentPage: currentPage,
     searchKeyword: searchKeyword,
   });
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const theme = useTheme();
@@ -102,19 +101,19 @@ const ProductListing = () => {
   useEffect(() => {
     const fetchFilteredShoes = async () => {
       try {
-        setIsLoading(true); // Set loading state to true
+        setIsLoading(true);
         setHasLoaded(false);
         const response = await axios.post("/shoes/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
-        setIsLoading(false); // Set loading state to false
+        setIsLoading(false);
         setHasLoaded(true);
       } catch (error) {
         console.error("Error retrieving shoes:", error);
         setVisibleShoeData([]);
         setTotalPages([]);
-        setIsLoading(false); // Set loading state to false
+        setIsLoading(false);
         setHasLoaded(true);
       }
     };
@@ -125,10 +124,10 @@ const ProductListing = () => {
   }, [filterReq]);
 
   const handlePageChange = async (pageNumber) => {
-    const pageChangeType = pageNumber > currentPage ? "next" : "previous"; // Identify type of page change
+    const pageChangeType = pageNumber > currentPage ? "next" : "previous";
 
     try {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       setHasLoaded(false);
       const response = await axios.post("/shoes/filterShoes", {
         ...filterReq,
@@ -139,14 +138,14 @@ const ProductListing = () => {
       setVisibleShoeData(data.visibleShoeData);
       setTotalPages(data.totalPages);
       setCurrentPage(pageNumber);
-      setIsLoading(false); // Set loading state to false
+      setIsLoading(false);
       setHasLoaded(true);
     } catch (error) {
       console.error("Error retrieving shoes:", error);
       setVisibleShoeData([]);
       setTotalPages([]);
       setCurrentPage(1);
-      setIsLoading(false); // Set loading state to false
+      setIsLoading(false);
       setHasLoaded(true);
     }
   };
@@ -168,7 +167,6 @@ const ProductListing = () => {
       <Box sx={{ minHeight: "100vh" }}>
         <Container sx={{ maxWidth: "none !important", p: 2 }}>
           {isMobile ? (
-            // Mobile view
             <Grid container>
               <Grid item xs={12}>
                 <Box>
@@ -290,7 +288,7 @@ const ProductListing = () => {
                   </Dialog>
                 </Box>
               </Grid>
-              {isLoading ? ( // Show the spinner component while loading
+              {isLoading ? (
                 <Grid item xs={12}>
                   <Spinner />
                 </Grid>
@@ -445,7 +443,7 @@ const ProductListing = () => {
                 </Grid>
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
-                    {isLoading ? ( // Show the spinner component while loading
+                    {isLoading ? (
                       <Spinner />
                     ) : visibleShoeData.length > 0 ? (
                       <Grid container spacing={2}>

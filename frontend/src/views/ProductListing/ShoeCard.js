@@ -20,7 +20,7 @@ const ShoeCard = ({ shoe, height }) => {
     >
       <CardMedia
         component="img"
-        height={height} // Use the height value passed from the parent component
+        height={height}
         src={`data:image/jpeg;base64, ${shoe.images[0].data}`}
         alt={shoe.name}
         sx={{ padding: "1em 1em 0 1em" }}
