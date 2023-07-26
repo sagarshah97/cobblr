@@ -22,14 +22,19 @@ class ShoesDAL {
       images: { $slice: 1 },
     };
     const { tags, _ids } = reqBody;
-    const currentShoesObjectIds = _ids.map(
-      (shoeId) => new mongoose.Types.ObjectId(shoeId)
-    );
 
-    const shoes = await Shoe.find(
-      { tags: { $all: tags }, _id: { $nin: currentShoesObjectIds } },
-      desiredKeys
-    );
+    let query = {};
+
+    if (_ids && _ids.length === 1 && _ids[0] === "null") {
+      query = { tags: { $all: tags } };
+    } else {
+      const currentShoesObjectIds = _ids.map(
+        (shoeId) => new mongoose.Types.ObjectId(shoeId)
+      );
+      query = { tags: { $all: tags }, _id: { $nin: currentShoesObjectIds } };
+    }
+
+    const shoes = await Shoe.find(query, desiredKeys);
 
     return shoes;
   }
