@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import "../../App.css";
-import Spinner from "../../utils/Spinner";
+import Spinner from "../../utils/Loader";
 
 const SimilarProducts = (props) => {
-  const id = props._id;
+  const id = props._id ? props._id : "null";
   const [oldId, setOldId] = useState("");
 
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ const SimilarProducts = (props) => {
   }, [id]);
 
   const getSimilarProducts = () => {
-    console.log(props);
     axios
       .post(`/shoes/getSimilarShoes`, {
         tags: props.tags,
@@ -119,7 +118,7 @@ const SimilarProducts = (props) => {
                           paddingBottom: "5%",
                         }}
                       >
-                        {shoe.price}
+                        ${shoe.price}
                       </Typography>
                     </Typography>
                   </Card>
