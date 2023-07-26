@@ -46,32 +46,6 @@ class UsersDal {
     }
   }
 
-  async addToWishlist(reqBody) {
-    try {
-      const { _id, wishlistedItem } = reqBody;
-
-      const filter = { _id: new mongoose.Types.ObjectId(_id) };
-      const update = { $addToSet: { wishlist: wishlistedItem } };
-
-      return await User.findOneAndUpdate(filter, update, { new: true });
-    } catch (error) {
-      return error;
-    }
-  }
-
-  async addToCart(reqBody) {
-    try {
-      const { _id, selectedItem } = reqBody;
-
-      const filter = { _id: new mongoose.Types.ObjectId(_id) };
-      const update = { $push: { "cart.items": selectedItem } };
-
-      return await User.findOneAndUpdate(filter, update, { new: true });
-    } catch (error) {
-      return error;
-    }
-  }
-
   async getUserDetails(_id) {
     try {
       const desiredKeys = {
