@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import "./reviews.css";
+
 const DisplayReview = ({ shoeId }) => {
   const [reviews, setReviews] = useState([]);
   const [userDisplayNames, setUserDisplayNames] = useState({});
@@ -45,12 +46,9 @@ const DisplayReview = ({ shoeId }) => {
 
   const fetchUserDetails = async (userId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8000/users/getUserByUserId`,
-        {
-          userId,
-        }
-      );
+      const response = await axios.post(`/users/getUserByUserId`, {
+        userId,
+      });
 
       if (response.data) {
         const user = await response.data;
@@ -101,10 +99,11 @@ const DisplayReview = ({ shoeId }) => {
                   bgcolor: "#000000", // Background color set to black
                   border: "1px solid white", // White border
                   color: "white", // White text color
-                  borderRadius: 2, // Adding border radius to the card
+                  borderRadius: "15px", // Adding border radius to the card
                   "&:hover": {
                     border: "1px solid white", // Border color on hover
                   },
+                  marginBottom: "20px",
                 }}
                 onClick={() => handleCardClick(review)}
               >

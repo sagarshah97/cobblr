@@ -27,9 +27,12 @@ class CartController {
 
   async addToCart(req, res) {
     try {
-      const { userId, cartItem } = req.body;
-      const updatedCart = await this.cartService.addToCart(userId, cartItem);
-      res.json(updatedCart);
+      const userDetails = await this.cartService.addToCart(req.body);
+      if (userDetails) {
+        res.status(200).json({ message: "Added to cart." });
+      } else {
+        res.status(404).json({ message: "User not found." });
+      }
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }

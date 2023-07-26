@@ -41,18 +41,6 @@ module.exports = {
       _id: validationSchema._id,
     }),
   },
-  addToWishlist: {
-    body: Joi.object({
-      _id: validationSchema._id,
-      wishlistedItem: validationSchema.wishlistedItem,
-    }),
-  },
-  addToCart: {
-    body: Joi.object({
-      _id: validationSchema._id,
-      selectedItem: validationSchema.selectedItem,
-    }),
-  },
   getUserDetails: {
     body: Joi.object({
       _id: validationSchema._id,

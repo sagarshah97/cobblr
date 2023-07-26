@@ -63,32 +63,6 @@ class UserController {
     }
   };
 
-  addToWishlist = async (request, response, next) => {
-    try {
-      const userDetails = await this.usersService.addToWishlist(request.body);
-      if (userDetails) {
-        response.status(200).json({ message: "Added to wishlist." });
-      } else {
-        response.status(404).json({ message: "User not found." });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  addToCart = async (request, response, next) => {
-    try {
-      const userDetails = await this.usersService.addToCart(request.body);
-      if (userDetails) {
-        response.status(200).json({ message: "Added to cart." });
-      } else {
-        response.status(404).json({ message: "User not found." });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
-
   getUserDetails = async (request, response, next) => {
     try {
       const userDetails = await this.usersService.getUserDetails(
