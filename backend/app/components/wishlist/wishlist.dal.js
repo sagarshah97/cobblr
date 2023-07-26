@@ -41,14 +41,12 @@ class WishlistDAL {
     try {
       const userId = body.userId;
       const itemId = body.itemId;
-      //console.log(body);
-      const updatedUser = await User.findOneAndUpdate(
+
+      return await User.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(userId) },
-        { $addToSet: { wishlistedItems: new mongoose.Types.ObjectId(itemId) } },
+        { $addToSet: { wishlist: new mongoose.Types.ObjectId(itemId) } },
         { new: true }
       );
-      // console.log(updatedUser);
-      return updatedUser;
     } catch (error) {
       console.error(error);
       throw error;
