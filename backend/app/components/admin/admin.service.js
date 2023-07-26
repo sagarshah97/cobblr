@@ -8,15 +8,16 @@ class AdminService {
   async getShoeList(shoeCode) {
     try {
       const shoeDetails = await this.adminDAL.getShoeList(shoeCode);
-      let filteredList = filterData(shoeDetails, [
-        "_id",
-        "code",
-        "name",
-        "brand",
-        "sizes",
-        "quantity",
-      ]);
-      return filteredList;
+      // let filteredList = filterData(shoeDetails, [
+      //   "_id",
+      //   "code",
+      //   "name",
+      //   "brand",
+      //   "sizes",
+      //   "quantity",
+      // ]);
+      // return filteredList;
+      return shoeDetails;
     } catch (error) {
       throw error;
     } finally {
@@ -45,18 +46,29 @@ class AdminService {
       //finally block
     }
   }
+
+  async modifyShoe(shoeDetails) {
+    try {
+      const shoeCode = await this.adminDAL.modifyShoe(shoeDetails);
+      return shoeCode;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
 }
 
-const filterData = (array, attributeList) => {
-  let filteredList = [];
-  array.forEach((obj) => {
-    const filteredDetails = {};
-    attributeList.forEach((att) => {
-      filteredDetails[att] = obj[att];
-    });
-    filteredList.push(filteredDetails);
-  });
-  return filteredList;
-};
+// const filterData = (array, attributeList) => {
+//   let filteredList = [];
+//   array.forEach((obj) => {
+//     const filteredDetails = {};
+//     attributeList.forEach((att) => {
+//       filteredDetails[att] = obj[att];
+//     });
+//     filteredList.push(filteredDetails);
+//   });
+//   return filteredList;
+// };
 
 module.exports = AdminService;
