@@ -16,7 +16,7 @@ router.route("/profile/:userId").get(userController.profile);
 
 router.route("/profileupdate").post(userController.profileupdate);
 
-router.route("/displaytext").post(verifyJwtToken, userController.displaytext);
+router.route("/displaytext").post(userController.displaytext);
 
 router.route("/changepassword").post(userController.changepassword);
 
