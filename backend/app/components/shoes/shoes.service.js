@@ -63,8 +63,8 @@ class ShoeService {
     try {
       let originalShoeData = await this.shoesDAL.getShoes();
       if (
-        searchKeyword !== null ||
-        searchKeyword !== undefined ||
+        searchKeyword !== null &&
+        searchKeyword !== undefined &&
         searchKeyword !== ""
       ) {
         originalShoeData = originalShoeData.filter((shoe) => {
@@ -92,7 +92,8 @@ class ShoeService {
               quantity.size.toLowerCase()
             );
             if (
-              (gender === "" || shoe.gender === gender) &&
+              (gender === "" ||
+                shoe.gender.toLowerCase() === gender.toLowerCase()) &&
               (size === "" || availableSizes.includes(size.toLowerCase())) &&
               (price === "" ||
                 (price === "100" && shoe.price <= 100) ||
@@ -120,7 +121,7 @@ class ShoeService {
       ) {
         currentPage = 1;
       }
-      const itemsPerPage = 12;
+      const itemsPerPage = 8;
       const totalItems = visibleShoeData.length;
       const totalPages = Math.ceil(totalItems / itemsPerPage);
       const startIndex = (currentPage - 1) * itemsPerPage;
