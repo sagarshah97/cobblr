@@ -149,7 +149,7 @@ export default function Register() {
 
         // const response = await
         axios
-          .post("http://localhost:8000/users/register", param)
+          .post("/users/register", param)
           .then((response) => {
             console.log(">>>> in resp " + JSON.stringify(response));
             if (response.status === 200) {
@@ -157,7 +157,7 @@ export default function Register() {
               setRegistrationError("Registration successful");
               setTimeout(() => {
                 navigate("/login");
-              }, 5000);
+              }, 1000);
             } else {
               setRegistrationError("Registration failed. Please try again.");
               // setRegistrationMessage("");
@@ -183,7 +183,15 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    // <ThemeProvider theme={defaultTheme}>
+    <Box
+      sx={{
+        color: "#fff",
+        backgroundColor: "#0f0f0f",
+        width: "100%",
+        minHeight: "100vH",
+      }}
+    >
       <Grid
         container
         component="main"
@@ -191,6 +199,8 @@ export default function Register() {
           // minHeight: "6vh",
           backgroundColor: "#0f0f0f",
           overflow: "hidden",
+          // position: "relative",
+          display: "flex",
         }}
       >
         <CssBaseline />
@@ -207,6 +217,12 @@ export default function Register() {
             backgroundPosition: "center",
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
+            // minHeight: "100vh",
+            position: "absolute", // Set position to absolute
+            top: 0, // Position at the top of the container
+            bottom: 0, // Extend to the bottom of the container
+            left: 0, // Position at the left of the container
+            right: 0, // Extend to the right of the container
           }}
         />
         <Grid
@@ -221,6 +237,15 @@ export default function Register() {
           style={{
             backgroundColor: "#0f0f0f",
             boxShadow: "none",
+          }}
+          sx={{
+            backgroundColor: "#1a1a1a",
+            padding: "30px",
+            position: "fixed", // Set fixed positioning for the right column
+            top: 0, // Fix the right column at the top of the viewport
+            bottom: 0, // Extend the right column to the bottom of the viewport
+            right: 0, // Fix the right column to the right of the viewport
+            overflowY: "auto", // Enable vertical scrolling for the right column
           }}
         >
           <Box
@@ -508,13 +533,13 @@ export default function Register() {
                     textAlign: "center",
                   }}
                 >
-                  Sign Up
+                  Sign In
                 </span>
               </div>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Box>
   );
 }

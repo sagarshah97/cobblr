@@ -48,30 +48,18 @@ export default function Login() {
     e.preventDefault();
     closeModal();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/users/forgotpassword",
-        {
-          email: emailInput,
-        }
-      );
+      const response = await axios.post("/users/forgotpassword", {
+        email: emailInput,
+      });
 
-      // Handle response based on status code
       if (response.status === 200) {
         console.log("Success");
-        // Handle successful password reset request
-        // e.g., show success message, redirect to a confirmation page, etc.
       } else if (response.status === 404) {
         console.log("User not found");
-        // Handle case when the user is not found
-        // e.g., show error message indicating user not found
       } else {
         console.log("Failed to send password reset email");
-        // Handle other failure cases
-        // e.g., show generic error message for failed password reset email
       }
-    } catch (error) {
-      // Handle any network or server errors
-    }
+    } catch (error) {}
   };
 
   const handleEmailInputChange = (e) => {
@@ -111,7 +99,7 @@ export default function Login() {
     };
 
     axios
-      .post("http://localhost:8000/users/login", params)
+      .post("/users/login", params)
       .then((response) => {
         console.log(response);
         const { userId } = response.data;
@@ -125,8 +113,8 @@ export default function Login() {
           // setRegistrationError("");
           setLoginError("Login successful");
           setTimeout(() => {
-            navigate("/profile");
-          }, 3000);
+            navigate("/homepage");
+          }, 1000);
         } else {
           setLoginError("Invalid Credentials. Please try again.");
           // setRegistrationMessage("");
@@ -139,7 +127,15 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    // <ThemeProvider theme={defaultTheme}>
+    <Box
+      sx={{
+        color: "#fff",
+        backgroundColor: "#0f0f0f",
+        width: "100%",
+        minHeight: "100vH",
+      }}
+    >
       <Grid
         container
         component="main"
@@ -162,6 +158,7 @@ export default function Login() {
             backgroundPosition: "center",
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
+            minHeight: "100vh",
           }}
         />
         <Grid
@@ -398,6 +395,7 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+      {/* </ThemeProvider> */}
+    </Box>
   );
 }
