@@ -152,7 +152,6 @@ class UserController {
   updateProfileVisibility = async (req, res, next) => {
     try {
       const { visibility, email } = req.body;
-      // const userEmail = req.user.email; // Assuming you have user authentication in place
       const profileVisibility = visibility === "public" ? false : true;
       const updatedUser = await this.usersService.updateProfileVisibility(
         email,

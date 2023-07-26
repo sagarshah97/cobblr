@@ -12,14 +12,12 @@ class UsersService {
     try {
       const { firstName, lastName, email, password } = userData;
 
-      // Check if the email already exists in the database
       const existingUser = await this.usersDal.getUserByEmail(email);
       if (existingUser) {
         return false;
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      // Create a new user instance
       const newUser = {
         firstName,
         lastName,
@@ -27,7 +25,6 @@ class UsersService {
         password: hashedPassword,
       };
 
-      // Save the user to the database
       const registrationResult = await this.usersDal.registerUser(newUser);
 
       return registrationResult;
@@ -40,7 +37,6 @@ class UsersService {
   async loginUser(loginData) {
     const { email, password } = loginData;
 
-    // Retrieve the user from the database based on the email
     const user = await this.usersDal.getUserByEmail(email);
 
     if (!user) {
@@ -48,14 +44,12 @@ class UsersService {
     }
 
     const passwordMatch = await bcrypt.compare(password, user.user.password);
-    // Compare the provided password with the stored password
     if (!passwordMatch) {
       return null; // Invalid password
     }
 
-    // If both email and password are valid, return the user
     return {
-      userId: user.userId, // Assuming the user ID is stored in the "_id" field
+      userId: user.userId,
       success: true,
     };
   }
@@ -73,12 +67,6 @@ class UsersService {
     try {
       const { firstName, lastName, email, phone } = userData;
 
-      // Check if the email already exists in the database
-      // const user = await this.usersDal.getUserByEmail(email);
-      // if (!user) {
-      //   return null; // User not found
-      // }
-      // Create a new user instance
       const updatedValues = {
         firstName,
         lastName,
@@ -86,7 +74,6 @@ class UsersService {
         phone,
       };
 
-      // Save the user to the database
       const profileResult = await this.usersDal.updateUser(
         email,
         updatedValues
@@ -127,7 +114,6 @@ class UsersService {
 
       const user = await this.usersDal.getUserByEmail(email);
 
-      // Compare the current password with the stored hashed password
       const isPasswordMatch = await bcrypt.compare(
         currentPassword,
         user.user.password
@@ -137,10 +123,8 @@ class UsersService {
         return { success: false, message: "Invalid current password" };
       }
 
-      // Generate a new hashed password for the new password
       const newHashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Update the user's password in the database
       const updatedUser = await this.usersDal.updateUserPassword(
         email,
         newHashedPassword
@@ -158,14 +142,10 @@ class UsersService {
 
   updateProfileVisibility = async (email, profileVisibility) => {
     try {
-      // const profileVisibility = visibility === "private";
-      // Call the DAL function to update the profile visibility in the database
       const updatedUser = await this.usersDal.updateProfileVisibility(
         email,
         profileVisibility
       );
-
-      // Additional logic or validations if needed
 
       return updatedUser;
     } catch (error) {
@@ -246,7 +226,6 @@ class UsersService {
     }
   }
 
-  // sendPasswordResetEmail(email);cls
   async getUserById(userId) {
     try {
       const user = await this.usersDal.getUserById(userId);
@@ -254,7 +233,6 @@ class UsersService {
     } catch (error) {
       throw error;
     } finally {
-      //finally block
     }
   }
 
@@ -265,7 +243,6 @@ class UsersService {
     } catch (error) {
       throw error;
     } finally {
-      //finally block
     }
   }
 
@@ -276,7 +253,6 @@ class UsersService {
     } catch (error) {
       throw error;
     } finally {
-      //finally block
     }
   }
 }

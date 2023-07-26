@@ -55,9 +55,9 @@ class UsersDal {
     try {
       console.log(updatedValues);
       const updatedUser = await User.findOneAndUpdate(
-        { email }, // Filter the user by email
-        { $set: updatedValues }, // Update the user's profile fields
-        { new: true } // Return the updated user document
+        { email },
+        { $set: updatedValues },
+        { new: true }
       );
 
       return updatedUser;
@@ -68,10 +68,8 @@ class UsersDal {
 
   async updateUserPassword(email, newPassword) {
     try {
-      // Retrieve the user from the database
       const user = await User.findOne({ email });
 
-      // Update the user's password
       user.password = newPassword;
       await user.save();
 
@@ -82,7 +80,6 @@ class UsersDal {
   }
   async updateProfileVisibility(email, profileVisibility) {
     try {
-      // Find the user by email
       const user = await User.findOneAndUpdate(
         { email: email },
         { profileVisibility },
@@ -97,14 +94,12 @@ class UsersDal {
 
   async updateAddress(email, updatedFields) {
     try {
-      // Retrieve the user from the database based on the email
       const user = await User.findOne({ email });
 
       if (!user) {
         throw new Error("User not found");
       }
 
-      // Update the user object with the provided address fields
       user.line1 = updatedFields.line1;
       user.line2 = updatedFields.line2;
       user.city = updatedFields.city;
@@ -112,10 +107,8 @@ class UsersDal {
       user.postalCode = updatedFields.postalCode;
       user.label = updatedFields.label;
 
-      // Save the updated user to the database
       await user.save();
 
-      // Return the updated user object or any other desired result
       return user;
     } catch (error) {
       console.error(error);
@@ -125,20 +118,16 @@ class UsersDal {
 
   async updateImage(file, email) {
     try {
-      // Find the user by email
       const user = await User.findOne({ email });
 
       if (!user) {
         throw new Error("User not found");
       }
 
-      // Update the user's profileImage field
       user.profileImage = file;
 
-      // Save the updated user
       const updatedUser = await user.save();
 
-      // Return the updated user data or any other relevant response
       return updatedUser;
     } catch (error) {
       console.error("Error updating profile image:", error);
@@ -152,39 +141,23 @@ class UsersDal {
       if (user) {
         user.forgotPasswordToken = forgotPasswordToken;
         await user.save();
-        return true; // Email exists in the database
+        return true;
       }
-      return false; // Email does not exist in the database
+      return false;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-  // async updatePassword(token, newPassword) {
-  //   try {
-  //     const user = await User.findOne({ forgotPasswordToken: token });
 
-  //     if (!user) {
-  //       return false; // Invalid token
-  //     }
-
-  //     user.password = newPassword;
-  //     await user.save();
-
-  //     return true;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
   async updatePassword(token, newPassword) {
     try {
       const user = await User.findOne({ forgotPasswordToken: token });
 
       if (!user) {
-        return false; // Invalid token
+        return false;
       }
 
-      // Compare current password with the one provided
       const isPasswordMatch = await bcrypt.compare(newPassword, user.password);
 
       if (isPasswordMatch) {
@@ -193,10 +166,8 @@ class UsersDal {
         );
       }
 
-      // Encrypt the new password
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Update the user's password
       user.password = hashedPassword;
       await user.save();
 
