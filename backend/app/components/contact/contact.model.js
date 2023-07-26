@@ -1,4 +1,6 @@
-
+/*
+ * Author: Ashish Ojha (B00931967)
+ */
 const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({
@@ -8,7 +10,6 @@ const contactSchema = new mongoose.Schema({
   message: String,
 });
 
-const messages = mongoose.model('messages', contactSchema);
+const messages = mongoose.model("messages", contactSchema);
 
 module.exports = messages;
-

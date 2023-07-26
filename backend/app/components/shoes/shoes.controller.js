@@ -60,7 +60,9 @@ class ShoeController {
       next(error);
     }
   }
-
+  /*
+   * Author: Ashish Ojha (B00931967)
+   */
   async filterShoes(request, response, next) {
     try {
       const {
