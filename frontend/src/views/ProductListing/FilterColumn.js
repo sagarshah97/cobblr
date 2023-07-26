@@ -37,6 +37,13 @@ const FilterColumn = ({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Button
+        variant="outlined"
+        onClick={handleReset}
+        sx={{ marginBottom: "8px" }}
+      >
+        Reset Filters
+      </Button>
       {isMobileScreen && (
         <Box>
           <Typography variant="h6" gutterBottom>
