@@ -37,7 +37,7 @@ class ReviewService {
 
   async getReviewIdByShoeId(shoeId) {
     try {
-      const review = await this.reviewsDAL.getReviewByShoeId(shoeId);
+      const review = await this.reviewsDAL.getReviewIdByShoeId(shoeId);
       return review ? review._id : null;
     } catch (error) {
       throw error;
