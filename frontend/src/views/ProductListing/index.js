@@ -24,7 +24,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { Search } from "@mui/icons-material";
 import Footer from "../HomePage/Footer";
-import Spinner from "../../utils/Spinner";
+import Loader from "../../utils/Loader";
 import "../../App.css";
 
 const ProductListing = () => {
@@ -292,9 +292,7 @@ const ProductListing = () => {
                 </Box>
               </Grid>
               {isLoading ? (
-                <Grid item xs={12}>
-                  <Spinner />
-                </Grid>
+                <Loader />
               ) : visibleShoeData.length > 0 ? (
                 visibleShoeData.map((shoe, index) => (
                   <Grid item xs={6} sm={3} key={index}>
@@ -447,7 +445,7 @@ const ProductListing = () => {
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
                     {isLoading ? (
-                      <Spinner />
+                      <Loader />
                     ) : visibleShoeData.length > 0 ? (
                       <Grid container spacing={2}>
                         {visibleShoeData.map((shoe, index) => (
