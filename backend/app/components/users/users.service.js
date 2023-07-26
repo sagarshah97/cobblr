@@ -247,6 +247,38 @@ class UsersService {
   }
 
   // sendPasswordResetEmail(email);cls
+  async getUserById(userId) {
+    try {
+      const user = await this.usersDal.getUserById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async getWishlistCart(userId) {
+    try {
+      const userDetails = await this.usersDal.getWishlistCart(userId);
+      return userDetails;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async getUserDetails(_id) {
+    try {
+      const response = await this.usersDal.getUserDetails(_id);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
 }
 
 module.exports = UsersService;

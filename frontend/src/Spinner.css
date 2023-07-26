@@ -1,0 +1,41 @@
+/* FOR CUSTOM SPINNER START */
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #000;
+}
+
+.spinner-image {
+  width: 150px;
+  height: 150px;
+  /* animation: spin 2s infinite linear;
+  transition: opacity 0.3s ease-in-out; */
+  opacity: 0;
+  animation: blink 1s infinite;
+}
+
+/* @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* FOR CUSTOM SPINNER END */

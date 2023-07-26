@@ -4,15 +4,10 @@ const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
-  phone: String,
   inputText: String,
   profileVisibility: {
     type: Boolean,
-    default: false, // Set the default visibility to false (e.g., private)
+    default: false,
   },
   line1: String,
   line2: String,
@@ -22,7 +17,50 @@ const userSchema = new mongoose.Schema({
   label: String,
   forgotPasswordToken: String,
   profileImage: {
-    type: String, // Store the image as a string
+    type: String,
+  },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  phone: [String],
+  address: [String],
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Shoe",
+    },
+  ],
+  cart: {
+    items: [
+      {
+        shoeId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Shoe",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        size: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    subtotal: {
+      type: Number,
+      default: 0,
+    },
+    tax: {
+      type: Number,
+      default: 0,
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
   },
 });
 

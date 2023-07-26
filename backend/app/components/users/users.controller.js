@@ -55,6 +55,20 @@ class UserController {
     }
   };
 
+  getUserById = async (request, response, next) => {
+    try {
+      const { userId } = request.body;
+      const user = await this.usersService.getUserById(userId);
+      if (user) {
+        response.status(200).json(user);
+      } else {
+        response.status(404).json({ error: "User not found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
   profileupdate = async (request, response, next) => {
     try {
       const profileResult = await this.usersService.updateUserProfile(
@@ -72,6 +86,21 @@ class UserController {
     }
   };
 
+  getWishlistCart = async (request, response, next) => {
+    try {
+      const userDetails = await this.usersService.getWishlistCart(
+        request.body._id
+      );
+      if (userDetails) {
+        response.status(200).json({ userDetails });
+      } else {
+        response.status(404).json({ message: "User not found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
   displaytext = async (request, response, next) => {
     try {
       console.log(">>>>>>>>>>>>>>>>>API hittt");
@@ -82,6 +111,21 @@ class UserController {
         response.status(200).json({ message: "Saved Succesfully" });
       } else {
         response.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getUserDetails = async (request, response, next) => {
+    try {
+      const userDetails = await this.usersService.getUserDetails(
+        request.body._id
+      );
+      if (userDetails) {
+        response.status(200).json({ userDetails });
+      } else {
+        response.status(404).json({ message: "User not found." });
       }
     } catch (error) {
       next(error);

@@ -10,6 +10,8 @@ import UnderConstruction from "./views/UnderConstruction/index.js";
 import FAQ from "./views/FAQ/index.js";
 import Layout from "./utils/Layout.js";
 import Login from "./views/Login";
+import ShoppingCart from "./views/ShoppingCart";
+import Orders from "./views/Orders";
 import Register from "./views/Register";
 import Profile from "./views/Profile";
 import ProductDetail from "./views/ProductDetail/index.js";
@@ -18,6 +20,12 @@ import ContactUs from "./views/ContactUs/ContactUs.js";
 import WishlistPage from "./views/Wishlist/index.js";
 import ForgotPasswordPage from "./views/ForgotPassword/index.js";
 import CustomModal from "./views/Modal/index.js";
+import ProductListing from "./views/ProductListing/index.js";
+import BillingDetails from "./views/BillingDetails/index.js";
+import Payment from "./views/Payment/index.js";
+import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
+import Review from "./views/CustomerReviews/index.js";
+// import AdminPage from "./views/Admin/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -58,8 +66,9 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/order" element={<Review />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/productDetail" element={<ProductDetail />} />
+          <Route path="/productDetail/:_id" element={<ProductDetail />} />
           <Route path="/details" element={<AdditionalDetails />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/wishlist" element={<WishlistPage />} />
@@ -68,6 +77,16 @@ const Router = () => {
             path="/forgotpassword/:forgotPasswordToken"
             element={<ForgotPasswordPage />}
           />
+          <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/productlisting" element={<ProductListing />} />
+          <Route path="/billing" element={<BillingDetails />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route
+            path="/orderconfirmation/:_id"
+            element={<OrderConfirmationPage />}
+          />
+          {/* <Route path="admin" element={<AdminPage />} /> */}
         </Route>
       </Routes>
     </Suspense>

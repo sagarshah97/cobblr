@@ -30,4 +30,20 @@ router.route("/uploadImage").post(userController.uploadImage);
 
 router.route("/forgotpassword").post(userController.forgotpassword);
 router.route("/updatepassword").post(userController.updatepassword);
+router.route("/getUserByUserId").post(
+  //validate(userValidation.login),
+  userController.getUserById
+);
+
+router
+  .route("/getWishlistCart")
+  .post(
+    validate(userValidation.getWishlistCart),
+    userController.getWishlistCart
+  );
+
+router
+  .route("/getUserDetails")
+  .post(validate(userValidation.getUserDetails), userController.getUserDetails);
+
 module.exports = router;
