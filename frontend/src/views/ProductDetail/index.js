@@ -23,7 +23,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import Footer from "../HomePage/Footer";
 import SimilarProducts from "../SimilarProducts/index";
 import DisplayReview from "../CustomerReviews/DisplayReviews";
-import Spinner from "../../utils/Spinner";
+import Spinner from "../../utils/Loader";
 import "../../App.css";
 import axios from "axios";
 
@@ -149,11 +149,12 @@ const ProductDetail = () => {
 
   const updateUserCart = () => {
     axios
-      .post(`/users/addToCart`, {
-        _id: loggedInUserId,
-        selectedItem: { shoeId: _id, size: selectedSize, quantity: 1 },
+      .post(`/cart/addToCart`, {
+        userId: loggedInUserId,
+        cartItem: { shoeId: _id, size: selectedSize, quantity: 1 },
       })
       .then((res) => {
+        console.log(res.data);
         if (res?.data?.message.toLowerCase().includes("added to cart")) {
           setDisableBag(true);
           setAlertMsg("Item added to the bag successfully!");
@@ -175,12 +176,12 @@ const ProductDetail = () => {
 
   const updateUserWishlist = () => {
     axios
-      .post(`/users/addToWishlist`, {
-        _id: loggedInUserId,
-        wishlistedItem: _id,
+      .post(`/wishlist/addItemWishlist`, {
+        userId: loggedInUserId,
+        itemId: _id,
       })
       .then((res) => {
-        if (res?.data?.message.toLowerCase().includes("added to wishlist")) {
+        if (res?.data?.wishlist?.length) {
           setDisableWishlist(true);
           setAlertMsg("Item added to the wishlist successfully!");
           setAlertVariant("success");
@@ -236,7 +237,12 @@ const ProductDetail = () => {
                 md={4}
               >
                 <div>
-                  <IconButton aria-label="cart">
+                  <IconButton
+                    aria-label="cart"
+                    onClick={() => {
+                      navigate("/cart");
+                    }}
+                  >
                     <Badge
                       badgeContent={bagCount}
                       color="primary"
@@ -250,7 +256,7 @@ const ProductDetail = () => {
                 </div>
                 <div>
                   <IconButton
-                    aria-label="cart"
+                    aria-label="wishlist"
                     onClick={() => {
                       navigate("/wishlist");
                     }}
@@ -308,7 +314,7 @@ const ProductDetail = () => {
                     <Typography
                       style={{ fontSize: "large", paddingBottom: "8%" }}
                     >
-                      {productDetails.price}
+                      ${productDetails.price}
                     </Typography>
                     <Typography style={{ color: "black" }}>
                       <FormControl fullWidth>
@@ -415,7 +421,7 @@ const ProductDetail = () => {
               Customer Reviews
             </div>
             {/* display customer review component tag   */}
-            <div style={{ paddingLeft: "3%" }}>
+            <div style={{ padding: "3%" }}>
               {" "}
               {/* Add padding to the left */}
               <DisplayReview shoeId={_id} />
