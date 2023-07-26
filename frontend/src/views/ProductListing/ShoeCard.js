@@ -25,7 +25,7 @@ const ShoeCard = ({ shoe, height }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const MAX_NAME_LENGTH = isSmallScreen ? 4 : isMediumScreen ? 12 : 19;
+  const MAX_NAME_LENGTH = isSmallScreen ? 4 : isMediumScreen ? 8 : 10;
   //shoe.name = "This is a long shoe name";
   const truncatedName =
     shoe.name.length > MAX_NAME_LENGTH
@@ -58,7 +58,14 @@ const ShoeCard = ({ shoe, height }) => {
           <Typography
             variant="h7"
             component="div"
-            sx={{ fontSize: { xs: "18px", md: "20px", marginRight: "2px" } }}
+            sx={{
+              fontSize: {
+                xs: "16px",
+                md: "18px",
+                lg: "18px",
+                marginRight: "2px",
+              },
+            }}
           >
             {truncatedName}
           </Typography>
