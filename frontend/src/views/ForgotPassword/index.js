@@ -21,22 +21,19 @@ const ForgotPasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if password and confirm password match
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/users/updatepassword",
-        { password, forgotPasswordToken }
-      );
+      const response = await axios.post("/users/updatepassword", {
+        password,
+        forgotPasswordToken,
+      });
 
-      // Handle response from backend
       if (response.status === 200) {
         setMessage("Password changed successfully");
-        // Redirect to login page or desired destination
         navigate("/login");
       } else {
         setMessage("Failed to change password");

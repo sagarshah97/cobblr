@@ -17,29 +17,28 @@ const CustomModal = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#fff",
-    borderRadius: "12px", // Add slightly curved edges
-    padding: "30px", // Increase the padding for a bigger modal
+    borderRadius: "12px",
+    padding: "30px",
     outline: "none",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)", // Add a subtle shadow
-    width: "300px", // Adjust the width as needed
-    height: "250px", // Adjust the height as needed
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+    width: "300px",
+    height: "250px",
   };
 
   const iconStyle = {
     position: "absolute",
-    top: "10px", // Move the icon to the top center
+    top: "10px",
     right: "auto",
     bottom: "auto",
-    left: "50%", // Move the icon to the center horizontally
-    transform: "translateX(-50%)", // Center the icon horizontally
+    left: "50%",
+    transform: "translateX(-50%)",
     cursor: "pointer",
-    color: "red", // Set the cross color to red
-    fontSize: "52px", // Adjust the icon size as needed
+    color: "red",
+    fontSize: "52px",
   };
   const buttonStyle = {
     backgroundColor: "black",
     color: "white",
-    // Add more styles as needed...
   };
   const navigate = useNavigate();
 

@@ -103,15 +103,12 @@ export default function Profile() {
     };
 
     axios
-      .post("http://localhost:8000/users/changepassword", data)
+      .post("/users/changepassword", data)
       .then((response) => {
-        // Handle the response from the backend
         console.log("Password changed successfully");
         setMessage("Password changed successfully");
-        // Additional logic or actions after successful password change
       })
       .catch((error) => {
-        // Handle any errors that occurred during the password change
         setMessage("Failed to change password");
         console.error("Error changing password:", error);
       });
@@ -124,7 +121,6 @@ export default function Profile() {
   const handleConfirmationClose = () => {
     setIsConfirmationOpen(false);
     if (isPasswordChanged) {
-      // alert('Password changed successfully!');
     }
   };
 
@@ -161,18 +157,15 @@ export default function Profile() {
   const handleSaves = () => {
     const visibilityValue = selectedOption === "private" ? true : "public";
 
-    // Make a POST request to the backend to save the visibility value
     axios
-      .post("http://localhost:8000/users/profile-visibility", {
+      .post("/users/profile-visibility", {
         visibility: visibilityValue,
         email: email,
       })
       .then((response) => {
-        // Handle the response from the backend
         console.log("Visibility saved successfully");
       })
       .catch((error) => {
-        // Handle any errors that occurred during the save
         console.error("Error saving visibility:", error);
       });
     handleModalClose();
@@ -257,16 +250,13 @@ export default function Profile() {
     };
 
     axios
-      .post("http://localhost:8000/users/address", data)
+      .post("/users/address", data)
       .then((response) => {
-        // Handle the response from the backend if needed
-        console.log(response.data); // Assuming the response contains the saved address information
+        console.log(response.data);
 
-        // Close the modal or perform any other actions
         handleModalCloses();
       })
       .catch((error) => {
-        // Handle any errors that occur during the API call
         console.error("Error saving address:", error);
       });
   };
@@ -282,7 +272,7 @@ export default function Profile() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/users/profile/${userId}`)
+      .get(`/users/profile/${userId}`)
       .then((response) => {
         console.log(response.data);
         // const { firstName, lastName, phone, email } = response.data;
@@ -312,6 +302,34 @@ export default function Profile() {
       });
   }, [userId]);
 
+  const isValidInput = (input) => /^[A-Za-z]+$/.test(input);
+  const isValidPhone = (input) => /^\d{10}$/.test(input);
+
+  const handleFirstNameChange = (event) => {
+    const value = event.target.value;
+    if (isValidInput(value) || value === "") {
+      setFirstName(value);
+    }
+  };
+
+  const handleLastNameChange = (event) => {
+    const value = event.target.value;
+    if (isValidInput(value) || value === "") {
+      setLastName(value);
+    }
+  };
+  const handlePhoneChange = (event) => {
+    const value = event.target.value;
+    // Remove any non-digit characters
+    const sanitizedValue = value.replace(/\D/g, "");
+
+    // Limit to 10 digits
+    const formattedValue = sanitizedValue.substring(0, 10);
+
+    // Update the state with the formatted value
+    setPhone(formattedValue);
+  };
+
   const handleSaveChangesForEdit = () => {
     const updatedData = {
       firstName: firstName,
@@ -321,21 +339,17 @@ export default function Profile() {
     };
 
     axios
-      .post("http://localhost:8000/users/profileupdate", updatedData)
+      .post("/users/profileupdate", updatedData)
       .then((response) => {
-        // Handle the success case
         console.log("User data updated successfully:", response.data);
       })
       .catch((error) => {
-        // Handle the error case
         console.error("Error updating user data:", error);
       });
 
     console.log("Updated user data:", updatedData);
     setIsModalOpenP(false);
   };
-
-  // const [profileValues, setProfileValues] = useState([]);
 
   const labels = ["First Name", "Last Name", "Email", "Phone"];
   const initialValues = [];
@@ -380,17 +394,15 @@ export default function Profile() {
         const base64String = reader.result.split(",")[1];
 
         axios
-          .post("http://localhost:8000/users/uploadImage", {
+          .post("/users/uploadImage", {
             file: base64String,
             email,
           })
           .then((response) => {
             console.log(response.data);
-            // Handle the response or perform any additional actions
           })
           .catch((error) => {
             console.error("Error uploading file:", error);
-            // Handle the error or display an error message
           });
       };
       reader.readAsDataURL(selectedFile);
@@ -439,18 +451,15 @@ export default function Profile() {
     };
     const token = sessionStorage.getItem("token");
     axios
-      .post("http://localhost:8000/users/displaytext", data, {
+      .post("/users/displaytext", data, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the JWT token in the authorization header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        // Handle the response from the backend
         console.log("Text saved successfully");
-        // Additional logic or actions after successful save
       })
       .catch((error) => {
-        // Handle any errors that occurred during the save
         console.error("Error saving text:", error);
       });
     setInputText("");
@@ -591,7 +600,6 @@ export default function Profile() {
             lg={6}
             sx={{ marginTop: "2%", paddingLeft: "2%", paddingRight: "2%" }}
           >
-            {/* Content for the second column */}
             <div>
               <Accordion defaultExpanded onChange={handleChange("panel1")}>
                 <AccordionSummary
@@ -839,30 +847,36 @@ export default function Profile() {
                                   label="First Name"
                                   fullWidth
                                   value={firstName}
-                                  onChange={(e) => setFirstName(e.target.value)}
+                                  onChange={handleFirstNameChange}
                                   margin="normal"
                                 />
                                 <TextField
                                   label="Last Name"
                                   fullWidth
                                   value={lastName}
-                                  onChange={(e) => setLastName(e.target.value)}
+                                  onChange={handleLastNameChange}
                                   margin="normal"
                                 />
                                 <TextField
                                   label="Phone"
                                   fullWidth
                                   value={phone}
-                                  onChange={(e) => setPhone(e.target.value)}
+                                  onChange={handlePhoneChange}
                                   margin="normal"
+                                  // InputProps={{
+                                  //   inputProps: {
+                                  //     pattern: "^[0-9]*$",
+                                  //     title: "Please enter exactly 10 digits",
+                                  //   },
+                                  // }}
                                 />
-                                <TextField
+                                {/* <TextField
                                   label="Email"
                                   fullWidth
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   margin="normal"
-                                />
+                                /> */}
                                 <Box
                                   sx={{
                                     display: "flex",

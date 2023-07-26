@@ -24,7 +24,7 @@ const styles = {
   },
   cardImage: {
     width: "100%",
-    height: "calc(100% - 40px)", // Adjust the height to leave space for the text
+    height: "calc(100% - 40px)",
     objectFit: "cover",
   },
   cardText: {

@@ -23,7 +23,7 @@ import logo from "../assets/images/logo-white.png";
 // import "./App.css";
 
 const drawerWidth = 240;
-const navItems = ["Logout"];
+const navItems = ["Profile", "Logout"];
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -124,9 +124,12 @@ function App(props) {
                 key={item}
                 sx={{ color: "#fff" }}
                 onClick={() => {
-                  //window.location.pathname = "/login";
-                  //   console.log(window);
-                  navigate("/login");
+                  if (item === "Logout") {
+                    sessionStorage.clear();
+                    navigate("/login");
+                  } else if (item === "Profile") {
+                    navigate("/profile");
+                  }
                 }}
               >
                 {item}
