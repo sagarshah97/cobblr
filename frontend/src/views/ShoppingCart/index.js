@@ -5,8 +5,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
   IconButton,
   Grid,
   Card,
@@ -66,23 +64,42 @@ const Cart = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cart/getCart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: "64b813345ab966a0d7cd61a5" }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error("Unable to fetch cart items");
-      }
+      const response = await axios.post(
+        "/cart/getCart",
+        {
+          userId: "64b813345ab966a0d7cd61a5",
+        }
+        // {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        // }
+      );
+      return response.data;
     } catch (error) {
       throw new Error("Unable to fetch cart items");
     }
   };
+
+  // const fetchCartItems = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:8000/cart/getCart", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ userId: "64b813345ab966a0d7cd61a5" }),
+  //     });
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       return data;
+  //     } else {
+  //       throw new Error("Unable to fetch cart items");
+  //     }
+  //   } catch (error) {
+  //     throw new Error("Unable to fetch cart items");
+  //   }
+  // };
 
   const updateCartTotals = async (subtotal, tax, total) => {
     try {
