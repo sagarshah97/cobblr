@@ -36,6 +36,7 @@ const ShoeCard = ({ shoe, height }) => {
       sx={{
         height: "100%",
         cursor: "pointer",
+        backgroundColor: "#F6F6F6",
         "&:hover": { boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" },
       }}
       onClick={handleClick}
