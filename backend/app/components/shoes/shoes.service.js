@@ -19,22 +19,7 @@ class ShoeService {
   async getSimilarShoes(reqBody) {
     try {
       const shoeDetails = await this.shoesDAL.getSimilarShoes(reqBody);
-
-      let filteredList = [];
-      let keys = ["_id", "code", "name", "subText", "price"];
-      shoeDetails.forEach((obj) => {
-        let filteredDetails = extractKeysFromObject(obj, keys);
-        filteredDetails = {
-          ...filteredDetails,
-          thumbnail: obj.images[0],
-        };
-        filteredList.push(filteredDetails);
-      });
-      filteredList = filteredList.filter(
-        (obj) => obj._id.toString() !== reqBody._id
-      );
-
-      return filteredList;
+      return shoeDetails;
     } catch (error) {
       throw error;
     } finally {
@@ -94,20 +79,17 @@ class ShoeService {
         shoeData.sort((a, b) => a.price - b.price);
       } else if (sortValue === "sort3") {
         shoeData.sort((a, b) => b.price - a.price);
-      } else {
-        shoeData = originalShoeData;
       }
       if (selectedFilters != null || selectedFilters != undefined) {
         if (Object.keys(selectedFilters).length !== 0) {
           shoeData = originalShoeData.filter((shoe) => {
             const { gender = "", size = "", price = "" } = selectedFilters;
-
+            const availableSizes = shoe.availableQuantity.map((quantity) =>
+              quantity.size.toLowerCase()
+            );
             if (
               (gender === "" || shoe.gender === gender) &&
-              (size === "" ||
-                shoe.availableQuantity.some(
-                  (quantity) => quantity.size === size
-                )) &&
+              (size === "" || availableSizes.includes(size.toLowerCase())) &&
               (price === "" ||
                 (price === "100" && shoe.price <= 100) ||
                 (price === "100_200" &&
@@ -121,29 +103,26 @@ class ShoeService {
           });
         }
       }
-      //Pagination
+      let visibleShoeData = shoeData.map((shoe) => {
+        const { images, ...rest } = shoe.toObject();
+        const firstImage = images.length > 0 ? [images[0]] : [];
+        return { ...rest, images: firstImage };
+      });
+
       if (
         pageChangeType === null ||
         pageChangeType === undefined ||
         pageChangeType === ""
       ) {
         currentPage = 1;
-        const itemsPerPage = 8;
-        const totalItems = shoeData.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const visibleShoeData = shoeData.slice(startIndex, endIndex);
-        return { visibleShoeData, totalPages, currentPage };
-      } else {
-        const itemsPerPage = 8;
-        const totalItems = shoeData.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const visibleShoeData = shoeData.slice(startIndex, endIndex);
-        return { visibleShoeData, totalPages, currentPage };
       }
+      const itemsPerPage = 12;
+      const totalItems = visibleShoeData.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      visibleShoeData = visibleShoeData.slice(startIndex, endIndex);
+      return { visibleShoeData, totalPages, currentPage };
     } catch (error) {
       throw error;
     } finally {

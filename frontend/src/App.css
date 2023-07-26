@@ -210,21 +210,22 @@
   align-items: center;
   justify-content: center;
   padding: 6px 16px;
-  border: 1px solid  #CCCCCC;
+  border: 1px solid #cccccc;
   border-radius: 6px;
-  color:  #CCCCCC;
+  color: #cccccc;
 }
-
 
 /* FOR PRODUCT LISTING PAGE END */
 /* FOR BILLING DETAILS START */
 
 .stepper-style .css-1vyamtt-MuiStepLabel-labelContainer {
   color: white;
+  overflow-wrap: anywhere;
 }
 
 .stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-completed {
   color: white;
+  overflow-wrap: anywhere;
 }
 
 .stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-active {

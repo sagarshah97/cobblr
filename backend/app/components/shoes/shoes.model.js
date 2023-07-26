@@ -7,7 +7,7 @@ const Shoe = new Schema(
     name: { type: String, required: true },
     subText: { type: String, required: true },
     shortDescription: { type: String, required: true },
-    price: { type: String, required: true },
+    price: { type: Number, required: true },
     color: { type: String, required: true },
     availableQuantity: [{ size: String, quantity: Number }],
     images: [{ name: String, data: String }],

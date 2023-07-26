@@ -16,5 +16,23 @@ router.route("/getUserByUserId").post(
   //validate(userValidation.login),
   userController.getUserById
 );
+router
+  .route("/getWishlistCart")
+  .post(
+    validate(userValidation.getWishlistCart),
+    userController.getWishlistCart
+  );
+
+router
+  .route("/addToWishlist")
+  .post(validate(userValidation.addToWishlist), userController.addToWishlist);
+
+router
+  .route("/addToCart")
+  .post(validate(userValidation.addToCart), userController.addToCart);
+
+router
+  .route("/getUserDetails")
+  .post(validate(userValidation.getUserDetails), userController.getUserDetails);
 
 module.exports = router;

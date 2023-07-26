@@ -63,6 +63,52 @@ class UsersService {
       return user;
     } catch (error) {
       throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async getWishlistCart(userId) {
+    try {
+      const userDetails = await this.usersDal.getWishlistCart(userId);
+      return userDetails;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async addToWishlist(reqBody) {
+    try {
+      const response = await this.usersDal.addToWishlist(reqBody);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async addToCart(reqBody) {
+    try {
+      const response = await this.usersDal.addToCart(reqBody);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
+
+  async getUserDetails(_id) {
+    try {
+      const response = await this.usersDal.getUserDetails(_id);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
     }
   }
 }
