@@ -13,36 +13,36 @@ const CustomerReviews = () => {
 
   useEffect(() => {
     // Fetch all shoes from the API
-    const fetchAllShoes = async () => {
-      try {
-        const response = await axios.get(`/shoes/getShoes`);
-
-        setShoes(response.data);
-      } catch (error) {
-        console.log("Error fetching shoes:", error);
-      }
-    };
 
     // Fetch reviews for the logged-in user from the API using their user ID
-    const fetchReviewsByLoggedInUser = async () => {
-      window.sessionStorage.setItem("userId", "64b80ee271c09757eb3c336d");
-      const userId = window.sessionStorage.getItem("userId");
-      try {
-        // Make a POST API call to fetch the reviews for the user
-        console.log(userId);
-        const response = await axios.post(`/reviews/getReviewsByUserId`, {
-          userId,
-        });
-        console.log(response.data);
-        setReviews(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
 
     fetchAllShoes();
     fetchReviewsByLoggedInUser();
   }, []);
+  const fetchAllShoes = async () => {
+    try {
+      const response = await axios.get(`/shoes/getShoes`);
+
+      setShoes(response.data);
+    } catch (error) {
+      console.log("Error fetching shoes:", error);
+    }
+  };
+  const fetchReviewsByLoggedInUser = async () => {
+    window.sessionStorage.setItem("userId", "64b80ee271c09757eb3c336d");
+    const userId = window.sessionStorage.getItem("userId");
+    try {
+      // Make a POST API call to fetch the reviews for the user
+      console.log(userId);
+      const response = await axios.post(`/reviews/getReviewsByUserId`, {
+        userId,
+      });
+      console.log(response.data);
+      setReviews(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleAddReviewSubmit = async () => {
     try {
@@ -54,6 +54,8 @@ const CustomerReviews = () => {
       });
       console.log("Review added successfully:", response.data);
       setOpenModal(false); // Close the modal after submitting the review
+      fetchAllShoes();
+      fetchReviewsByLoggedInUser();
     } catch (error) {
       console.log("Error adding review:", error);
     }
@@ -62,16 +64,31 @@ const CustomerReviews = () => {
   // Function to edit an existing review
   const handleEditReviewSubmit = async () => {
     try {
-      console.log(selectedRating + " ***" + feedback);
-      const response = await axios.post(
-        `/reviews/updateReview/${selectedShoe._id}`,
+      console.log(
+        selectedRating + " ***" + feedback + "###" + selectedShoe._id
+      );
+      const reviewIdResponse = await axios.post(
+        `/reviews/getReviewIdByShoeId`,
         {
-          rating: selectedRating,
-          comment: feedback,
+          shoeId: selectedShoe._id,
         }
       );
-      console.log("Review updated successfully:", response.data);
-      setOpenModal(false); // Close the modal after submitting the review
+      console.log(reviewIdResponse.data.reviewId);
+      if (reviewIdResponse) {
+        const response = await axios.post(
+          `/reviews/updateReview/${reviewIdResponse.data.reviewId}`,
+          {
+            rating: selectedRating,
+            comment: feedback,
+          }
+        );
+        console.log("Review updated successfully:", response.data);
+        setOpenModal(false); // Close the modal after submitting the review
+        fetchAllShoes();
+        fetchReviewsByLoggedInUser();
+      } else {
+        console.log("Review ID not found for the selected shoe.");
+      }
     } catch (error) {
       console.log("Error updating review:", error);
     }

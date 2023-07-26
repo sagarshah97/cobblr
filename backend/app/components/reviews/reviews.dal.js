@@ -23,6 +23,15 @@ class ReviewDAL {
     }
   }
 
+  async getReviewByShoeId(shoeId) {
+    try {
+      const review = await Review.find({ shoeId });
+      return review;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteReview(reviewId) {
     try {
       const deletedReview = await Review.findByIdAndDelete(reviewId);
@@ -46,9 +55,13 @@ class ReviewDAL {
     }
   }
 
-  async getReviewByShoeId(_shoeId) {
-    const reviews = await Review.find({ shoeId: _shoeId });
-    return reviews;
+  async getReviewIdByShoeId(shoeId) {
+    try {
+      const review = await Review.findOne({ shoeId }, { _id: 1 });
+      return review ? review._id : null;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getReviewByUserId(userId) {

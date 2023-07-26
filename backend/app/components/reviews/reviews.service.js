@@ -35,6 +35,15 @@ class ReviewService {
     }
   }
 
+  async getReviewIdByShoeId(shoeId) {
+    try {
+      const review = await this.reviewsDAL.getReviewByShoeId(shoeId);
+      return review ? review._id : null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteReview(reviewId) {
     try {
       const deletedReview = await this.reviewsDAL.deleteReview(reviewId);

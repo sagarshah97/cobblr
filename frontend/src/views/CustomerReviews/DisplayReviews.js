@@ -31,7 +31,7 @@ const DisplayReview = ({ shoeId }) => {
         shoeId,
       });
 
-      if (response.data) {
+      if (Array.isArray(response.data)) {
         setReviews(response.data);
         console.log(response.data);
         fetchUserDisplayNames(response.data);
@@ -87,50 +87,51 @@ const DisplayReview = ({ shoeId }) => {
   return (
     <Box id="review-container">
       <div id="review-cards-container">
-        {reviews.map((review) => (
-          <div className="review-card" key={review._id}>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100%",
-                width: 300, // Adjust the width as desired
-                cursor: "pointer",
-                bgcolor: "#000000", // Background color set to black
-                border: "1px solid white", // White border
-                color: "white", // White text color
-                borderRadius: 2, // Adding border radius to the card
-                "&:hover": {
-                  border: "1px solid white", // Border color on hover
-                },
-              }}
-              onClick={() => handleCardClick(review)}
-            >
-              <CardContent>
-                <Typography variant="subtitle1" component="div">
-                  <Rating
-                    value={review.rating}
-                    readOnly
-                    emptyIcon={
-                      <StarIcon
-                        sx={{
-                          color: "rgba(255, 255, 255, 0.3)", // Empty stars color
-                        }}
-                      />
-                    }
-                  />
-                </Typography>
-                <Typography variant="body1" component="div" noWrap>
-                  {`${review.comment.substring(0, 50)}`}
-                </Typography>
-                <Typography variant="body2" component="div" noWrap>
-                  Posted By: {userDisplayNames[review.postedBy]}
-                </Typography>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+        {Array.isArray(reviews) &&
+          reviews.map((review) => (
+            <div className="review-card" key={review._id}>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "100%",
+                  width: 300, // Adjust the width as desired
+                  cursor: "pointer",
+                  bgcolor: "#000000", // Background color set to black
+                  border: "1px solid white", // White border
+                  color: "white", // White text color
+                  borderRadius: 2, // Adding border radius to the card
+                  "&:hover": {
+                    border: "1px solid white", // Border color on hover
+                  },
+                }}
+                onClick={() => handleCardClick(review)}
+              >
+                <CardContent>
+                  <Typography variant="subtitle1" component="div">
+                    <Rating
+                      value={review.rating}
+                      readOnly
+                      emptyIcon={
+                        <StarIcon
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.3)", // Empty stars color
+                          }}
+                        />
+                      }
+                    />
+                  </Typography>
+                  <Typography variant="body1" component="div" noWrap>
+                    {`${review.comment.substring(0, 50)}`}
+                  </Typography>
+                  <Typography variant="body2" component="div" noWrap>
+                    Posted By: {userDisplayNames[review.postedBy]}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
       </div>
       {selectedReview && (
         <Modal
