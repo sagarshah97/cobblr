@@ -1,3 +1,6 @@
+/*
+ * Author: Pratik Mukund Parmar (B00934515)
+ */
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -67,7 +70,7 @@ const Cart = () => {
       const response = await axios.post(
         "/cart/getCart",
         {
-          userId: "64b813345ab966a0d7cd61a5",
+          userId: sessionStorage.getItem(userId),
         }
         // {
         //   headers: {
@@ -104,7 +107,7 @@ const Cart = () => {
   const updateCartTotals = async (subtotal, tax, total) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: sessionStorage.getItem(userId),
         subtotal,
         tax,
         total,
@@ -138,7 +141,7 @@ const Cart = () => {
   const updateCartItemQuantityInBackend = async (item) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: sessionStorage.getItem(userId),
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
@@ -171,7 +174,7 @@ const Cart = () => {
   const removeCartItemFromBackend = async (item) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: sessionStorage.getItem(userId),
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
