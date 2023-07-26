@@ -16,6 +16,7 @@ import ProductDetail from "./views/ProductDetail/index.js";
 import AdditionalDetails from "./views/AdditionalProductDetail/index.js";
 import ContactUs from "./views/ContactUs/ContactUs.js";
 import WishlistPage from "./views/Wishlist/index.js";
+import ForgotPasswordPage from "./views/ForgotPassword/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -61,6 +62,10 @@ const Router = () => {
           <Route path="/details" element={<AdditionalDetails />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route
+            path="/forgotpassword/:forgotPasswordToken"
+            element={<ForgotPasswordPage />}
+          />
         </Route>
       </Routes>
     </Suspense>

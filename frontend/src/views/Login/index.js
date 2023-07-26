@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/images/Home/logo-illustration-vintage-sneakers-shoes-retro-style_194708-640-removebg-preview.png";
 import axios from "axios";
+import { Modal } from "@mui/material";
+// Modal
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 const defaultTheme = createTheme();
@@ -27,9 +29,53 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [userId, setUserId] = useState("");
+  const [token, setToken] = useState("");
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return regex.test(email);
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const [emailInput, setEmailInput] = useState("");
+  const handlePasswordResetSubmit = async (e) => {
+    e.preventDefault();
+    closeModal();
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/users/forgotpassword",
+        {
+          email: emailInput,
+        }
+      );
+
+      // Handle response based on status code
+      if (response.status === 200) {
+        console.log("Success");
+        // Handle successful password reset request
+        // e.g., show success message, redirect to a confirmation page, etc.
+      } else if (response.status === 404) {
+        console.log("User not found");
+        // Handle case when the user is not found
+        // e.g., show error message indicating user not found
+      } else {
+        console.log("Failed to send password reset email");
+        // Handle other failure cases
+        // e.g., show generic error message for failed password reset email
+      }
+    } catch (error) {
+      // Handle any network or server errors
+    }
+  };
+
+  const handleEmailInputChange = (e) => {
+    setEmailInput(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -69,9 +115,12 @@ export default function Login() {
       .then((response) => {
         console.log(response);
         const { userId } = response.data;
+        const { token } = response.data;
         setUserId(userId);
+        setToken(token);
         console.log(userId);
         sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("token", token);
         if (response.status === 200) {
           // setRegistrationError("");
           setLoginError("Login successful");
@@ -270,8 +319,8 @@ export default function Login() {
               {/* <Grid container>
                 <Grid item style={{}}> */}
               <Typography
-                variant="body2"
-                onClick={() => navigate("/register")}
+                variant="h6"
+                onClick={openModal}
                 sx={{
                   textDecoration: "none",
                   color: "blue",
@@ -282,6 +331,44 @@ export default function Login() {
               >
                 Forgot Password
               </Typography>
+
+              <Modal open={isModalOpen} onClose={closeModal} centered>
+                <div
+                  className="modal"
+                  style={{
+                    background: "white",
+                    width: "300px",
+                    margin: "auto",
+                    marginTop: "20vh",
+                    padding: "20px",
+                  }}
+                >
+                  <Typography variant="h6" gutterBottom>
+                    Forgot Password
+                  </Typography>
+                  <form onSubmit={handlePasswordResetSubmit}>
+                    <TextField
+                      type="email"
+                      id="email"
+                      name="email"
+                      label="Email"
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      onChange={handleEmailInputChange}
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </form>
+                </div>
+              </Modal>
               <div style={{ textAlign: "center" }}>
                 <span style={{ color: "white" }}>Dont have an account? </span>
                 <span

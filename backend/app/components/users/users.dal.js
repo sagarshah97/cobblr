@@ -1,4 +1,5 @@
 const User = require("./users.model");
+const bcrypt = require("bcrypt");
 
 class UsersDal {
   async getUserByEmail(email) {
@@ -132,6 +133,66 @@ class UsersDal {
       return updatedUser;
     } catch (error) {
       console.error("Error updating profile image:", error);
+      throw error;
+    }
+  }
+
+  async checkEmailExists(email, forgotPasswordToken) {
+    try {
+      const user = await User.findOne({ email });
+      if (user) {
+        user.forgotPasswordToken = forgotPasswordToken;
+        await user.save();
+        return true; // Email exists in the database
+      }
+      return false; // Email does not exist in the database
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  // async updatePassword(token, newPassword) {
+  //   try {
+  //     const user = await User.findOne({ forgotPasswordToken: token });
+
+  //     if (!user) {
+  //       return false; // Invalid token
+  //     }
+
+  //     user.password = newPassword;
+  //     await user.save();
+
+  //     return true;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  async updatePassword(token, newPassword) {
+    try {
+      const user = await User.findOne({ forgotPasswordToken: token });
+
+      if (!user) {
+        return false; // Invalid token
+      }
+
+      // Compare current password with the one provided
+      const isPasswordMatch = await bcrypt.compare(newPassword, user.password);
+
+      if (isPasswordMatch) {
+        throw new Error(
+          "New password must be different from the current password"
+        );
+      }
+
+      // Encrypt the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update the user's password
+      user.password = hashedPassword;
+      await user.save();
+
+      return true;
+    } catch (error) {
       throw error;
     }
   }

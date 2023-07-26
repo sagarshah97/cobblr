@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   state: String,
   postalCode: String,
   label: String,
+  forgotPasswordToken: String,
   profileImage: {
     type: String, // Store the image as a string
   },

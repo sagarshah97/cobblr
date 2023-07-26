@@ -26,6 +26,7 @@ class UserController {
       const loginResult = await this.usersService.loginUser(request.body);
       if (loginResult) {
         const token = generateJwtWebToken(loginResult.userId);
+        console.log(token);
         response.status(200).json({
           message: "Login successful",
           userId: loginResult.userId,
@@ -73,6 +74,7 @@ class UserController {
 
   displaytext = async (request, response, next) => {
     try {
+      console.log(">>>>>>>>>>>>>>>>>API hittt");
       const displayResult = await this.usersService.displayUserText(
         request.body
       );
@@ -147,6 +149,43 @@ class UserController {
       }
     } catch (error) {
       next(error);
+    }
+  };
+
+  forgotpassword = async (req, res) => {
+    const { email } = req.body;
+    console.log(email);
+
+    try {
+      await this.usersService.sendPasswordResetEmail(email);
+      res.status(200).json({ message: "Password reset email sent." });
+    } catch (error) {
+      if (error.message === "Email not found") {
+        res.status(404).json({ message: "User not found." });
+      } else {
+        console.error("Error sending password reset email:", error);
+        res
+          .status(500)
+          .json({ message: "Failed to send password reset email." });
+      }
+    }
+  };
+  updatepassword = async (req, res) => {
+    const { forgotPasswordToken, password } = req.body;
+
+    try {
+      const result = await this.usersService.passwordChanges(
+        forgotPasswordToken,
+        password
+      );
+      if (result) {
+        res.status(200).json({ message: "Password changed successfully" });
+      } else {
+        res.status(400).json({ message: "Invalid token" });
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      res.status(500).json({ message: "Failed to change password" });
     }
   };
 }

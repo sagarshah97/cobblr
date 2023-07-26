@@ -437,9 +437,13 @@ export default function Profile() {
       inputText,
       email,
     };
-
+    const token = sessionStorage.getItem("token");
     axios
-      .post("http://localhost:8000/users/displaytext", data)
+      .post("http://localhost:8000/users/displaytext", data, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token in the authorization header
+        },
+      })
       .then((response) => {
         // Handle the response from the backend
         console.log("Text saved successfully");
@@ -449,7 +453,6 @@ export default function Profile() {
         // Handle any errors that occurred during the save
         console.error("Error saving text:", error);
       });
-
     setInputText("");
     setIsAddModalOpen(false);
   };

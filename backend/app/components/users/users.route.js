@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("./users.controller");
 const userValidation = require("./users.validation");
 const { validate } = require("../../lib/expressValidation");
-
+const { authenticateJwt, verifyJwtToken } = require("../../helpers/jwt");
 router
   .route("/register")
   .post(validate(userValidation.register), userController.register);
@@ -16,7 +16,7 @@ router.route("/profile/:userId").get(userController.profile);
 
 router.route("/profileupdate").post(userController.profileupdate);
 
-router.route("/displaytext").post(userController.displaytext);
+router.route("/displaytext").post(verifyJwtToken, userController.displaytext);
 
 router.route("/changepassword").post(userController.changepassword);
 
@@ -27,4 +27,7 @@ router
 router.route("/address").post(userController.address);
 
 router.route("/uploadImage").post(userController.uploadImage);
+
+router.route("/forgotpassword").post(userController.forgotpassword);
+router.route("/updatepassword").post(userController.updatepassword);
 module.exports = router;
