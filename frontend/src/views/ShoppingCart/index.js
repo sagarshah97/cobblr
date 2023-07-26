@@ -22,6 +22,7 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 
@@ -40,20 +41,22 @@ const Cart = () => {
   const [itemToRemove, setItemToRemove] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-
+  const navigate = useNavigate();
+  const id = window.sessionStorage.getItem("userId");
   useEffect(() => {
-    // Fetch cart items from the backend API
-    fetchCartItems()
-      .then((data) => {
-        setItems(data);
-        console.log(data);
-        const subtotal = calculatesubtotal(data);
-        const tax = subtotal * 0.15;
-        const total = subtotal + tax;
-
-        updateCartTotals(subtotal, tax, total);
-      })
-      .catch((error) => console.error(error));
+    if (id) {
+      fetchCartItems()
+        .then((data) => {
+          setItems(data);
+          const subtotal = calculatesubtotal(data);
+          const tax = subtotal * 0.15;
+          const total = subtotal + tax;
+          updateCartTotals(subtotal, tax, total);
+        })
+        .catch((error) => console.error(error));
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const calculatesubtotal = (cartItems) => {
@@ -67,47 +70,19 @@ const Cart = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await axios.post(
-        "/cart/getCart",
-        {
-          userId: sessionStorage.getItem(userId),
-        }
-        // {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // }
-      );
+      const response = await axios.post("/cart/getCart", {
+        userId: id,
+      });
       return response.data;
     } catch (error) {
       throw new Error("Unable to fetch cart items");
     }
   };
 
-  // const fetchCartItems = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:8000/cart/getCart", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ userId: "64b813345ab966a0d7cd61a5" }),
-  //     });
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       return data;
-  //     } else {
-  //       throw new Error("Unable to fetch cart items");
-  //     }
-  //   } catch (error) {
-  //     throw new Error("Unable to fetch cart items");
-  //   }
-  // };
-
   const updateCartTotals = async (subtotal, tax, total) => {
     try {
       const body = {
-        userId: sessionStorage.getItem(userId),
+        userId: id,
         subtotal,
         tax,
         total,
@@ -141,7 +116,7 @@ const Cart = () => {
   const updateCartItemQuantityInBackend = async (item) => {
     try {
       const body = {
-        userId: sessionStorage.getItem(userId),
+        userId: id,
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
@@ -174,7 +149,7 @@ const Cart = () => {
   const removeCartItemFromBackend = async (item) => {
     try {
       const body = {
-        userId: sessionStorage.getItem(userId),
+        userId: id,
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
