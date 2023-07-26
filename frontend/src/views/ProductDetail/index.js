@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
-
 import {
   Grid,
   Card,
@@ -30,7 +29,7 @@ import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductDetail = () => {
-  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
+  const loggedInUserId = window.sessionStorage.getItem("userId");
   const location = useLocation();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -57,6 +56,18 @@ const ProductDetail = () => {
   const [inventoryCheck, setInventoryCheck] = useState([]);
   const [productDetails, setProductDetails] = useState();
   const [userDetails, setUserDetails] = useState();
+
+  const checkIfUserIsLoggedIn = () => {
+    if (!loggedInUserId) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
 
   useEffect(() => {
     getProductDetail();
@@ -90,23 +101,25 @@ const ProductDetail = () => {
   };
 
   const getUserWishlistCart = () => {
-    axios
-      .post(`/users/getWishlistCart`, { _id: loggedInUserId })
-      .then((res) => {
-        if (res?.data?.userDetails) {
-          setUserDetails(res.data.userDetails);
-          const details = res.data.userDetails;
-          setBagCount(details.cart.items.length);
-          setWishlistCount(details.wishlist.length);
-          if (details.wishlist.includes(_id)) {
-            setWishBtnLabel("wishlisted");
-            setDisableWishlist(true);
+    if (checkIfUserIsLoggedIn()) {
+      axios
+        .post(`/users/getWishlistCart`, { _id: loggedInUserId })
+        .then((res) => {
+          if (res?.data?.userDetails) {
+            setUserDetails(res.data.userDetails);
+            const details = res.data.userDetails;
+            setBagCount(details.cart.items.length);
+            setWishlistCount(details.wishlist.length);
+            if (details.wishlist.includes(_id)) {
+              setWishBtnLabel("wishlisted");
+              setDisableWishlist(true);
+            }
           }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const checkForOutOfStock = (data) => {
@@ -124,16 +137,20 @@ const ProductDetail = () => {
   };
 
   const handleAddToBag = async () => {
-    if (selectedSize && selectedSize !== "Select size") {
-      const resp = await checkForAlreadyInBag();
-      if (!resp) {
-        updateUserCart();
+    if (checkIfUserIsLoggedIn()) {
+      if (selectedSize && selectedSize !== "Select size") {
+        const resp = await checkForAlreadyInBag();
+        if (!resp) {
+          updateUserCart();
+        } else {
+          setAlertMsg("Item already in the bag!");
+          setShowAlert(true);
+        }
       } else {
-        setAlertMsg("Item already in the bag!");
-        setShowAlert(true);
+        window.alert("Please select a size");
       }
     } else {
-      window.alert("Please select a size");
+      navigateToLogin();
     }
   };
 
@@ -171,7 +188,11 @@ const ProductDetail = () => {
   };
 
   const handleAddToWishlist = () => {
-    updateUserWishlist();
+    if (checkIfUserIsLoggedIn()) {
+      updateUserWishlist();
+    } else {
+      navigateToLogin();
+    }
   };
 
   const updateUserWishlist = () => {

@@ -1,3 +1,6 @@
+/*
+ * Author: Ashish Ojha (B00931967)
+ */
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import "../../App.css";

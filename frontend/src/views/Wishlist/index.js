@@ -34,8 +34,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function WishlistPage() {
   const navigate = useNavigate();
 
-  const userId = "64b813345ab966a0d7cd61a5";
-
+  let runOnce = true;
+  // const userId = "64b813345ab966a0d7cd61a5";
+  const [userId, setUserId] = useState(null);
   const [similarIds, setsimilarIds] = useState(null);
   const [similarTags, setsimilarTags] = useState(null);
   const [wishlist, setWishlist] = useState(null);
@@ -135,11 +136,14 @@ function WishlistPage() {
             setsimilarTags(tags);
             let ids = resp.data.map((item) => item._id);
             setsimilarIds(ids);
+            console.log(ids);
+            console.log(tags);
           }
-          setTimeout(() => {
-            setSpinner(false);
-            // alert(false);
-          }, 1000);
+          setSpinner(false);
+          // setTimeout(() => {
+
+          //   // alert(false);
+          // }, 1000);
         }
       })
       .catch((error) => {
@@ -152,10 +156,19 @@ function WishlistPage() {
         snackbarOpen();
       });
   };
-
+  const id = window.sessionStorage.getItem("userId");
   useEffect(() => {
-    getWishlist(userId);
-  }, []);
+    if (id) {
+      // alert(id);
+      setUserId(id);
+      if (runOnce) {
+        getWishlist(id);
+      }
+    } else {
+      // alert("user Id not found, please login!!!");
+      navigate("/login");
+    }
+  }, [id]);
 
   return (
     <>
@@ -242,7 +255,8 @@ function WishlistPage() {
         <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
           <div style={{ marginTop: "30px" }}>
             {similarIds && (
-              <SimilarProducts tags={similarTags} _id={similarIds[0]} />
+              <></>
+              // <SimilarProducts tags={similarTags} _id={similarIds} />
             )}
           </div>
         </Box>

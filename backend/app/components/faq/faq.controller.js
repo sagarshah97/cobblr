@@ -1,3 +1,6 @@
+/*
+ * Author: Ashish Ojha (B00931967)
+ */
 const FaqService = require("./faq.service");
 
 class FaqController {

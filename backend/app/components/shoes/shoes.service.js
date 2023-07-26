@@ -49,6 +49,10 @@ class ShoeService {
     }
   }
 
+  /*
+   * Author: Ashish Ojha (B00931967)
+   */
+
   async filterShoes(
     sortValue,
     selectedFilters,

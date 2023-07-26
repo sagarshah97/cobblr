@@ -1,3 +1,6 @@
+/*
+ * Author: Ashish Ojha (B00931967)
+ */
 import React, { useState, useEffect } from "react";
 import {
   Box,

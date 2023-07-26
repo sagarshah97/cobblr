@@ -1,3 +1,6 @@
+/*
+ * Author: Ashish Ojha (B00931967)
+ */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,6 +16,7 @@ import { useTheme } from "@mui/material/styles";
 const ShoeCard = ({ shoe, height }) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  // navigate to the product details page for clicked shoe
   const handleClick = () => {
     navigate(`/productDetail/${shoe._id}`);
     //navigate("/orderconfirmation/64b19b874d5883d09edec9de");
