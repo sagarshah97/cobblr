@@ -1,8 +1,24 @@
 // user.js
 
+const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  inputText: String,
+  profileVisibility: {
+    type: Boolean,
+    default: false,
+  },
+  line1: String,
+  line2: String,
+  city: String,
+  state: String,
+  postalCode: String,
+  label: String,
+  forgotPasswordToken: String,
+  profileImage: {
+    type: String,
+  },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },

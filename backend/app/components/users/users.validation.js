@@ -6,6 +6,7 @@ const validationSchema = {
   lastName: Joi.string().min(1).max(100).required(),
   email: Joi.string().min(5).required(),
   password: Joi.string().min(1).required(),
+  phone: Joi.string().min(1).required(),
   wishlist: Joi.array().items(Joi.string()),
   cart: Joi.object({
     items: Joi.array(),
@@ -34,6 +35,14 @@ module.exports = {
     body: Joi.object({
       email: validationSchema.email,
       password: validationSchema.password,
+    }),
+  },
+  profile: {
+    body: Joi.object({
+      firstName: validationSchema.firstName,
+      lastName: validationSchema.lastName,
+      email: validationSchema.email,
+      phone: validationSchema.phone,
     }),
   },
   getWishlistCart: {
