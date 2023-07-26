@@ -34,16 +34,4 @@ router
     shoesController.createShoe.bind(shoesController)
   );
 
-// sort and filter api
-
-/*
- * Author: Ashish Ojha (B00931967)
- */
-router
-  .route("/filterShoes")
-  .post(
-    validate(shoesValidation.filterShoes),
-    shoesController.filterShoes.bind(shoesController)
-  );
-
 module.exports = router;

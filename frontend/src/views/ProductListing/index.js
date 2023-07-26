@@ -106,7 +106,7 @@ const ProductListing = () => {
       try {
         setIsLoading(true);
         setHasLoaded(false);
-        const response = await axios.post("/shoes/filterShoes", filterReq);
+        const response = await axios.post("/filter/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
@@ -132,7 +132,7 @@ const ProductListing = () => {
     try {
       setIsLoading(true);
       setHasLoaded(false);
-      const response = await axios.post("/shoes/filterShoes", {
+      const response = await axios.post("/filter/filterShoes", {
         ...filterReq,
         pageChangeType,
         currentPage: pageNumber,
