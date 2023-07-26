@@ -23,6 +23,7 @@ import BillingDetails from "./views/BillingDetails/index.js";
 import Payment from "./views/Payment/index.js";
 import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
 import Review from "./views/CustomerReviews/index.js";
+// import AdminPage from "./views/Admin/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -78,6 +79,7 @@ const Router = () => {
             path="/orderconfirmation/:_id"
             element={<OrderConfirmationPage />}
           />
+          {/* <Route path="admin" element={<AdminPage />} /> */}
         </Route>
       </Routes>
     </Suspense>
