@@ -1,0 +1,22 @@
+#review-container {
+  overflow: hidden;
+}
+#review-cards-container {
+  /* height: 90px;  */
+  padding: 5px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hide;
+  -webkit-overflow-scrolling: touch;
+}
+.review-card {
+  display: inline-block;
+  /* width: 300px; */
+  /* height: 50px; */
+  /* line-height: 50px; */
+  text-align: left;
+  background: #ddd;
+}
+.review-card + .review-card {
+  margin-left: 5px;
+}
