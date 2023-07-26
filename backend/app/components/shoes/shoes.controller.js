@@ -1,13 +1,26 @@
 const ShoesService = require("./shoes.service");
 
-class UserController {
+class ShoeController {
   constructor() {
     this.shoesService = new ShoesService();
   }
 
   async getShoe(request, response, next) {
     try {
-      const shoeDetails = await this.shoesService.getShoe(request.body.code);
+      const shoeDetails = await this.shoesService.getShoe(request.body._id);
+      if (shoeDetails) {
+        response.status(200).json(shoeDetails);
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getSimilarShoes(request, response, next) {
+    try {
+      const shoeDetails = await this.shoesService.getSimilarShoes(request.body);
       if (shoeDetails) {
         response.status(200).json(shoeDetails);
       } else {
@@ -47,6 +60,38 @@ class UserController {
       next(error);
     }
   }
+
+  async filterShoes(request, response, next) {
+    try {
+      const {
+        sortValue,
+        selectedFilters,
+        currentPage,
+        searchKeyword,
+        pageChangeType,
+      } = request.body;
+      if (!sortValue) {
+        return response
+          .status(400)
+          .json({ error: "Missing required parameters." });
+      }
+      const filteredShoes = await this.shoesService.filterShoes(
+        sortValue,
+        selectedFilters,
+        currentPage,
+        searchKeyword,
+        pageChangeType
+      );
+      if (filteredShoes.length === 0) {
+        return response
+          .status(404)
+          .json({ error: "No matching records found." });
+      }
+      response.status(200).json(filteredShoes);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
-module.exports = new UserController();
+module.exports = new ShoeController();

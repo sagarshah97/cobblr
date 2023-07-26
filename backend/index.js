@@ -5,11 +5,12 @@ const cors = require("cors");
 const { router, healthCheck } = require("./app/components/indexRoutes");
 
 const app = express();
-const apiPort = 3000;
+const apiPort = 8000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
-app.use(bodyParser.json());
+// app.use(bodyParser.json({ limit: "50mb" }));
 
 connectDB();
 

@@ -9,11 +9,18 @@ const shoesValidation = require("./shoes.validation");
 const router = express.Router();
 
 // get all the shoes
-router.route("/getshoes").get(shoesController.getShoes.bind(shoesController));
+router.route("/getShoes").get(shoesController.getShoes.bind(shoesController));
+
+router
+  .route("/getSimilarShoes")
+  .post(
+    validate(shoesValidation.getSimilarShoes),
+    shoesController.getSimilarShoes.bind(shoesController)
+  );
 
 // get single shoe record based on shoe code
 router
-  .route("/getshoe")
+  .route("/getShoe")
   .post(
     validate(shoesValidation.getShoe),
     shoesController.getShoe.bind(shoesController)
@@ -25,6 +32,14 @@ router
   .post(
     validate(shoesValidation.createShoe),
     shoesController.createShoe.bind(shoesController)
+  );
+
+  // sort and filter api
+  router
+  .route("/filterShoes")
+  .post(
+    validate(shoesValidation.filterShoes),
+    shoesController.filterShoes.bind(shoesController)
   );
 
 module.exports = router;
