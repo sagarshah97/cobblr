@@ -45,7 +45,6 @@ const SortDropdown = ({ value, handleSortChange }) => {
               color: "#fff",
             },
             "&:hover": {
-              // Add hover styles
               "& .MuiOutlinedInput-input": {
                 color: "#fff",
               },

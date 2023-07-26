@@ -12,6 +12,10 @@ router
   .route("/login")
   .post(validate(userValidation.login), userController.login);
 
+router.route("/getUserByUserId").post(
+  //validate(userValidation.login),
+  userController.getUserById
+);
 router
   .route("/getWishlistCart")
   .post(

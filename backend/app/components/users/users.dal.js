@@ -27,6 +27,15 @@ class UsersDal {
     }
   }
 
+  async getUserById(userId) {
+    try {
+      const user = await User.findById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getWishlistCart(userId) {
     try {
       const query = { _id: new mongoose.Types.ObjectId(userId) };

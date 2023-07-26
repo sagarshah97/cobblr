@@ -57,6 +57,16 @@ class UsersService {
       success: true,
     };
   }
+  async getUserById(userId) {
+    try {
+      const user = await this.usersDal.getUserById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    } finally {
+      //finally block
+    }
+  }
 
   async getWishlistCart(userId) {
     try {

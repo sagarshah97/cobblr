@@ -9,7 +9,11 @@ class OrderController {
     try {
       const _id = request.query._id;
       const order = await this.orderService.getOrderById(_id);
-      response.status(200).json(order);
+      if (order) {
+        response.status(200).json(order);
+      } else {
+        response.status(404).json({ error: "Order not found." });
+      }
     } catch (error) {
       next(error);
     }
