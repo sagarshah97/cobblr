@@ -91,7 +91,7 @@ function WishlistPage() {
   const removeWishlistItem = (userId, itemId) => {
     setSpinner(true);
     axios
-      .post(`http://localhost:8000/wishlist/removeWishlistItem`, {
+      .post(`/wishlist/removeWishlistItem`, {
         userId: userId,
         itemId: itemId,
       })
