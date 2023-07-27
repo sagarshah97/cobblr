@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -218,11 +219,11 @@ export default function Register() {
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
             // minHeight: "100vh",
-            position: "absolute", // Set position to absolute
-            top: 0, // Position at the top of the container
-            bottom: 0, // Extend to the bottom of the container
-            left: 0, // Position at the left of the container
-            right: 0, // Extend to the right of the container
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
           }}
         />
         <Grid
@@ -241,11 +242,11 @@ export default function Register() {
           sx={{
             backgroundColor: "#1a1a1a",
             padding: "30px",
-            position: "fixed", // Set fixed positioning for the right column
-            top: 0, // Fix the right column at the top of the viewport
-            bottom: 0, // Extend the right column to the bottom of the viewport
-            right: 0, // Fix the right column to the right of the viewport
-            overflowY: "auto", // Enable vertical scrolling for the right column
+            position: "fixed",
+            top: 0,
+            bottom: 0,
+            right: 0,
+            overflowY: "auto",
           }}
         >
           <Box

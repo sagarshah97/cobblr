@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -5,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 // import CancelIcon from "../../assets/Home/lock.png";
-// import "./CustomModal.css"; // Import your custom CSS file for additional styles
 
 const CustomModal = () => {
   const modalStyle = {

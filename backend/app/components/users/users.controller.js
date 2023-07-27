@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 const UsersService = require("./users.service");
 const { generateJwtWebToken } = require("../../helpers/jwt");
 

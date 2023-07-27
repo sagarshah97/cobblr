@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 const mongoose = require("mongoose");
 const User = require("./users.model");
 const bcrypt = require("bcrypt");

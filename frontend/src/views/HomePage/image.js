@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import React, { useEffect, useRef } from "react";
 import { Typography } from "@mui/material";
 import logo from "../../assets/images/Home/COBBLR.png";

@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
@@ -334,13 +335,10 @@ export default function Profile() {
   };
   const handlePhoneChange = (event) => {
     const value = event.target.value;
-    // Remove any non-digit characters
     const sanitizedValue = value.replace(/\D/g, "");
 
-    // Limit to 10 digits
     const formattedValue = sanitizedValue.substring(0, 10);
 
-    // Update the state with the formatted value
     setPhone(formattedValue);
   };
 
