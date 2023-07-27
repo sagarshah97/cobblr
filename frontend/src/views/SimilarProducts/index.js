@@ -7,7 +7,8 @@ import "../../App.css";
 import Spinner from "../../utils/Loader";
 
 const SimilarProducts = (props) => {
-  const id = props._id ? props._id : "null";
+  console.log(props);
+  const id = props._id;
   const [oldId, setOldId] = useState("");
 
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const SimilarProducts = (props) => {
     axios
       .post(`/shoes/getSimilarShoes`, {
         tags: props.tags,
-        _ids: [id],
+        _ids: typeof id === "string" ? [id] : id,
       })
       .then((res) => {
         setOldId(id);
