@@ -34,7 +34,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import Footer from "../HomePage/Footer";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const profileStyles = {
   container: {
     display: "flex",
@@ -76,6 +76,10 @@ export default function Profile() {
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [userId, setUserId] = useState(null);
+
+  const navigate = useNavigate();
+
   const renderIcon = (label) => {
     switch (label) {
       case "First Name":
@@ -268,11 +272,12 @@ export default function Profile() {
     }));
   };
 
-  const userId = sessionStorage.getItem("userId");
+  // const userId = sessionStorage.getItem("userId");
+  //
 
-  useEffect(() => {
+  const getUserDetails = (id) => {
     axios
-      .get(`/users/profile/${userId}`)
+      .get(`/users/profile/${id}`)
       .then((response) => {
         console.log(response.data);
         // const { firstName, lastName, phone, email } = response.data;
@@ -300,7 +305,16 @@ export default function Profile() {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-  }, [userId]);
+  };
+  const id = window.sessionStorage.getItem("userId");
+  useEffect(() => {
+    if (id) {
+      setUserId(id);
+      getUserDetails(id);
+    } else {
+      navigate("/login");
+    }
+  }, [id]);
 
   const isValidInput = (input) => /^[A-Za-z]+$/.test(input);
   const isValidPhone = (input) => /^\d{10}$/.test(input);
