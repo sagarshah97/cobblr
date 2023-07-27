@@ -24,16 +24,15 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - The following command has been used to create the React app with boilerplate code:
   - `npx create-react-app cobblr`
 
-### Pre-requisites
+## Pre-requisites
 
 - Download and install [Node.js](https://nodejs.org/en/download)
 - Clone this repository.
-- Type the following commands after opening this folder in VSCode:
-
+- Type the following commands after opening this folder and navigating to `frontend` and `backend` in VSCode:
   - `npm install`
   - `npm start`
 
-### Deploy
+## Frontend Deployment
 
 - Push local changes to the GitLab repository.
 - Clone the GitLab repository to the personal GitHub repository as a `Private` repo.
@@ -45,11 +44,28 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - Enter the build command as `npm run build`.
 - Click on `Deploy`.
 
+## Backend Deployment
+
+- Push local changes to the GitLab repository.
+- Clone the GitLab repository to the personal GitHub repository as a `Private` repo.
+- Log into [Render](https://render.com/).
+- Connect the Render account to the GitHub account.
+- Click on `Create new Web Service`.
+- Authorize Render to connect to the GitHub account.
+- Select the Repository and Source Directory options.
+- Enter the build command as `npm install`.
+- Enter the run command as `npm start`.
+- Click on `Deploy`.
+
 ## Built With
 
-- [Node.js](https://nodejs.org/en/) - Open source runtime environment
 - [React](https://reactjs.org/) - Web framework
-- [Material UI (React MUI)](https://mui.com/material-ui/getting-started/overview/) - Web Component Library
+- [React Material UI](https://mui.com/material-ui/) - Web Component Library
+- [React Router DOM](https://reactrouter.com/en/main) - Library for routing through different pages
+- [Node.js](https://nodejs.org/en/) - Open source runtime environment
+- [Express.js](https://expressjs.com/) - Node.js web application framework that provides HTTP utility methods and middleware for creating a robust API
+- [Mongoose](https://mongoosejs.com/docs/) - Object mapping package between MongoDB and Backend schema
+- [Mongodb](https://www.mongodb.com/)- Data storage
 
 ## Sources Used
 
@@ -113,6 +129,8 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [React MUI](https://mui.com/material-ui/getting-started/overview/)'s component code was heavily modified by adding custom logic, styling, onChange and onClick behaviors.
 - [Material UI](https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side) template was referred for login and signup pages and modified according to our needs.
 - [Swiper]- Effect coverflow has been used for the carrousel on the homepage(https://swiperjs.com/demos#css-mode)
+- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
+- [JOI](https://joi.dev/api/?v=17.9.1)'s code was used as a reference to understand on how to implement validation on API request bodies.
 
 ### Additional packages
 
