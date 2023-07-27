@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
