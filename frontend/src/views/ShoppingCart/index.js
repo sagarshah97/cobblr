@@ -210,14 +210,11 @@ const Cart = () => {
           padding: "3%",
         }}
       >
-        {/* Cart items */}
         <Grid item xs={12} sm={12} md={8} lg={8}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Cart" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Cart items list */}
               {items.length === 0 ? (
                 <Typography variant="body1" className="empty-cart-message">
                   Your cart is empty.
@@ -238,8 +235,7 @@ const Cart = () => {
                           marginRight: "3%",
                         }}
                       />
-                      {/* </div> */}
-                      {/* Item details */}
+
                       <ListItemText
                         primary={item.name}
                         secondary={`${item.size}`}
@@ -249,7 +245,7 @@ const Cart = () => {
                         }}
                         style={{ width: "250px" }}
                       />
-                      {/* Quantity and remove buttons */}
+
                       <Grid
                         container
                         alignItems="center"
@@ -293,7 +289,7 @@ const Cart = () => {
                           Remove
                         </Button>
                       </Grid>
-                      {/* Item price */}
+
                       <Typography variant="body1" className="item-price">
                         ${item.price * item.quantity}
                       </Typography>
@@ -305,14 +301,11 @@ const Cart = () => {
           </Card>
         </Grid>
 
-        {/* Invoice summary */}
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Invoice Summary" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Summary content */}
               {items.length > 0 ? (
                 <Grid container>
                   <Grid item xs={6}>
@@ -399,7 +392,6 @@ const Cart = () => {
         </Grid>
       </Grid>
 
-      {/* Confirmation modal */}
       <Modal
         open={showConfirmationModal}
         onClose={cancelRemoveCartItem}
@@ -478,7 +470,7 @@ const Cart = () => {
           </Grid>
         </Paper>
       </Modal>
-      {/* Error modal */}
+
       <Modal
         open={showErrorModal}
         onClose={closeErrorModal}
