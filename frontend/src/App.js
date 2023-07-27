@@ -6,7 +6,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import axios from "axios";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8000";
+  axios.defaults.baseURL = "https://cobblr-api.onrender.com";
   return (
     <div>
       <BrowserRouter>
