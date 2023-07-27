@@ -97,7 +97,7 @@ const AdditionalDetails = () => {
                             <Typography
                               style={{ fontSize: "large", paddingBottom: "8%" }}
                             >
-                              {productDetails.price}
+                              ${productDetails.price}
                             </Typography>
                           </Typography>
                         </Card>
