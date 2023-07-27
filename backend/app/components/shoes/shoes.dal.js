@@ -26,7 +26,7 @@ class ShoesDAL {
     let query = {};
 
     if (_ids && _ids.length === 1 && _ids[0] === "null") {
-      query = { tags: { $all: tags } };
+      query = { tags: { $in: tags } };
     } else {
       const currentShoesObjectIds = _ids.map(
         (shoeId) => new mongoose.Types.ObjectId(shoeId)
@@ -34,8 +34,7 @@ class ShoesDAL {
       query = { tags: { $in: tags }, _id: { $nin: currentShoesObjectIds } };
     }
 
-    const shoes = await Shoe.find(query, desiredKeys);
-
+    const shoes = await Shoe.find(query, desiredKeys).limit(3);
     return shoes;
   }
 

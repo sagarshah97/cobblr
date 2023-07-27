@@ -38,7 +38,7 @@ function WishlistPage() {
   // const userId = "64b813345ab966a0d7cd61a5";
   const [userId, setUserId] = useState(null);
   const [similarIds, setsimilarIds] = useState(null);
-  const [similarTags, setsimilarTags] = useState(null);
+  const [similarTags, setsimilarTags] = useState(["Casual"]);
   const [wishlist, setWishlist] = useState(null);
 
   // Spinner
@@ -99,7 +99,8 @@ function WishlistPage() {
         if (resp.status === 200) {
           console.log(resp.data);
           // alert(resp.data.message);
-          setWishlist(resp.data);
+          // setWishlist(resp.data);
+          getWishlist(userId);
           setSpinner(false);
           setAlertMessage("Product removed from wishlist!");
           setAlertType("success");
@@ -120,7 +121,7 @@ function WishlistPage() {
   const getWishlist = (usertId) => {
     setSpinner(true);
     axios
-      .post(`http://localhost:8000/wishlist/getWishlist`, {
+      .post(`/wishlist/getWishlist`, {
         _id: usertId,
       })
       .then((resp) => {
@@ -129,8 +130,7 @@ function WishlistPage() {
           setWishlist(resp.data);
 
           if (resp.data?.length == 0) {
-            setsimilarIds("");
-            setsimilarTags(["sneakers"]);
+            setsimilarIds("null");
           } else {
             let tags = resp.data.map((item) => item.tags).flat();
             setsimilarTags(tags);
@@ -255,8 +255,9 @@ function WishlistPage() {
         <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
           <div style={{ marginTop: "30px" }}>
             {similarIds && (
-              <></>
-              // <SimilarProducts tags={similarTags} _id={similarIds} />
+              <>
+                <SimilarProducts tags={similarTags} _id={similarIds} />
+              </>
             )}
           </div>
         </Box>
