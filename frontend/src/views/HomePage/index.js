@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -88,7 +89,7 @@ const ShoeViewer = () => {
           <ShoeContainer>
             <ShoeCard
               onClick={() =>
-                navigate("/productDetail/649dc5a07b56de6519346d47")
+                navigate("/productDetail/64c1b70497805fad9980cc1b")
               }
               sx={{ backgroundColor: "transparent" }}
             >
@@ -100,7 +101,7 @@ const ShoeViewer = () => {
           <ShoeContainer>
             <ShoeCard
               onClick={() =>
-                navigate("/productDetail/649e331a12edab48fe2c6021")
+                navigate("/productDetail/64c1b70497805fad9980cc1c")
               }
               sx={{ backgroundColor: "transparent" }}
             >
@@ -112,7 +113,7 @@ const ShoeViewer = () => {
           <ShoeContainer>
             <ShoeCard
               onClick={() =>
-                navigate("/productDetail/64c16ae0fc576bf42af23782")
+                navigate("/productDetail/64c1b70497805fad9980cc1d")
               }
               sx={{ backgroundColor: "transparent" }}
             >

@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import { useState } from "react";
 // axios
 import { useNavigate } from "react-router-dom";
@@ -363,6 +364,15 @@ export default function Login() {
                     >
                       Submit
                     </Button>
+                    <Typography
+                      style={{
+                        paddingTop: "5%",
+                        fontStyle: "italic",
+                        fontSize: "14px",
+                      }}
+                    >
+                      After submiting, please check your email
+                    </Typography>
                   </form>
                 </div>
               </Modal>

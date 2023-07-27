@@ -1,4 +1,4 @@
-// user.js
+// Author: Sahil Dilip Dalvi (B00939343)
 
 const { number } = require("joi");
 const mongoose = require("mongoose");
