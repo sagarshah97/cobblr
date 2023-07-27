@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 const orders = require("./orders.model");
 const ShoesDAL = require("../shoes/shoes.dal");
 
