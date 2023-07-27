@@ -208,7 +208,7 @@ function WishlistPage() {
                             <Typography
                               sx={{ fontSize: "18px", marginBottom: "2%" }}
                             >
-                              {item.price}
+                              ${item.price}
                             </Typography>
                             <Grid container>
                               <Grid
