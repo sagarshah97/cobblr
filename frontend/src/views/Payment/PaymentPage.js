@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {

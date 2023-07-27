@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const connectDB = require("./app/db/db.js");
@@ -10,7 +12,6 @@ const apiPort = 8000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
-// app.use(bodyParser.json({ limit: "50mb" }));
 
 connectDB();
 
