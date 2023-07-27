@@ -1,3 +1,5 @@
+// Author: Aayush Yogesh Pandya (B00939670)
+
 const User = require("../users/users.model");
 const Shoe = require("../shoes/shoes.model");
 const mongoose = require("mongoose");
