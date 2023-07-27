@@ -1,5 +1,6 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const ShoesDAL = require("./shoes.dal");
-const extractKeysFromObject = require("../../helpers/utils");
 class ShoeService {
   constructor() {
     this.shoesDAL = new ShoesDAL();

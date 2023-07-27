@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -157,12 +155,19 @@ const ProductListing = () => {
     setSearchText(event.target.value);
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = () => {
+    setSearchKeyword(searchText);
+    setSearchText("");
+  };
+
+  const handleSearchKeyDown = (event) => {
     if (event.key === "Enter") {
-      const searchKeyword = event.target.value;
-      setSearchKeyword(searchKeyword);
-      setSearchText("");
+      handleSearch();
     }
+  };
+
+  const handleSearchButtonClick = () => {
+    handleSearch();
   };
 
   return (
@@ -181,9 +186,16 @@ const ProductListing = () => {
                     value={searchText}
                     fullWidth
                     onChange={handleSearchTextChange}
-                    onKeyDown={handleSearch}
+                    onKeyDown={handleSearchKeyDown}
                     InputProps={{
-                      endAdornment: <Search />,
+                      endAdornment: (
+                        <IconButton
+                          color="inherit"
+                          onClick={handleSearchButtonClick}
+                        >
+                          <Search />
+                        </IconButton>
+                      ),
                       style: {
                         color: "white",
                       },
@@ -360,9 +372,16 @@ const ProductListing = () => {
                           value={searchText}
                           fullWidth
                           onChange={handleSearchTextChange}
-                          onKeyDown={handleSearch}
+                          onKeyDown={handleSearchKeyDown}
                           InputProps={{
-                            endAdornment: <Search />,
+                            endAdornment: (
+                              <IconButton
+                                color="inherit"
+                                onClick={handleSearchButtonClick}
+                              >
+                                <Search />
+                              </IconButton>
+                            ),
                             style: {
                               color: "white",
                             },

@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 const ShoesDAL = require("../shoes/shoes.dal");
 const extractKeysFromObject = require("../../helpers/utils");
 class FilterService {
@@ -75,7 +73,6 @@ class FilterService {
       ) {
         currentPage = 1;
       }
-      console.log("Reached here", visibleShoeData);
       const itemsPerPage = 8;
       const totalItems = visibleShoeData.length;
       const totalPages = Math.ceil(totalItems / itemsPerPage);

@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
@@ -23,6 +25,7 @@ import Footer from "../HomePage/Footer";
 import SimilarProducts from "../SimilarProducts/index";
 import DisplayReview from "../CustomerReviews/DisplayReviews";
 import Spinner from "../../utils/Loader";
+import { Alerts } from "../../utils/Alert";
 import "../../App.css";
 import axios from "axios";
 
@@ -56,6 +59,20 @@ const ProductDetail = () => {
   const [inventoryCheck, setInventoryCheck] = useState([]);
   const [productDetails, setProductDetails] = useState();
   const [userDetails, setUserDetails] = useState();
+
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+  const alertObj = {
+    alertMessage: alertMessage,
+    alertType: alertType,
+  };
+  const [snackbar, setSnackbar] = useState(false);
+  const snackbarOpen = () => {
+    setSnackbar(true);
+  };
+  const snackbarClose = () => {
+    setSnackbar(false);
+  };
 
   const checkIfUserIsLoggedIn = () => {
     if (!loggedInUserId) {
@@ -147,7 +164,9 @@ const ProductDetail = () => {
           setShowAlert(true);
         }
       } else {
-        window.alert("Please select a size");
+        setAlertMessage("Please select a size");
+        setAlertType("error");
+        snackbarOpen();
       }
     } else {
       navigateToLogin();
@@ -222,6 +241,13 @@ const ProductDetail = () => {
       {productDetails ? (
         <>
           <div>
+            {snackbar && (
+              <Alerts
+                alertObj={alertObj}
+                snackbar={snackbar}
+                snackbarClose={snackbarClose}
+              />
+            )}
             <Snackbar
               open={showAlert}
               autoHideDuration={6000}
@@ -381,6 +407,7 @@ const ProductDetail = () => {
                         style={{
                           padding: "0",
                           marginTop: "6%",
+                          color: "#38B5FF",
                         }}
                         onClick={() =>
                           navigate("/details", { state: { productDetails } })

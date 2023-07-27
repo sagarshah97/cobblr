@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({

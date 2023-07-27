@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 import React from "react";
 import { FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import "../../App.css";

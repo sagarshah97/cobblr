@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -95,7 +97,7 @@ const AdditionalDetails = () => {
                             <Typography
                               style={{ fontSize: "large", paddingBottom: "8%" }}
                             >
-                              {productDetails.price}
+                              ${productDetails.price}
                             </Typography>
                           </Typography>
                         </Card>

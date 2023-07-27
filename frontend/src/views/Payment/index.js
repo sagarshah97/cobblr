@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentPage from "./PaymentPage";

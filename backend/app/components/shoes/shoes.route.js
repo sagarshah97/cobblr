@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");

@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
