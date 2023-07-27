@@ -1,6 +1,4 @@
-/*
- * Author: Pratik Mukund Parmar (B00934515)
- */
+// Author: Pratik Mukund Parmar (B00934515)
 
 //Feature 2 under construction
 
