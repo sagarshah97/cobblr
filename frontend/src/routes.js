@@ -1,3 +1,5 @@
+// Author: Aayush Yogesh Pandya (B00939670)
+
 import React, { lazy, Suspense, useEffect, useState } from "react";
 
 import CircularProgress from "@mui/material/CircularProgress";
