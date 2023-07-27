@@ -1,6 +1,5 @@
-/*
- * Author: Pratik Mukund Parmar (B00934515)
- */
+// Author: Pratik Mukund Parmar (B00934515)
+
 const mongoose = require("mongoose");
 const User = require("../users/users.model");
 const Shoe = require("../shoes/shoes.model");
