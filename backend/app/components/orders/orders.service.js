@@ -1,6 +1,4 @@
-/*
- * Author: Ashish Ojha (B00931967)
- */
+//Author: Ashish Ojha (B00931967)
 const OrderDAL = require("./orders.dal");
 const dbConfig = require("../../config/index");
 const stripe = require("stripe")(dbConfig.stripeApiKey);
@@ -9,9 +7,6 @@ class OrderService {
   constructor() {
     this.orderDAL = new OrderDAL();
   }
-  /*
-   * Author: Ashish Ojha (B00931967)
-   */
   async getOrderById(_id) {
     return await this.orderDAL.getOrderById(_id);
   }
