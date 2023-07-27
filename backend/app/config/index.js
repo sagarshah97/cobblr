@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 require("dotenv-safe").config({
   path: "./.config/.env",
   allowEmptyValues: false,
@@ -17,4 +19,5 @@ module.exports = {
     timeoutWithoutRememberedMe: process.env.TIMEOUT_WITHOUT_REMEMBERED_ME,
   },
   stripeApiKey: process.env.STRIPE_API_KEY,
+  frontendBaseUrl: process.env.FRONTEND_BASE_URL,
 };

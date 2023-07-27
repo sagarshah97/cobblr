@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { generateEmailVerificationToken } = require("../../helpers/jwt");
 const sgMail = require("@sendgrid/mail");
 const nodemailer = require("nodemailer");
+const config = require("../../config/index");
 class UsersService {
   constructor() {
     this.usersDal = new UsersDal();
@@ -199,7 +200,7 @@ class UsersService {
     sgMail.setApiKey(
       "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"
     );
-    const resetPasswordLink = `http://localhost:3000/forgotpassword/${forgotPasswordToken}`;
+    const resetPasswordLink = `${config.frontendBaseUrl}/forgotpassword/${forgotPasswordToken}`;
 
     const msg = {
       to: email,
