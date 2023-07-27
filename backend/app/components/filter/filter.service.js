@@ -1,5 +1,4 @@
 //Author: Ashish Ojha (B00931967)
-//const ShoesDAL = require("../shoes/shoes.dal");
 const extractKeysFromObject = require("../../helpers/utils");
 const FilterDAL = require("./filter.dal");
 class FilterService {

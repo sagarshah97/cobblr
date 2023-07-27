@@ -157,6 +157,7 @@ const ProductListing = () => {
 
   const handleSearch = () => {
     setSearchKeyword(searchText);
+    setCurrentPage(1);
     setSearchText("");
   };
 

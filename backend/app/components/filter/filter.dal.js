@@ -102,9 +102,16 @@ class FilterDAL {
       }
     );
     const visibleShoeData = await Shoe.aggregate(pipeline).exec();
-    const totalItems = visibleShoeData.length;
-    console.log("visibleShoeData", visibleShoeData);
-    console.log("totalItems", totalItems);
+    const totalItemsQuery = {};
+
+    if (textSearchFilter.$or.length > 0 && filter.$and.length > 0) {
+      totalItemsQuery.$and = [textSearchFilter, { $and: filter.$and }];
+    } else if (textSearchFilter.$or.length > 0) {
+      totalItemsQuery.$or = textSearchFilter.$or;
+    } else if (filter.$and.length > 0) {
+      totalItemsQuery.$and = filter.$and;
+    }
+    const totalItems = await Shoe.countDocuments(totalItemsQuery);
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     return { visibleShoeData, totalPages, currentPage };
   }
