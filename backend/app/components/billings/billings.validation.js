@@ -36,6 +36,7 @@ module.exports = {
       date: validationSchema.date,
       email: validationSchema.email,
       invoiceNumber: validationSchema.invoiceNumber,
+      expectedDeliveryDate: validationSchema.date,
       items: validationSchema.items,
       phone: validationSchema.phone,
       subtotal: validationSchema.subtotal,
