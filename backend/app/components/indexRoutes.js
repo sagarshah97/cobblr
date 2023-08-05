@@ -12,6 +12,7 @@ const adminRoutes = require("./admin/admin.route");
 const wishlistRoutes = require("./wishlist/wishlist.route");
 const cartRoutes = require("./cart/cart.route");
 const filterRoutes = require("./filter/filter.route");
+const billingRoutes = require("./billings/billings.route");
 
 const healthCheck = (request, response) => {
   response.status(200).send({
@@ -29,6 +30,7 @@ router.use("/admin", adminRoutes);
 router.use("/wishlist", wishlistRoutes);
 router.use("/cart", cartRoutes);
 router.use("/filter", filterRoutes);
+router.use("/billing", billingRoutes);
 
 module.exports.router = router;
 module.exports.healthCheck = healthCheck;
