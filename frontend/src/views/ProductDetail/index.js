@@ -390,6 +390,29 @@ const ProductDetail = () => {
                               },
                             },
                           }}
+                          sx={{
+                            height: "100%",
+                            "& .MuiOutlinedInput-input": {
+                              color: "#fff",
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                              borderColor: "#fff",
+                            },
+                            "& .MuiSelect-icon": {
+                              color: "#fff",
+                            },
+                            "&:hover": {
+                              "& .MuiOutlinedInput-input": {
+                                color: "#fff",
+                              },
+                              "& .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "#fff",
+                              },
+                              "& .MuiSelect-icon": {
+                                color: "#fff",
+                              },
+                            },
+                          }}
                         >
                           {inventoryCheck.map((product) => (
                             <MenuItem value={product.size}>
