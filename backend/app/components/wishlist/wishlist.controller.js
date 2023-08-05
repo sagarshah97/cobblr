@@ -1,3 +1,5 @@
+// Author: Aayush Yogesh Pandya (B00939670)
+
 const WishlistService = require("./wishlist.service");
 
 class WishlistController {

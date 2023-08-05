@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 const UsersDal = require("./users.dal");
 const bcrypt = require("bcrypt");
 const { generateEmailVerificationToken } = require("../../helpers/jwt");

@@ -16,7 +16,7 @@ import "../../App.css";
 import axios from "axios";
 
 const PaymentPage = (props) => {
-  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
+  const loggedInUserId = window.sessionStorage.getItem("userId");
 
   const orderDetails = props.details;
   const amount = props.details.total;
@@ -73,10 +73,11 @@ const PaymentPage = (props) => {
     if (error) {
       console.error(error);
     } else {
+      console.log(amount);
       try {
-        const response = await axios.post(`/orders/makePayment`, {
+        const response = await axios.post(`/billing/makePayment`, {
           paymentMethodId: paymentMethod.id,
-          amount: amount * 100, //amount (in cents)
+          amount: parseInt(amount * 100), //amount (in cents)
         });
         if (response?.data?.success) {
           createOrder();
@@ -95,9 +96,10 @@ const PaymentPage = (props) => {
       time: new Date().toLocaleTimeString(),
       userId: loggedInUserId,
     };
-
+    delete body._id;
+    console.log(body);
     axios
-      .post(`/orders/create`, body)
+      .post(`/billing/create`, body)
       .then((res) => {
         if (res?.data?._id) {
           setPaid(true);
@@ -134,7 +136,7 @@ const PaymentPage = (props) => {
             <Grid item xs={12}>
               <span style={{ fontWeight: 200, fontSize: "large" }}>
                 {" "}
-                {`Amount: ${amount}`}
+                {`Amount: $${amount}`}
               </span>
             </Grid>
             <Grid item xs={12}>
