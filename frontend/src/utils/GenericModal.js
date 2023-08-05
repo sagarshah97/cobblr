@@ -12,32 +12,31 @@ const GenericModal = ({
   buttonLabel2,
   buttonColor2,
 }) => {
-  const modalStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-
-  const paperStyle = {
-    backgroundColor: "#fff",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
-    padding: "2%",
-    margin: "4%",
-    width: "30rem",
-  };
-
-  const buttonStyle = {
-    marginTop: "16px",
-  };
-
   const handleButtonClick = (event) => {
     onButtonClick(event.target.value);
   };
 
   return (
     <>
-      <Modal open={open} onClose={onClose} style={modalStyle}>
-        <Paper style={paperStyle}>
+      <Modal
+        open={open}
+        onClose={onClose}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Paper
+          style={{
+            backgroundColor: "#3d3d3d",
+            color: "white",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+            padding: "2%",
+            margin: "4%",
+            width: "30rem",
+          }}
+        >
           <Typography
             component="h2"
             style={{
@@ -77,9 +76,11 @@ const GenericModal = ({
               <Button
                 variant="contained"
                 color={buttonColor1}
-                style={buttonStyle}
                 value={buttonLabel1}
                 onClick={handleButtonClick}
+                style={{
+                  marginTop: "16px",
+                }}
               >
                 {buttonLabel1}
               </Button>
@@ -88,9 +89,11 @@ const GenericModal = ({
               <Button
                 variant="contained"
                 color={buttonColor2}
-                style={buttonStyle}
                 value={buttonLabel2}
                 onClick={handleButtonClick}
+                style={{
+                  marginTop: "16px",
+                }}
               >
                 {buttonLabel2}
               </Button>
