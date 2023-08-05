@@ -23,7 +23,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import Footer from "../HomePage/Footer";
 import GenericModal from "../../utils/GenericModal";
 import axios from "axios";
-import Spinner from "../../utils/Spinner";
+import Spinner from "../../utils/Loader";
 
 const BillingDetails = () => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
@@ -55,9 +55,13 @@ const BillingDetails = () => {
   const [custCountry, setCustCountry] = useState("");
 
   useEffect(() => {
-    getUserDetails();
-    getCartDetails();
-  }, []);
+    if (loggedInUserId) {
+      getUserDetails();
+      getCartDetails();
+    } else {
+      navigate("/login");
+    }
+  }, [loggedInUserId]);
 
   const getCartDetails = () => {
     axios
@@ -122,7 +126,7 @@ const BillingDetails = () => {
     const handleButtonClick = (param) => {
       handleClose();
       if (param === "Yes") {
-        navigate("/");
+        navigate("/cart");
       }
     };
 
