@@ -1059,13 +1059,26 @@ const BillingDetails = () => {
                 padding: "3%",
                 marginBottom: "4%",
               }}
+              sx={{
+                "& .MuiStepLabel-label": {
+                  color: "white",
+                },
+                "& .MuiStepLabel-label.Mui-active ": {
+                  color: "#009ce8",
+                  fontWeight: "bold",
+                },
+                "& .MuiStepLabel-label.Mui-completed ": {
+                  color: "#00e600",
+                  fontWeight: "bold",
+                },
+              }}
               className="stepper-icon"
             >
               <Step>
-                <StepLabel className="stepper-style">Contact Details</StepLabel>
+                <StepLabel>Contact Details</StepLabel>
               </Step>
               <Step>
-                <StepLabel className="stepper-style">Address Details</StepLabel>
+                <StepLabel>Address Details</StepLabel>
               </Step>
             </Stepper>
 
