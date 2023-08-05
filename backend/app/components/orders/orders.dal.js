@@ -36,11 +36,6 @@ class OrderDAL {
       return null;
     }
   }
-
-  async create(orderDetails) {
-    const createdRecord = await orders.create(orderDetails);
-    return createdRecord._id;
-  }
 }
 
 module.exports = OrderDAL;
