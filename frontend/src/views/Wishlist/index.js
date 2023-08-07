@@ -193,7 +193,15 @@ function WishlistPage() {
   return (
     <>
       <Box sx={{ backgroundColor: "#0F0F0F" }}>
-        <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
+        <Box
+          component="main"
+          sx={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            color: "#fff",
+            width: "100%",
+          }}
+        >
           <Toolbar />
           <Typography variant="h5">Wishlist</Typography>
           <div style={{ marginTop: "30px" }}>
@@ -207,16 +215,30 @@ function WishlistPage() {
                 {wishlist?.length > 0 &&
                   wishlist.map((item, index) => (
                     <>
-                      <Grid item xs={4} sm={4} md={4} key={index}>
+                      <Grid item xs={8} sm={6} md={4} key={index}>
                         <Grid container spacing={1}>
-                          <Grid item xs={6}>
-                            <img
-                              className="card-image"
-                              src={"data:image/png;base64," + item.images.data}
-                              alt={item.images.name}
-                            />
+                          <Grid item xs={12} sm={12} md={6} lg={6}>
+                            <div class="image-container">
+                              <img
+                                className="image"
+                                src={
+                                  "data:image/png;base64," + item.images.data
+                                }
+                                alt={item.images.name}
+                                style={{
+                                  borderRadius: "15px",
+                                }}
+                              />
+                            </div>
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={12}
+                            md={6}
+                            lg={6}
+                            style={{ paddingLeft: "3%" }}
+                          >
                             <Typography variant="h6">{item.name}</Typography>
                             <Typography
                               sx={{ color: "gray", fontSize: "15px" }}
@@ -235,7 +257,10 @@ function WishlistPage() {
                               >
                                 <Button
                                   variant="outlined"
-                                  sx={{ width: "6rem" }}
+                                  sx={{
+                                    borderColor: "#38B5FF",
+                                    color: "#38B5FF",
+                                  }}
                                   onClick={() => {
                                     navigate(`/productdetail/${item._id}`);
                                   }}
@@ -246,7 +271,10 @@ function WishlistPage() {
                               <Grid item>
                                 <Button
                                   variant="outlined"
-                                  sx={{ width: "6rem" }}
+                                  sx={{
+                                    borderColor: "#38B5FF",
+                                    color: "#38B5FF",
+                                  }}
                                   onClick={() => {
                                     removeWishlistItem(userId, item._id);
                                   }}
