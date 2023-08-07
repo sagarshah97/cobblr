@@ -28,6 +28,7 @@ import Payment from "./views/Payment/index.js";
 import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
 import Review from "./views/CustomerReviews/index.js";
 import AdminPage from "./views/Admin/index.js";
+import Store from "./views/Stores/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -91,6 +92,7 @@ const Router = () => {
             element={<OrderConfirmationPage />}
           />
           <Route path="admin" element={<AdminPage />} />
+          <Route path="/stores" element={<Store />} />
         </Route>
       </Routes>
     </Suspense>

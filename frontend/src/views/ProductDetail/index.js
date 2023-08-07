@@ -6,6 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import {
   Grid,
   Card,
+  Chip,
   Select,
   MenuItem,
   CardContent,
@@ -355,6 +356,21 @@ const ProductDetail = () => {
                     >
                       {productDetails.name}
                     </Typography>
+                    {productDetails.tags && (
+                      <Typography style={{ marginBottom: "2%" }}>
+                        {productDetails.tags?.map((tag, index) => (
+                          <Chip
+                            key={index}
+                            label={tag}
+                            color="primary"
+                            style={{
+                              marginRight: "10px",
+                              backgroundColor: "#605d5d",
+                            }}
+                          />
+                        ))}
+                      </Typography>
+                    )}
                     <Typography style={{ paddingBottom: "5%" }}>
                       {productDetails.subText}
                     </Typography>
@@ -492,7 +508,7 @@ const ProductDetail = () => {
               Customer Reviews
             </div>
             {/* display customer review component tag   */}
-            <div style={{ padding: "3%" }}>
+            <div style={{ paddingLeft: "2%" }}>
               {" "}
               {/* Add padding to the left */}
               <DisplayReview shoeId={_id} />
