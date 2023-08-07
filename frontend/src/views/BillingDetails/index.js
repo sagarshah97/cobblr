@@ -65,7 +65,15 @@ const BillingDetails = () => {
 
   const getCartDetails = () => {
     axios
-      .post(`billing/getFinalOrder`, { userId: loggedInUserId })
+      .post(
+        `billing/getFinalOrder`,
+        { userId: loggedInUserId },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.length) {
           setCartDetails(res.data[0]);
@@ -78,7 +86,15 @@ const BillingDetails = () => {
 
   const getUserDetails = () => {
     axios
-      .post(`users/getUserDetails`, { _id: loggedInUserId })
+      .post(
+        `users/getUserDetails`,
+        { _id: loggedInUserId },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         if (res?.data?.userDetails) {
           const userDetails = res.data.userDetails;
