@@ -164,6 +164,7 @@ function WishlistPage() {
           //   // alert(false);
           // }, 1000);
         }
+        setSpinner(false);
       })
       .catch((error) => {
         console.log(error.config);
