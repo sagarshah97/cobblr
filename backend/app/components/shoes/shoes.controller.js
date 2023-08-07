@@ -1,5 +1,3 @@
-// Author: Sagar Paresh Shah (B00930009)
-
 const ShoesService = require("./shoes.service");
 
 class ShoeController {
@@ -58,6 +56,38 @@ class ShoeController {
       } else {
         response.status(400).json({ error: "Error saving data." });
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async filterShoes(request, response, next) {
+    try {
+      const {
+        sortValue,
+        selectedFilters,
+        currentPage,
+        searchKeyword,
+        pageChangeType,
+      } = request.body;
+      if (!sortValue) {
+        return response
+          .status(400)
+          .json({ error: "Missing required parameters." });
+      }
+      const filteredShoes = await this.shoesService.filterShoes(
+        sortValue,
+        selectedFilters,
+        currentPage,
+        searchKeyword,
+        pageChangeType
+      );
+      if (filteredShoes.length === 0) {
+        return response
+          .status(404)
+          .json({ error: "No matching records found." });
+      }
+      response.status(200).json(filteredShoes);
     } catch (error) {
       next(error);
     }

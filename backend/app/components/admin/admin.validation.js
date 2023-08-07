@@ -2,7 +2,6 @@ const Joi = require("joi");
 
 const validationSchema = {
   _id: Joi.string().min(1).required(),
-  _ids: Joi.array().items(Joi.string()),
   code: Joi.string().min(1).required(),
   name: Joi.string().min(3).max(100).required(),
   subText: Joi.string().min(3).required(),
@@ -21,15 +20,6 @@ const validationSchema = {
   type: Joi.string().min(1).required(),
   material: Joi.string().min(1).required(),
   availability: Joi.boolean().required(),
-  sortValue: Joi.string()
-    .valid("sort1", "sort2", "sort3")
-    .default("sort1")
-    .required(),
-  selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
-  currentPage: Joi.number().default(1).optional(),
-  searchKeyword: Joi.string().allow("", null).optional(),
-  pageChangeType: Joi.string().allow("", null).optional(),
-  value: Joi.string().min(0),
 };
 
 module.exports = {
@@ -41,26 +31,26 @@ module.exports = {
   addShoe: {
     body: Joi.object({
       code: validationSchema.code,
-      name: validationSchema.name,
-      subText: validationSchema.subText,
-      shortDescription: validationSchema.shortDescription,
-      price: validationSchema.price,
-      color: validationSchema.color,
-      availableQuanity: Joi.array(),
-      images: validationSchema.images,
-      briefDescription: validationSchema.briefDescription,
-      brand: validationSchema.brand,
-      tags: validationSchema.tags,
-      category: validationSchema.category,
-      gender: validationSchema.gender,
-      type: validationSchema.type,
-      material: validationSchema.material,
-      availability: validationSchema.availability,
+      // name: validationSchema.name,
+      // subText: validationSchema.subText,
+      // shortDescription: validationSchema.shortDescription,
+      // price: validationSchema.price,
+      // color: validationSchema.color,
+      // sizes: validationSchema.sizes,
+      // quantity: validationSchema.quantity,
+      // briefDescription: validationSchema.briefDescription,
+      // brand: validationSchema.brand,
+      // tags: validationSchema.tags,
+      // category: validationSchema.category,
+      // gender: validationSchema.gender,
+      // type: validationSchema.type,
+      // material: validationSchema.material,
+      // availability: validationSchema.availability,
     }),
   },
   searchShoes: {
     body: Joi.object({
-      value: validationSchema.value,
+      value: validationSchema.code,
     }),
   },
 };

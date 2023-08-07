@@ -223,6 +223,15 @@
   overflow-wrap: anywhere;
 }
 
+.stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-completed {
+  color: white;
+  overflow-wrap: anywhere;
+}
+
+.stepper-style .css-1hv8oq8-MuiStepLabel-label.Mui-active {
+  color: #009ce8;
+}
+
 .stepper-icon .MuiStepIcon-root {
   border: 2px solid white;
   border-radius: 50%;
@@ -234,8 +243,8 @@
 }
 
 .stepper-icon .MuiStepIcon-root.Mui-completed {
-  color: #00e600;
-  border: 1px solid #00e600;
+  color: green;
+  border: 1px solid green;
 }
 
 .pay-radio.MuiRadio-root {

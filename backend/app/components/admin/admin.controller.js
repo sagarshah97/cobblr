@@ -36,26 +36,6 @@ class AdminController {
       next(error);
     }
   }
-
-  async modifyShoe(request, response, next) {
-    try {
-      const shoeCode = await this.adminService.modifyShoe(request.body);
-      console.log(shoeCode);
-      if (shoeCode === request.body.code) {
-        response
-          .status(200)
-          .json({ message: "Successfully updated record.", code: shoeCode });
-      }
-      // else if (shoeCode.code === 11000) {
-      //   response.status(400).json({ error: "Duplicate key error." });
-      // }
-      else {
-        response.status(400).json({ error: "Error saving data." });
-      }
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 module.exports = new AdminController();

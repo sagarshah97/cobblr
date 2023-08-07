@@ -1,4 +1,3 @@
-//Author: Ashish Ojha (B00931967)
 import React, { useRef } from "react";
 import {
   Card,

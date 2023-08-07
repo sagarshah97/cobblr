@@ -1,4 +1,3 @@
-// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import adidasImage from "../../assets/images/Home/adidas.png";
 import nikeImage from "../../assets/images/Home/nike.png";

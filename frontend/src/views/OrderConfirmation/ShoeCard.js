@@ -1,4 +1,3 @@
-//Author: Ashish Ojha (B00931967)
 import React from "react";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 

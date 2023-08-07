@@ -1,13 +1,9 @@
-//Author: Ashish Ojha (B00931967)
 const orders = require("./orders.model");
 const ShoesDAL = require("../shoes/shoes.dal");
 
 const shoesDAL = new ShoesDAL();
 
 class OrderDAL {
-  /*
-   * Author: Ashish Ojha (B00931967)
-   */
   async getOrderById(_id) {
     try {
       let order = await orders.findById(_id);
@@ -35,6 +31,11 @@ class OrderDAL {
     } catch (error) {
       return null;
     }
+  }
+
+  async create(orderDetails) {
+    const createdRecord = await orders.create(orderDetails);
+    return createdRecord._id;
   }
 }
 

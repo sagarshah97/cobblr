@@ -1,4 +1,3 @@
-//Author: Ashish Ojha (B00931967)
 const express = require("express");
 const { validate } = require("../../lib/expressValidation");
 const OrderController = require("./orders.controller");
@@ -14,4 +13,17 @@ router
     orderController.getOrderById.bind(orderController)
   );
 
+router
+  .route("/makePayment")
+  .post(
+    validate(ordersValidation.payment),
+    orderController.payment.bind(orderController)
+  );
+
+router
+  .route("/create")
+  .post(
+    validate(ordersValidation.create),
+    orderController.create.bind(orderController)
+  );
 module.exports = router;

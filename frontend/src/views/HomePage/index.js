@@ -1,4 +1,3 @@
-// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -15,11 +14,10 @@ import airforce from "../../assets/images/Home/airforce-removebg-preview.png";
 import lostandfound from "../../assets/images/Home/lostandfound.png";
 import orangelobster from "../../assets/images/Home/orangelobster.png";
 // ParallaxImage
-// import { useNavigate } from "react-router-dom";
 
 const ShoeContainer = styled("div")({
   width: "90%",
-  height: "300px",
+  height: "300px", // Adjust the height as desired
   perspective: "1000px",
 });
 
@@ -32,7 +30,7 @@ const ShoeCard = styled(Card)({
   "&:hover": {
     transform: "rotateY(180deg)",
   },
-  willChange: "transform",
+  willChange: "transform", // Added property
 });
 
 const ShoeImage = styled(CardMedia)({
@@ -52,11 +50,10 @@ const Title = styled(Typography)({
 
 const ShoeViewer = () => {
   const navigate = useNavigate();
-  // const navigate = useNavigate();
 
-  // const handleShoeClick = () => {
-  //   navigate("/productdetail");
-  // };
+  const handleShoeClick = () => {
+    navigate("/productdetail");
+  };
 
   return (
     <div>
@@ -88,9 +85,7 @@ const ShoeViewer = () => {
         <Grid item xs={12} sm={6} md={4}>
           <ShoeContainer>
             <ShoeCard
-              onClick={() =>
-                navigate("/productDetail/64c1b70497805fad9980cc1b")
-              }
+              onClick={handleShoeClick}
               sx={{ backgroundColor: "transparent" }}
             >
               <ShoeImage component="img" alt="Shoe 1" src={airforce} />
@@ -100,9 +95,7 @@ const ShoeViewer = () => {
         <Grid item xs={12} sm={6} md={4}>
           <ShoeContainer>
             <ShoeCard
-              onClick={() =>
-                navigate("/productDetail/64c1b70497805fad9980cc1c")
-              }
+              onClick={handleShoeClick}
               sx={{ backgroundColor: "transparent" }}
             >
               <ShoeImage component="img" alt="Shoe 2" src={orangelobster} />
@@ -112,9 +105,7 @@ const ShoeViewer = () => {
         <Grid item xs={12} sm={6} md={4}>
           <ShoeContainer>
             <ShoeCard
-              onClick={() =>
-                navigate("/productDetail/64c1b70497805fad9980cc1d")
-              }
+              onClick={handleShoeClick}
               sx={{ backgroundColor: "transparent" }}
             >
               <ShoeImage component="img" alt="Shoe 3" src={lostandfound} />

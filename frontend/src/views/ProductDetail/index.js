@@ -1,12 +1,10 @@
-// Author: Sagar Paresh Shah (B00930009)
-
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
+
 import {
   Grid,
   Card,
-  Chip,
   Select,
   MenuItem,
   CardContent,
@@ -25,15 +23,14 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import Footer from "../HomePage/Footer";
 import SimilarProducts from "../SimilarProducts/index";
 import DisplayReview from "../CustomerReviews/DisplayReviews";
-import Spinner from "../../utils/Loader";
-import { Alerts } from "../../utils/Alert";
+import Spinner from "../../utils/Spinner";
 import "../../App.css";
 import axios from "axios";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductDetail = () => {
-  const loggedInUserId = window.sessionStorage.getItem("userId");
+  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
   const location = useLocation();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -60,32 +57,6 @@ const ProductDetail = () => {
   const [inventoryCheck, setInventoryCheck] = useState([]);
   const [productDetails, setProductDetails] = useState();
   const [userDetails, setUserDetails] = useState();
-
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-  const alertObj = {
-    alertMessage: alertMessage,
-    alertType: alertType,
-  };
-  const [snackbar, setSnackbar] = useState(false);
-  const snackbarOpen = () => {
-    setSnackbar(true);
-  };
-  const snackbarClose = () => {
-    setSnackbar(false);
-  };
-
-  const checkIfUserIsLoggedIn = () => {
-    if (!loggedInUserId) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  const navigateToLogin = () => {
-    navigate("/login");
-  };
 
   useEffect(() => {
     getProductDetail();
@@ -119,25 +90,23 @@ const ProductDetail = () => {
   };
 
   const getUserWishlistCart = () => {
-    if (checkIfUserIsLoggedIn()) {
-      axios
-        .post(`/users/getWishlistCart`, { _id: loggedInUserId })
-        .then((res) => {
-          if (res?.data?.userDetails) {
-            setUserDetails(res.data.userDetails);
-            const details = res.data.userDetails;
-            setBagCount(details.cart.items.length);
-            setWishlistCount(details.wishlist.length);
-            if (details.wishlist.includes(_id)) {
-              setWishBtnLabel("wishlisted");
-              setDisableWishlist(true);
-            }
+    axios
+      .post(`/users/getWishlistCart`, { _id: loggedInUserId })
+      .then((res) => {
+        if (res?.data?.userDetails) {
+          setUserDetails(res.data.userDetails);
+          const details = res.data.userDetails;
+          setBagCount(details.cart.items.length);
+          setWishlistCount(details.wishlist.length);
+          if (details.wishlist.includes(_id)) {
+            setWishBtnLabel("wishlisted");
+            setDisableWishlist(true);
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const checkForOutOfStock = (data) => {
@@ -155,22 +124,16 @@ const ProductDetail = () => {
   };
 
   const handleAddToBag = async () => {
-    if (checkIfUserIsLoggedIn()) {
-      if (selectedSize && selectedSize !== "Select size") {
-        const resp = await checkForAlreadyInBag();
-        if (!resp) {
-          updateUserCart();
-        } else {
-          setAlertMsg("Item already in the bag!");
-          setShowAlert(true);
-        }
+    if (selectedSize && selectedSize !== "Select size") {
+      const resp = await checkForAlreadyInBag();
+      if (!resp) {
+        updateUserCart();
       } else {
-        setAlertMessage("Please select a size");
-        setAlertType("error");
-        snackbarOpen();
+        setAlertMsg("Item already in the bag!");
+        setShowAlert(true);
       }
     } else {
-      navigateToLogin();
+      window.alert("Please select a size");
     }
   };
 
@@ -186,12 +149,11 @@ const ProductDetail = () => {
 
   const updateUserCart = () => {
     axios
-      .post(`/cart/addToCart`, {
-        userId: loggedInUserId,
-        cartItem: { shoeId: _id, size: selectedSize, quantity: 1 },
+      .post(`/users/addToCart`, {
+        _id: loggedInUserId,
+        selectedItem: { shoeId: _id, size: selectedSize, quantity: 1 },
       })
       .then((res) => {
-        console.log(res.data);
         if (res?.data?.message.toLowerCase().includes("added to cart")) {
           setDisableBag(true);
           setAlertMsg("Item added to the bag successfully!");
@@ -208,21 +170,17 @@ const ProductDetail = () => {
   };
 
   const handleAddToWishlist = () => {
-    if (checkIfUserIsLoggedIn()) {
-      updateUserWishlist();
-    } else {
-      navigateToLogin();
-    }
+    updateUserWishlist();
   };
 
   const updateUserWishlist = () => {
     axios
-      .post(`/wishlist/addItemWishlist`, {
-        userId: loggedInUserId,
-        itemId: _id,
+      .post(`/users/addToWishlist`, {
+        _id: loggedInUserId,
+        wishlistedItem: _id,
       })
       .then((res) => {
-        if (res?.data?.wishlist?.length) {
+        if (res?.data?.message.toLowerCase().includes("added to wishlist")) {
           setDisableWishlist(true);
           setAlertMsg("Item added to the wishlist successfully!");
           setAlertVariant("success");
@@ -242,13 +200,6 @@ const ProductDetail = () => {
       {productDetails ? (
         <>
           <div>
-            {snackbar && (
-              <Alerts
-                alertObj={alertObj}
-                snackbar={snackbar}
-                snackbarClose={snackbarClose}
-              />
-            )}
             <Snackbar
               open={showAlert}
               autoHideDuration={6000}
@@ -285,12 +236,7 @@ const ProductDetail = () => {
                 md={4}
               >
                 <div>
-                  <IconButton
-                    aria-label="cart"
-                    onClick={() => {
-                      navigate("/cart");
-                    }}
-                  >
+                  <IconButton aria-label="cart">
                     <Badge
                       badgeContent={bagCount}
                       color="primary"
@@ -304,7 +250,7 @@ const ProductDetail = () => {
                 </div>
                 <div>
                   <IconButton
-                    aria-label="wishlist"
+                    aria-label="cart"
                     onClick={() => {
                       navigate("/wishlist");
                     }}
@@ -356,28 +302,13 @@ const ProductDetail = () => {
                     >
                       {productDetails.name}
                     </Typography>
-                    {productDetails.tags && (
-                      <Typography style={{ marginBottom: "2%" }}>
-                        {productDetails.tags?.map((tag, index) => (
-                          <Chip
-                            key={index}
-                            label={tag}
-                            color="primary"
-                            style={{
-                              marginRight: "10px",
-                              backgroundColor: "#605d5d",
-                            }}
-                          />
-                        ))}
-                      </Typography>
-                    )}
                     <Typography style={{ paddingBottom: "5%" }}>
                       {productDetails.subText}
                     </Typography>
                     <Typography
                       style={{ fontSize: "large", paddingBottom: "8%" }}
                     >
-                      ${productDetails.price}
+                      {productDetails.price}
                     </Typography>
                     <Typography style={{ color: "black" }}>
                       <FormControl fullWidth>
@@ -406,29 +337,6 @@ const ProductDetail = () => {
                               },
                             },
                           }}
-                          sx={{
-                            height: "100%",
-                            "& .MuiOutlinedInput-input": {
-                              color: "#fff",
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "#fff",
-                            },
-                            "& .MuiSelect-icon": {
-                              color: "#fff",
-                            },
-                            "&:hover": {
-                              "& .MuiOutlinedInput-input": {
-                                color: "#fff",
-                              },
-                              "& .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "#fff",
-                              },
-                              "& .MuiSelect-icon": {
-                                color: "#fff",
-                              },
-                            },
-                          }}
                         >
                           {inventoryCheck.map((product) => (
                             <MenuItem value={product.size}>
@@ -446,7 +354,6 @@ const ProductDetail = () => {
                         style={{
                           padding: "0",
                           marginTop: "6%",
-                          color: "#38B5FF",
                         }}
                         onClick={() =>
                           navigate("/details", { state: { productDetails } })
@@ -508,7 +415,7 @@ const ProductDetail = () => {
               Customer Reviews
             </div>
             {/* display customer review component tag   */}
-            <div style={{ paddingLeft: "2%" }}>
+            <div style={{ paddingLeft: "3%" }}>
               {" "}
               {/* Add padding to the left */}
               <DisplayReview shoeId={_id} />

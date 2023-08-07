@@ -1,12 +1,9 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import spinnerWhite from "../assets/images/spinner-white.png";
-import spinnerBlack from "../assets/images/spinner-black.png";
-export default function Loader(props) {
+import spinner from "../assets/images/spinner.png";
+export default function Loader() {
   //   const [open, setOpen] = React.useState(false);
   //   const handleClose = () => {};
   //   const handleOpen = () => {
@@ -19,11 +16,7 @@ export default function Loader(props) {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
       >
-        {props?.color === "black" ? (
-          <img className="spinner-image" src={spinnerBlack} alt="Spinner" />
-        ) : (
-          <img className="spinner-image" src={spinnerWhite} alt="Spinner" />
-        )}
+        <img className="spinner-image" src={spinner} alt="Spinner" />
       </Backdrop>
     </div>
   );

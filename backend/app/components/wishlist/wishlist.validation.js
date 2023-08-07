@@ -1,5 +1,3 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 const Joi = require("joi");
 
 const validationSchema = {

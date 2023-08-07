@@ -27,14 +27,11 @@ router
 //   );
 
 // add a new shoe record
-router.route("/addShoe").post(
-  // validate(adminValidation.addShoe),
-  adminController.addShoe.bind(adminController)
-);
-
-router.route("/modifyShoe").post(
-  // validate(adminValidation.addShoe),
-  adminController.modifyShoe.bind(adminController)
-);
+router
+  .route("/addShoe")
+  .post(
+    validate(adminValidation.addShoe),
+    adminController.addShoe.bind(adminController)
+  );
 
 module.exports = router;

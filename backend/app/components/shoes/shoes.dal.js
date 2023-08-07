@@ -1,5 +1,3 @@
-// Author: Sagar Paresh Shah (B00930009)
-
 const mongoose = require("mongoose");
 const Shoe = require("./shoes.model");
 
@@ -24,19 +22,15 @@ class ShoesDAL {
       images: { $slice: 1 },
     };
     const { tags, _ids } = reqBody;
+    const currentShoesObjectIds = _ids.map(
+      (shoeId) => new mongoose.Types.ObjectId(shoeId)
+    );
 
-    let query = {};
+    const shoes = await Shoe.find(
+      { tags: { $all: tags }, _id: { $nin: currentShoesObjectIds } },
+      desiredKeys
+    );
 
-    if (_ids && _ids.length === 1 && _ids[0] === "null") {
-      query = { tags: { $in: tags } };
-    } else {
-      const currentShoesObjectIds = _ids.map(
-        (shoeId) => new mongoose.Types.ObjectId(shoeId)
-      );
-      query = { tags: { $in: tags }, _id: { $nin: currentShoesObjectIds } };
-    }
-
-    const shoes = await Shoe.find(query, desiredKeys).limit(3);
     return shoes;
   }
 

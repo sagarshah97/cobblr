@@ -1,5 +1,3 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -25,7 +23,7 @@ import logo from "../assets/images/logo-white.png";
 // import "./App.css";
 
 const drawerWidth = 240;
-const navItems = ["Profile", "Logout"];
+const navItems = ["Logout"];
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -49,9 +47,6 @@ function App(props) {
           paddingTop: "10px",
           borderRadius: "0",
         }}
-        onClick={() => {
-          navigate("/homepage");
-        }}
       >
         <img src={logo} alt="" width={150} />
       </Paper>
@@ -59,17 +54,7 @@ function App(props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton
-              sx={{ textAlign: "center" }}
-              onClick={() => {
-                if (item === "Logout") {
-                  sessionStorage.clear();
-                  navigate("/login");
-                } else if (item === "Profile") {
-                  navigate("/profile");
-                }
-              }}
-            >
+            <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -124,15 +109,11 @@ function App(props) {
           </IconButton>
           <Paper
             variant="outlined"
-            onClick={() => {
-              navigate("/homepage");
-            }}
             sx={{
               flexGrow: 1,
               display: { xs: "none", sm: "block", backgroundColor: "#262626" },
               borderWidth: "0px",
               paddingTop: "10px",
-              cursor: "pointer",
             }}
           >
             <img src={logo} alt="" width={150} />
@@ -143,12 +124,9 @@ function App(props) {
                 key={item}
                 sx={{ color: "#fff" }}
                 onClick={() => {
-                  if (item === "Logout") {
-                    sessionStorage.clear();
-                    navigate("/login");
-                  } else if (item === "Profile") {
-                    navigate("/profile");
-                  }
+                  //window.location.pathname = "/login";
+                  //   console.log(window);
+                  navigate("/login");
                 }}
               >
                 {item}

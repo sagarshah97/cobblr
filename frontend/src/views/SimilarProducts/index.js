@@ -1,15 +1,12 @@
-// Author: Sagar Paresh Shah (B00930009)
-
 import { React, useState, useEffect } from "react";
 import { Grid, Typography, Card } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import "../../App.css";
-import Spinner from "../../utils/Loader";
+import Spinner from "../../utils/Spinner";
 
 const SimilarProducts = (props) => {
-  console.log(props);
   const id = props._id;
   const [oldId, setOldId] = useState("");
 
@@ -21,10 +18,11 @@ const SimilarProducts = (props) => {
   }, [id]);
 
   const getSimilarProducts = () => {
+    console.log(props);
     axios
       .post(`/shoes/getSimilarShoes`, {
         tags: props.tags,
-        _ids: typeof id === "string" ? [id] : id,
+        _ids: [id],
       })
       .then((res) => {
         setOldId(id);
@@ -121,7 +119,7 @@ const SimilarProducts = (props) => {
                           paddingBottom: "5%",
                         }}
                       >
-                        ${shoe.price}
+                        {shoe.price}
                       </Typography>
                     </Typography>
                   </Card>

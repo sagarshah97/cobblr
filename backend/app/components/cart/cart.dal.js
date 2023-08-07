@@ -1,5 +1,3 @@
-// Author: Pratik Mukund Parmar (B00934515)
-
 const mongoose = require("mongoose");
 const User = require("../users/users.model");
 const Shoe = require("../shoes/shoes.model");
@@ -51,16 +49,28 @@ class CartDal {
     }
   }
 
-  async addToCart(reqBody) {
+  async addToCart(userId, cartItem) {
     try {
-      const { userId, cartItem } = reqBody;
+      const user = await User.findById(userId);
+      const existingCartItem = user.cart.items.find(
+        (item) => item.shoeId.toString() === cartItem.shoeId
+      );
 
-      const filter = { _id: new mongoose.Types.ObjectId(userId) };
-      const update = { $push: { "cart.items": cartItem } };
+      if (existingCartItem) {
+        existingCartItem.quantity += cartItem.quantity;
+      } else {
+        user.cart.items.push(cartItem);
+      }
 
-      return await User.findOneAndUpdate(filter, update, { new: true });
+      user.cart.subtotal = this.calculateSubtotal(user.cart.items);
+      user.cart.tax = user.cart.subtotal * 0.15;
+      user.cart.total = user.cart.subtotal + user.cart.tax;
+
+      await user.save();
+
+      return user.cart;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   async updateCartItemQuantity(userId, cartItemId, quantity, size) {

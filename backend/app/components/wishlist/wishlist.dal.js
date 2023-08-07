@@ -1,5 +1,3 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 const User = require("../users/users.model");
 const Shoe = require("../shoes/shoes.model");
 const mongoose = require("mongoose");
@@ -43,12 +41,14 @@ class WishlistDAL {
     try {
       const userId = body.userId;
       const itemId = body.itemId;
-
-      return await User.findOneAndUpdate(
+      //console.log(body);
+      const updatedUser = await User.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(userId) },
-        { $addToSet: { wishlist: new mongoose.Types.ObjectId(itemId) } },
+        { $addToSet: { wishlistedItems: new mongoose.Types.ObjectId(itemId) } },
         { new: true }
       );
+      // console.log(updatedUser);
+      return updatedUser;
     } catch (error) {
       console.error(error);
       throw error;

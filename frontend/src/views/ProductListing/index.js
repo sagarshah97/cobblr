@@ -1,4 +1,3 @@
-//Author: Ashish Ojha (B00931967)
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -22,7 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { Search } from "@mui/icons-material";
 import Footer from "../HomePage/Footer";
-import Loader from "../../utils/Loader";
+import Spinner from "../../utils/Spinner";
 import "../../App.css";
 
 const ProductListing = () => {
@@ -104,7 +103,7 @@ const ProductListing = () => {
       try {
         setIsLoading(true);
         setHasLoaded(false);
-        const response = await axios.post("/filter/filterShoes", filterReq);
+        const response = await axios.post("/shoes/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
@@ -130,7 +129,7 @@ const ProductListing = () => {
     try {
       setIsLoading(true);
       setHasLoaded(false);
-      const response = await axios.post("/filter/filterShoes", {
+      const response = await axios.post("/shoes/filterShoes", {
         ...filterReq,
         pageChangeType,
         currentPage: pageNumber,
@@ -155,19 +154,12 @@ const ProductListing = () => {
     setSearchText(event.target.value);
   };
 
-  const handleSearch = () => {
-    setSearchKeyword(searchText);
-    setSearchText("");
-  };
-
-  const handleSearchKeyDown = (event) => {
+  const handleSearch = (event) => {
     if (event.key === "Enter") {
-      handleSearch();
+      const searchKeyword = event.target.value;
+      setSearchKeyword(searchKeyword);
+      setSearchText("");
     }
-  };
-
-  const handleSearchButtonClick = () => {
-    handleSearch();
   };
 
   return (
@@ -186,16 +178,9 @@ const ProductListing = () => {
                     value={searchText}
                     fullWidth
                     onChange={handleSearchTextChange}
-                    onKeyDown={handleSearchKeyDown}
+                    onKeyDown={handleSearch}
                     InputProps={{
-                      endAdornment: (
-                        <IconButton
-                          color="inherit"
-                          onClick={handleSearchButtonClick}
-                        >
-                          <Search />
-                        </IconButton>
-                      ),
+                      endAdornment: <Search />,
                       style: {
                         color: "white",
                       },
@@ -304,7 +289,9 @@ const ProductListing = () => {
                 </Box>
               </Grid>
               {isLoading ? (
-                <Loader />
+                <Grid item xs={12}>
+                  <Spinner />
+                </Grid>
               ) : visibleShoeData.length > 0 ? (
                 visibleShoeData.map((shoe, index) => (
                   <Grid item xs={6} sm={3} key={index}>
@@ -372,16 +359,9 @@ const ProductListing = () => {
                           value={searchText}
                           fullWidth
                           onChange={handleSearchTextChange}
-                          onKeyDown={handleSearchKeyDown}
+                          onKeyDown={handleSearch}
                           InputProps={{
-                            endAdornment: (
-                              <IconButton
-                                color="inherit"
-                                onClick={handleSearchButtonClick}
-                              >
-                                <Search />
-                              </IconButton>
-                            ),
+                            endAdornment: <Search />,
                             style: {
                               color: "white",
                             },
@@ -464,7 +444,7 @@ const ProductListing = () => {
                 <Grid item xs={9} sm={9} md={9}>
                   <Box sx={{ p: 2, borderRadius: 4 }}>
                     {isLoading ? (
-                      <Loader />
+                      <Spinner />
                     ) : visibleShoeData.length > 0 ? (
                       <Grid container spacing={2}>
                         {visibleShoeData.map((shoe, index) => (

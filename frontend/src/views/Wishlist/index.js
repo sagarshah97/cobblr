@@ -1,5 +1,3 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -20,6 +18,7 @@ import { Paper, Grid, Stack } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+// import logo from "./assets/images/logo-white.png";
 import axios from "axios";
 import SimilarProducts from "../SimilarProducts/index";
 import Spinner from "../../utils/Spinner";
@@ -36,11 +35,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function WishlistPage() {
   const navigate = useNavigate();
 
-  let runOnce = true;
-  // const userId = "64b813345ab966a0d7cd61a5";
-  const [userId, setUserId] = useState(null);
+  const userId = "64b813345ab966a0d7cd61a5";
+
   const [similarIds, setsimilarIds] = useState(null);
-  const [similarTags, setsimilarTags] = useState(["Casual"]);
+  const [similarTags, setsimilarTags] = useState(null);
   const [wishlist, setWishlist] = useState(null);
 
   // Spinner
@@ -75,6 +73,8 @@ function WishlistPage() {
     }
     //alert(wishlist);
   };
+  //   const container =
+  //     window !== undefined ? () => window().document.body : undefined;
 
   const [open, setOpen] = React.useState(false);
 
@@ -93,7 +93,7 @@ function WishlistPage() {
   const removeWishlistItem = (userId, itemId) => {
     setSpinner(true);
     axios
-      .post(`/wishlist/removeWishlistItem`, {
+      .post(`http://localhost:8000/wishlist/removeWishlistItem`, {
         userId: userId,
         itemId: itemId,
       })
@@ -101,8 +101,7 @@ function WishlistPage() {
         if (resp.status === 200) {
           console.log(resp.data);
           // alert(resp.data.message);
-          // setWishlist(resp.data);
-          getWishlist(userId);
+          setWishlist(resp.data);
           setSpinner(false);
           setAlertMessage("Product removed from wishlist!");
           setAlertType("success");
@@ -123,7 +122,7 @@ function WishlistPage() {
   const getWishlist = (usertId) => {
     setSpinner(true);
     axios
-      .post(`/wishlist/getWishlist`, {
+      .post(`http://localhost:8000/wishlist/getWishlist`, {
         _id: usertId,
       })
       .then((resp) => {
@@ -132,20 +131,18 @@ function WishlistPage() {
           setWishlist(resp.data);
 
           if (resp.data?.length == 0) {
-            setsimilarIds("null");
+            setsimilarIds("");
+            setsimilarTags(["sneakers"]);
           } else {
             let tags = resp.data.map((item) => item.tags).flat();
             setsimilarTags(tags);
             let ids = resp.data.map((item) => item._id);
             setsimilarIds(ids);
-            console.log(ids);
-            console.log(tags);
           }
-          setSpinner(false);
-          // setTimeout(() => {
-
-          //   // alert(false);
-          // }, 1000);
+          setTimeout(() => {
+            setSpinner(false);
+            // alert(false);
+          }, 1000);
         }
       })
       .catch((error) => {
@@ -158,19 +155,10 @@ function WishlistPage() {
         snackbarOpen();
       });
   };
-  const id = window.sessionStorage.getItem("userId");
+
   useEffect(() => {
-    if (id) {
-      // alert(id);
-      setUserId(id);
-      if (runOnce) {
-        getWishlist(id);
-      }
-    } else {
-      // alert("user Id not found, please login!!!");
-      navigate("/login");
-    }
-  }, [id]);
+    getWishlist(userId);
+  }, []);
 
   return (
     <>
@@ -208,8 +196,9 @@ function WishlistPage() {
                             <Typography
                               sx={{ fontSize: "18px", marginBottom: "2%" }}
                             >
-                              ${item.price}
+                              {item.price}
                             </Typography>
+                            {/* <Stack spacing={2} direction="column"> */}
                             <Grid container>
                               <Grid
                                 item
@@ -230,6 +219,7 @@ function WishlistPage() {
                                   variant="outlined"
                                   sx={{ width: "6rem" }}
                                   onClick={() => {
+                                    //deleteItem(index);
                                     removeWishlistItem(userId, item._id);
                                   }}
                                 >
@@ -237,6 +227,7 @@ function WishlistPage() {
                                 </Button>
                               </Grid>
                             </Grid>
+                            {/* </Stack> */}
                           </Grid>
                         </Grid>
                       </Grid>
@@ -255,11 +246,131 @@ function WishlistPage() {
         </Box>
 
         <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
+          {/* <Toolbar /> */}
+          {/* <Typography variant="h5" sx={{ textAlign: "center" }}>
+            You might also like
+          </Typography> */}
           <div style={{ marginTop: "30px" }}>
+            {/* <Box sx={{ flexGrow: 1 }}>
+            <Grid
+              container
+              // spacing={{ xs: 3, md: 4 }}
+              columns={{ xs: 3, sm: 9, md: 12, lg: 12 }}
+              sx={{ p: 0, textAlign: "center" }}
+            >
+              <Grid item xs={3} sm={3} md={3} key={1}>
+                <div
+                  onClick={() => {
+                    navigate("/productdetail");
+                  }}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <img
+                        //width={300}
+                        className="card-image"
+                        alt=""
+                        src="https://secure-images.nike.com/is/image/DotCom/CW2288_111?align=0,1&amp;cropN=0,0,0,0&amp;resMode=sharp&amp;fmt=jpg&amp;bgc=f5f5f5"
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h6">Nike Air Force 1</Typography>
+                      <Typography sx={{ color: "gray", fontSize: "15px" }}>
+                        Sneakers
+                      </Typography>
+                      <Typography sx={{ fontSize: "18px", marginBottom: "2%" }}>
+                        $150
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} key={1}>
+                <div
+                  onClick={() => {
+                    navigate("/productdetail");
+                  }}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <img
+                        className="card-image"
+                        alt=""
+                        src="https://secure-images.nike.com/is/image/DotCom/CW2288_111?align=0,1&amp;cropN=0,0,0,0&amp;resMode=sharp&amp;fmt=jpg&amp;bgc=f5f5f5"
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h6">Nike Air Force 1</Typography>
+                      <Typography sx={{ color: "gray", fontSize: "15px" }}>
+                        Sneakers
+                      </Typography>
+                      <Typography sx={{ fontSize: "18px", marginBottom: "2%" }}>
+                        $150
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} key={2}>
+                <div
+                  onClick={() => {
+                    navigate("/productdetail");
+                  }}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <img
+                        className="card-image"
+                        alt=""
+                        src="https://secure-images.nike.com/is/image/DotCom/CW2288_111?align=0,1&amp;cropN=0,0,0,0&amp;resMode=sharp&amp;fmt=jpg&amp;bgc=f5f5f5"
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h6">Nike Air Force 1</Typography>
+                      <Typography sx={{ color: "gray", fontSize: "15px" }}>
+                        Sneakers
+                      </Typography>
+                      <Typography sx={{ fontSize: "18px", marginBottom: "2%" }}>
+                        $150
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} key={3}>
+                <div
+                  onClick={() => {
+                    navigate("/productdetail");
+                  }}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <img
+                        className="card-image"
+                        alt=""
+                        src="https://secure-images.nike.com/is/image/DotCom/CW2288_111?align=0,1&amp;cropN=0,0,0,0&amp;resMode=sharp&amp;fmt=jpg&amp;bgc=f5f5f5"
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h6">Nike Air Force 1</Typography>
+                      <Typography sx={{ color: "gray", fontSize: "15px" }}>
+                        Sneakers
+                      </Typography>
+                      <Typography sx={{ fontSize: "18px", marginBottom: "2%" }}>
+                        $150
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+            </Grid>
+          </Box> */}
             {similarIds && (
-              <>
-                <SimilarProducts tags={similarTags} _id={similarIds} />
-              </>
+              <SimilarProducts tags={similarTags} _id={similarIds[0]} />
             )}
           </div>
         </Box>
@@ -273,6 +384,20 @@ function WishlistPage() {
             snackbarClose={snackbarClose}
           />
         )}
+        {/* <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Product removed from wishlist!
+          </Alert>
+        </Snackbar> */}
       </Box>
     </>
   );

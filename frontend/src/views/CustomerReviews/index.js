@@ -9,7 +9,7 @@ const CustomerReviews = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedShoe, setSelectedShoe] = useState(null);
   const [selectedRating, setSelectedRating] = useState(5);
-  const [feedback, setFeedback] = useState(""); 
+  const [feedback, setFeedback] = useState(""); // State for feedback
 
   useEffect(() => {
     // Fetch all shoes from the API

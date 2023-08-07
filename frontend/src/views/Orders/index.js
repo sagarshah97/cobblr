@@ -1,8 +1,4 @@
-// Author: Pratik Mukund Parmar (B00934515)
-
-//Feature 2 under construction
-
-import React from "react";
+import React from 'react';
 import {
   Typography,
   List,
@@ -19,16 +15,13 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material";
-import {
-  CloudDownload as DownloadIcon,
-  RateReview as ReviewIcon,
-} from "@mui/icons-material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+} from '@mui/material';
+import { CloudDownload as DownloadIcon, RateReview as ReviewIcon } from '@mui/icons-material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
   },
 });
 
@@ -36,25 +29,25 @@ const Orders = () => {
   const orders = [
     {
       id: 1,
-      shoeName: "Nike Air Max",
-      shoeImage: "nike-air-max.jpg",
-      size: "10",
+      shoeName: 'Nike Air Max',
+      shoeImage: 'nike-air-max.jpg',
+      size: '10',
       quantity: 2,
-      deliveryDate: "2023-08-15",
-      address: "123 Shoe Street, City",
+      deliveryDate: '2023-08-15',
+      address: '123 Shoe Street, City',
       price: 199.99,
-      orderedDate: "2023-08-01",
+      orderedDate: '2023-08-01',
     },
     {
       id: 2,
-      shoeName: "Adidas Ultraboost",
-      shoeImage: "adidas-ultraboost.jpg",
-      size: "9",
+      shoeName: 'Adidas Ultraboost',
+      shoeImage: 'adidas-ultraboost.jpg',
+      size: '9',
       quantity: 1,
-      deliveryDate: "2023-08-10",
-      address: "456 Sneaker Avenue, Town",
+      deliveryDate: '2023-08-10',
+      address: '456 Sneaker Avenue, Town',
       price: 149.99,
-      orderedDate: "2023-08-02",
+      orderedDate: '2023-08-02',
     },
   ];
 
@@ -109,8 +102,8 @@ const Orders = () => {
                       <ListItemText
                         primary={order.shoeName}
                         secondary={`Size: ${order.size}, Quantity: ${order.quantity}`}
-                        primaryTypographyProps={{ variant: "h6" }}
-                        secondaryTypographyProps={{ variant: "body2" }}
+                        primaryTypographyProps={{ variant: 'h6' }}
+                        secondaryTypographyProps={{ variant: 'body2' }}
                       />
                     </ListItem>
                   ))}
@@ -148,8 +141,8 @@ const Orders = () => {
                       <ListItemText
                         primary={order.shoeName}
                         secondary={`Size: ${order.size}, Quantity: ${order.quantity}`}
-                        primaryTypographyProps={{ variant: "h6" }}
-                        secondaryTypographyProps={{ variant: "body2" }}
+                        primaryTypographyProps={{ variant: 'h6' }}
+                        secondaryTypographyProps={{ variant: 'body2' }}
                       />
                       {/* Action buttons */}
                       <Button
@@ -157,7 +150,7 @@ const Orders = () => {
                         color="primary"
                         startIcon={<DownloadIcon />}
                         onClick={() => handleDownloadInvoice(order.id)}
-                        sx={{ color: "#fff", border: 0 }}
+                        sx={{ color: '#fff', border: 0 }}
                       >
                         Invoice
                       </Button>
@@ -166,7 +159,7 @@ const Orders = () => {
                         color="primary"
                         startIcon={<ReviewIcon />}
                         onClick={() => handleWriteReview(order.id)}
-                        sx={{ color: "#fff", border: 0 }}
+                        sx={{ color: '#fff', border: 0 }}
                       >
                         Review
                       </Button>
@@ -186,34 +179,20 @@ const Orders = () => {
               <DialogContent>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="h6">
-                      {selectedOrder.shoeName}
-                    </Typography>
+                    <Typography variant="h6">{selectedOrder.shoeName}</Typography>
                     <Avatar
                       src={selectedOrder.shoeImage}
                       alt={selectedOrder.shoeName}
-                      style={{ width: "100%", height: "auto" }}
+                      style={{ width: '100%', height: 'auto' }}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body2">
-                      Size: {selectedOrder.size}
-                    </Typography>
-                    <Typography variant="body2">
-                      Quantity: {selectedOrder.quantity}
-                    </Typography>
-                    <Typography variant="body2">
-                      Delivery Date: {selectedOrder.deliveryDate}
-                    </Typography>
-                    <Typography variant="body2">
-                      Delivery Address: {selectedOrder.address}
-                    </Typography>
-                    <Typography variant="body2">
-                      Price: ${selectedOrder.price}
-                    </Typography>
-                    <Typography variant="body2">
-                      Ordered Date: {selectedOrder.orderedDate}
-                    </Typography>
+                    <Typography variant="body2">Size: {selectedOrder.size}</Typography>
+                    <Typography variant="body2">Quantity: {selectedOrder.quantity}</Typography>
+                    <Typography variant="body2">Delivery Date: {selectedOrder.deliveryDate}</Typography>
+                    <Typography variant="body2">Delivery Address: {selectedOrder.address}</Typography>
+                    <Typography variant="body2">Price: ${selectedOrder.price}</Typography>
+                    <Typography variant="body2">Ordered Date: {selectedOrder.orderedDate}</Typography>
                   </Grid>
                 </Grid>
               </DialogContent>

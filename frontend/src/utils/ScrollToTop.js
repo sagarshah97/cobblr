@@ -1,5 +1,3 @@
-// Author: Aayush Yogesh Pandya (B00939670)
-
 import { useEffect } from "react";
 
 import { useLocation } from "react-router-dom";

@@ -1,4 +1,3 @@
-// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import { styled } from "@mui/system";
 import Grid from "@mui/material/Grid";

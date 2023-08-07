@@ -1,4 +1,3 @@
-//Author: Ashish Ojha (B00931967)
 const Faq = require("./faq.model");
 
 class FaqDAL {

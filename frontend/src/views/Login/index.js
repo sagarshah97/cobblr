@@ -1,4 +1,3 @@
-// Author: Sahil Dilip Dalvi (B00939343)
 import { useState } from "react";
 // axios
 import { useNavigate } from "react-router-dom";
@@ -17,8 +16,6 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/images/Home/logo-illustration-vintage-sneakers-shoes-retro-style_194708-640-removebg-preview.png";
 import axios from "axios";
-import { Modal } from "@mui/material";
-// Modal
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 const defaultTheme = createTheme();
@@ -30,41 +27,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [userId, setUserId] = useState("");
-  const [token, setToken] = useState("");
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return regex.test(email);
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  const [emailInput, setEmailInput] = useState("");
-  const handlePasswordResetSubmit = async (e) => {
-    e.preventDefault();
-    closeModal();
-    try {
-      const response = await axios.post("/users/forgotpassword", {
-        email: emailInput,
-      });
-
-      if (response.status === 200) {
-        console.log("Success");
-      } else if (response.status === 404) {
-        console.log("User not found");
-      } else {
-        console.log("Failed to send password reset email");
-      }
-    } catch (error) {}
-  };
-
-  const handleEmailInputChange = (e) => {
-    setEmailInput(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -100,22 +65,18 @@ export default function Login() {
     };
 
     axios
-      .post("/users/login", params)
+      .post("http://localhost:8000/users/login", params)
       .then((response) => {
         console.log(response);
         const { userId } = response.data;
-        const { token } = response.data;
         setUserId(userId);
-        setToken(token);
         console.log(userId);
-        sessionStorage.setItem("userId", userId);
-        sessionStorage.setItem("token", token);
         if (response.status === 200) {
           // setRegistrationError("");
           setLoginError("Login successful");
           setTimeout(() => {
             navigate("/homepage");
-          }, 1000);
+          }, 3000);
         } else {
           setLoginError("Invalid Credentials. Please try again.");
           // setRegistrationMessage("");
@@ -128,15 +89,7 @@ export default function Login() {
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
-    <Box
-      sx={{
-        color: "#fff",
-        backgroundColor: "#0f0f0f",
-        width: "100%",
-        minHeight: "100vH",
-      }}
-    >
+    <ThemeProvider theme={defaultTheme}>
       <Grid
         container
         component="main"
@@ -159,7 +112,6 @@ export default function Login() {
             backgroundPosition: "center",
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
-            minHeight: "100vh",
           }}
         />
         <Grid
@@ -317,8 +269,8 @@ export default function Login() {
               {/* <Grid container>
                 <Grid item style={{}}> */}
               <Typography
-                variant="h6"
-                onClick={openModal}
+                variant="body2"
+                onClick={() => navigate("/register")}
                 sx={{
                   textDecoration: "none",
                   color: "blue",
@@ -329,53 +281,6 @@ export default function Login() {
               >
                 Forgot Password
               </Typography>
-
-              <Modal open={isModalOpen} onClose={closeModal} centered>
-                <div
-                  className="modal"
-                  style={{
-                    background: "white",
-                    width: "300px",
-                    margin: "auto",
-                    marginTop: "20vh",
-                    padding: "20px",
-                  }}
-                >
-                  <Typography variant="h6" gutterBottom>
-                    Forgot Password
-                  </Typography>
-                  <form onSubmit={handlePasswordResetSubmit}>
-                    <TextField
-                      type="email"
-                      id="email"
-                      name="email"
-                      label="Email"
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      onChange={handleEmailInputChange}
-                    />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                    >
-                      Submit
-                    </Button>
-                    <Typography
-                      style={{
-                        paddingTop: "5%",
-                        fontStyle: "italic",
-                        fontSize: "14px",
-                      }}
-                    >
-                      After submiting, please check your email
-                    </Typography>
-                  </form>
-                </div>
-              </Modal>
               <div style={{ textAlign: "center" }}>
                 <span style={{ color: "white" }}>Dont have an account? </span>
                 <span
@@ -405,7 +310,6 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
-      {/* </ThemeProvider> */}
-    </Box>
+    </ThemeProvider>
   );
 }
