@@ -16,7 +16,11 @@ export default function Loader(props) {
   return (
     <div>
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) =>
+            Math.max.apply(Math, Object.values(theme.zIndex)) + 1,
+        }}
         open={true}
       >
         {props?.color === "black" ? (

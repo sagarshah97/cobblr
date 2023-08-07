@@ -33,14 +33,14 @@ const ImageModal = ({
 
   const handleImageDownload = (imageData) => {
     const a = document.createElement("a");
-    a.href = imageData.data;
+    a.href = "data:image/png;base64," + imageData.data;
     a.download = imageData.name;
     a.click();
   };
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>Add Images</DialogTitle>
+      <DialogTitle>Add/Update Images</DialogTitle>
       <DialogContent>
         <input
           type="file"

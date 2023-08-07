@@ -16,14 +16,46 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  InputAdornment,
+  Grid,
+  MenuItem,
+  InputLabel,
+  OutlinedInput,
+  FormControl,
+  Select,
+  Chip,
+  Box,
 } from "@mui/material";
+
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../../utils/Loader";
 import ImageModal from "./ImageModal";
 import AvailableQuantitiesModal from "./AvailableQuantitiesModal";
+import { Alerts } from "../../utils/Alert";
+import { useTheme } from "@mui/material/styles";
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const AdminPage = () => {
+  const theme = useTheme();
   const [searchValue, setSearchValue] = useState("");
   const [shoeList, setShoeList] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -32,8 +64,9 @@ const AdminPage = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [openAvailableQuantitiesModal, setOpenAvailableQuantitiesModal] =
     useState(false);
-  const [availableQuantities, setAvailableQuantities] = useState([]);
-  const [productForm, setProductForm] = useState({
+
+  const initialProductForm = {
+    _id: null,
     code: "",
     name: "",
     subText: "",
@@ -42,13 +75,111 @@ const AdminPage = () => {
     color: "",
     briefDescription: "",
     brand: "",
-    tags: "",
+    tags: [],
     category: "",
     gender: "",
     type: "",
     material: "",
     availability: "",
-  });
+  };
+  const [productForm, setProductForm] = useState(initialProductForm);
+  const initialQuantities = [
+    {
+      size: "US W 5 / M 3.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 5.5 / M 4",
+      quantity: 0,
+    },
+    {
+      size: "US W 6 / M 4.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 6.5 / M 5",
+      quantity: 0,
+    },
+    {
+      size: "US W 7 / M 5.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 8.5 / M 7",
+      quantity: 0,
+    },
+    {
+      size: "US W 9 / M 7.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 9.5 / M 8",
+      quantity: 0,
+    },
+    {
+      size: "US W 10 / M 8.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 10.5 / M 9",
+      quantity: 0,
+    },
+    {
+      size: "US W 11 / M 9.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 11.5 / M 10",
+      quantity: 0,
+    },
+    {
+      size: "US W 12 / M 10.5",
+      quantity: 0,
+    },
+  ];
+  const [availableQuantities, setAvailableQuantities] =
+    useState(initialQuantities);
+  // Alert Start
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+  const alertObj = {
+    alertMessage: alertMessage,
+    alertType: alertType,
+  };
+  const [snackbar, setSnackbar] = React.useState(false);
+  const snackbarOpen = () => {
+    setSnackbar(true);
+  };
+  const snackbarClose = () => {
+    setSnackbar(false);
+  };
+  // Alert End
+  const availabilitySelect = [
+    { text: "No", value: false },
+    { text: "Yes", value: true },
+  ];
+  const genderSelect = ["Male", "Female", "Unisex"];
+  const typeSelect = ["Casual", "Running", "Comfy", "Lifestyle", "Formal"];
+  const categorySelect = [
+    "Sneakers",
+    "Loafers",
+    "Casual",
+    "Running",
+    "Comfy",
+    "Lifestyle",
+    "Formal",
+  ];
+  const tagsSelect = ["Casual", "Running", "Comfy"];
+
+  const handleTagChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setProductForm((prevForm) => ({
+      ...prevForm,
+      ["tags"]: value,
+    }));
+  };
 
   const handleSearch = () => {
     setLoader(true);
@@ -66,16 +197,15 @@ const AdminPage = () => {
       });
   };
 
-  useEffect(() => {
-    handleSearch();
-  }, []);
-
   const handleAddProduct = () => {
     setOpenAddModal(true);
   };
 
   const handleCloseAddModal = () => {
     setOpenAddModal(false);
+    setProductForm(initialProductForm);
+    setAvailableQuantities([]);
+    setUploadedImages([]);
   };
 
   const handleAddImages = () => {
@@ -91,7 +221,7 @@ const AdminPage = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Data = reader.result;
+        const base64Data = reader.result.split(",")[1];
         setUploadedImages([
           ...uploadedImages,
           { name: file.name, data: base64Data },
@@ -102,6 +232,7 @@ const AdminPage = () => {
   };
 
   const handleAddAvailableQuantities = () => {
+    console.log(availableQuantities);
     setOpenAvailableQuantitiesModal(true);
   };
 
@@ -121,28 +252,108 @@ const AdminPage = () => {
     }));
   };
 
-  const handleAddProductSubmit = () => {
+  const splitCamelCaseAndCapitalize = (input) => {
+    const parts = input.split(/(?=[A-Z])/);
+    const capitalizedParts = parts.map(
+      (part) => part.charAt(0).toUpperCase() + part.slice(1)
+    );
+    const result = capitalizedParts.join(" ");
+    return result;
+  };
+
+  const findInvalidKey = (data) => {
+    console.log(data);
+    // return "imags";
+    for (const [key, value] of Object.entries(data)) {
+      if (
+        value === null ||
+        value === "" ||
+        (Array.isArray(value) && value.length === 0)
+      ) {
+        if (key !== "_id") {
+          return splitCamelCaseAndCapitalize(key);
+        }
+      }
+    }
+    return null;
+  };
+
+  const handleAddEditProductSubmit = () => {
+    setLoader(true);
+    const res = findInvalidKey({ ...productForm, images: uploadedImages });
+    if (res != null) {
+      setLoader(false);
+      setAlertMessage("Please enter '" + res + "'");
+      setAlertType("error");
+      snackbarOpen();
+      return;
+    }
     const productData = {
       ...productForm,
       images: uploadedImages,
       availableQuantity: availableQuantities,
     };
+    let url = "";
+    if (productData._id) {
+      url = "modifyShoe";
+    } else {
+      url = "addShoe";
+    }
 
-    // Make the POST call to add the product
     axios
-      .post("/admin/addShoe", productData)
+      .post("/admin/" + url, productData)
       .then((response) => {
-        // Handle the success response, such as displaying a success message
-        console.log("Product added successfully:", response.data);
-        // Close the add modal
         handleCloseAddModal();
+        setLoader(false);
+        const msg =
+          "Product " +
+          (productData._id ? "updated" : "added") +
+          " successfully";
+        setAlertMessage(msg);
+        setAlertType("success");
+        snackbarOpen();
       })
       .catch((error) => {
         console.error("Error adding product:", error);
-        // Handle the error, such as displaying an error message
       });
   };
 
+  const getShoe = (shoeId) => {
+    setLoader(true);
+    axios
+      .post(`/shoes/getShoe`, {
+        _id: shoeId,
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          console.log(resp.data);
+          setProductForm(resp.data);
+          setUploadedImages(resp.data?.images);
+          console.log(resp.data?.availableQuantity);
+          setAvailableQuantities(resp.data?.availableQuantity);
+          setLoader(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error.config);
+        console.log(error.message);
+        console.log(error.response);
+        setLoader(false);
+      });
+  };
+
+  const showEditModal = (shoeId) => {
+    getShoe(shoeId);
+    setOpenAddModal(true);
+  };
+
+  const DisplayText = () => {
+    return <>{productForm?._id ? "Edit " : "Add "}</>;
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
   return (
     <div
       style={{
@@ -164,23 +375,23 @@ const AdminPage = () => {
           value={searchValue}
           fullWidth
           onChange={(e) => setSearchValue(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleSearch}>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Button
-          variant="contained"
-          sx={{ marginLeft: "10px", height: "100%" }}
-          color="primary"
-          onClick={handleSearch}
-          startIcon={<SearchIcon />}
-        >
-          Search
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ marginLeft: "10px", height: "100%" }}
+          variant="outlined"
+          sx={{ marginLeft: "10px", height: "56px" }}
           color="primary"
           onClick={handleAddProduct}
         >
-          Add Product
+          Add Shoe
         </Button>
       </Stack>
 
@@ -205,7 +416,7 @@ const AdminPage = () => {
                 <TableCell>{shoe.brand}</TableCell>
                 <TableCell>
                   <IconButton
-                    // onClick={() => handleEditShoe(shoe._id)}
+                    onClick={() => showEditModal(shoe._id)}
                     size="small"
                   >
                     <EditIcon />
@@ -217,132 +428,212 @@ const AdminPage = () => {
         </Table>
       </TableContainer>
 
-      <Dialog open={openAddModal} onClose={handleCloseAddModal} fullWidth>
-        <DialogTitle>Add Product</DialogTitle>
+      <Dialog open={openAddModal} onClose={handleCloseAddModal} maxWidth={"xl"}>
+        <DialogTitle sx={{ borderBottom: "2px" }}>
+          <DisplayText /> Shoe
+        </DialogTitle>
         <DialogContent>
-          <TextField
-            label="Code"
-            variant="outlined"
-            fullWidth
-            name="code"
-            value={productForm.code}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
-            name="name"
-            value={productForm.name}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Subtext"
-            variant="outlined"
-            fullWidth
-            name="subText"
-            value={productForm.subText}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Short Description"
-            variant="outlined"
-            fullWidth
-            name="shortDescription"
-            value={productForm.shortDescription}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Price"
-            type="number"
-            variant="outlined"
-            fullWidth
-            name="price"
-            value={productForm.price}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Color"
-            variant="outlined"
-            fullWidth
-            name="color"
-            value={productForm.color}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Brief Description"
-            variant="outlined"
-            fullWidth
-            name="briefDescription"
-            value={productForm.briefDescription}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Brand"
-            variant="outlined"
-            fullWidth
-            name="brand"
-            value={productForm.brand}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Tags"
-            variant="outlined"
-            fullWidth
-            name="tags"
-            value={productForm.tags}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Category"
-            variant="outlined"
-            fullWidth
-            name="category"
-            value={productForm.category}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Gender"
-            variant="outlined"
-            fullWidth
-            name="gender"
-            value={productForm.gender}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Type"
-            variant="outlined"
-            fullWidth
-            name="type"
-            value={productForm.type}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Material"
-            variant="outlined"
-            fullWidth
-            name="material"
-            value={productForm.material}
-            onChange={handleProductFormChange}
-          />
-          <TextField
-            label="Availability"
-            variant="outlined"
-            fullWidth
-            name="availability"
-            value={productForm.availability}
-            onChange={handleProductFormChange}
-          />
-          <Button variant="contained" color="primary" onClick={handleAddImages}>
-            Add Images
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddAvailableQuantities}
-          >
-            Add Available Quantities
-          </Button>
+          <Grid container spacing={2} sx={{ paddingTop: "10px" }}>
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+              <TextField
+                label="Code"
+                variant="outlined"
+                fullWidth
+                name="code"
+                value={productForm.code}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                name="name"
+                value={productForm.name}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Subtext"
+                variant="outlined"
+                fullWidth
+                name="subText"
+                value={productForm.subText}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Price"
+                type="number"
+                variant="outlined"
+                fullWidth
+                name="price"
+                value={productForm.price}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Material"
+                variant="outlined"
+                fullWidth
+                name="material"
+                value={productForm.material}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Short Description"
+                variant="outlined"
+                fullWidth
+                name="shortDescription"
+                value={productForm.shortDescription}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Color"
+                variant="outlined"
+                fullWidth
+                name="color"
+                value={productForm.color}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+              <TextField
+                label="Brand"
+                variant="outlined"
+                fullWidth
+                name="brand"
+                value={productForm.brand}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+              <FormControl sx={{ marginBottom: "16px" }} fullWidth>
+                <InputLabel id="tags-label">Tags</InputLabel>
+                <Select
+                  labelId="tags-label"
+                  id="tags-multiple-chip"
+                  multiple
+                  value={productForm.tags}
+                  onChange={handleTagChange}
+                  input={<OutlinedInput id="tags-multiple-chip" label="Tags" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip size={"small"} key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {tagsSelect.map((value) => (
+                    <MenuItem
+                      key={value}
+                      value={value}
+                      style={getStyles(value, productForm.tags, theme)}
+                    >
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <TextField
+                label="Gender"
+                variant="outlined"
+                fullWidth
+                name="gender"
+                value={productForm.gender}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+                select
+              >
+                {genderSelect.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Category"
+                variant="outlined"
+                fullWidth
+                name="category"
+                value={productForm.category}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+                select
+              >
+                {categorySelect.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Type"
+                variant="outlined"
+                fullWidth
+                name="type"
+                value={productForm.type}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+                select
+              >
+                {typeSelect.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Availability"
+                variant="outlined"
+                fullWidth
+                name="availability"
+                value={productForm.availability}
+                onChange={handleProductFormChange}
+                sx={{ marginBottom: "16px" }}
+                select
+              >
+                {availabilitySelect.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.text}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Brief Description"
+                variant="outlined"
+                fullWidth
+                name="briefDescription"
+                value={productForm.briefDescription}
+                onChange={handleProductFormChange}
+                multiline
+                maxRows={4}
+                rows={4}
+                sx={{ marginBottom: "16px" }}
+              />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleAddImages}
+                sx={{ marginBottom: "16px", marginRight: "10px" }}
+              >
+                <DisplayText /> Images
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleAddAvailableQuantities}
+                sx={{ marginBottom: "16px" }}
+              >
+                <DisplayText /> Available Quantities
+              </Button>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
@@ -355,9 +646,9 @@ const AdminPage = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleAddProductSubmit}
+            onClick={handleAddEditProductSubmit}
           >
-            Add
+            Save
           </Button>
         </DialogActions>
       </Dialog>
@@ -372,9 +663,18 @@ const AdminPage = () => {
       <AvailableQuantitiesModal
         open={openAvailableQuantitiesModal}
         handleClose={handleCloseAvailableQuantitiesModal}
-        handleAddQuantity={handleAddQuantity}
+        // handleAddQuantity={handleAddQuantity}
+        availableQuantities={availableQuantities}
+        setAvailableQuantities={setAvailableQuantities}
       />
       {loader && <Loader color={"black"} />}
+      {snackbar && (
+        <Alerts
+          alertObj={alertObj}
+          snackbar={snackbar}
+          snackbarClose={snackbarClose}
+        />
+      )}
     </div>
   );
 };
