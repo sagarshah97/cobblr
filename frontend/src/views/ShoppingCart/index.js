@@ -189,8 +189,7 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // Logic for handling checkout
-    alert("Proceeding to checkout.");
+    navigate("/billing");
   };
 
   const handleBackdropClick = (event) => {
