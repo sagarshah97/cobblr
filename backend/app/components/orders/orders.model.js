@@ -30,6 +30,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  expectedDeliveryDate: {
+    type: String,
+    required: true,
+  },
   items: [
     {
       shoeId: { type: mongoose.Types.ObjectId, required: true },

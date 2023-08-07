@@ -23,10 +23,12 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import Footer from "../HomePage/Footer";
 import GenericModal from "../../utils/GenericModal";
 import axios from "axios";
-import Spinner from "../../utils/Spinner";
+import Spinner from "../../utils/Loader";
 
 const BillingDetails = () => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
+
   const navigate = useNavigate();
 
   const [cartDetails, setCartDetails] = useState();
@@ -55,13 +57,25 @@ const BillingDetails = () => {
   const [custCountry, setCustCountry] = useState("");
 
   useEffect(() => {
-    getUserDetails();
-    getCartDetails();
-  }, []);
+    if (loggedInUserId) {
+      getUserDetails();
+      getCartDetails();
+    } else {
+      navigate("/login");
+    }
+  }, [loggedInUserId]);
 
   const getCartDetails = () => {
     axios
-      .post(`billing/getFinalOrder`, { userId: loggedInUserId })
+      .post(
+        `billing/getFinalOrder`,
+        { userId: loggedInUserId },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.length) {
           setCartDetails(res.data[0]);
@@ -74,7 +88,15 @@ const BillingDetails = () => {
 
   const getUserDetails = () => {
     axios
-      .post(`users/getUserDetails`, { _id: loggedInUserId })
+      .post(
+        `users/getUserDetails`,
+        { _id: loggedInUserId },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         if (res?.data?.userDetails) {
           const userDetails = res.data.userDetails;
@@ -122,7 +144,7 @@ const BillingDetails = () => {
     const handleButtonClick = (param) => {
       handleClose();
       if (param === "Yes") {
-        navigate("/");
+        navigate("/cart");
       }
     };
 
@@ -1059,13 +1081,26 @@ const BillingDetails = () => {
                 padding: "3%",
                 marginBottom: "4%",
               }}
+              sx={{
+                "& .MuiStepLabel-label": {
+                  color: "white",
+                },
+                "& .MuiStepLabel-label.Mui-active ": {
+                  color: "#009ce8",
+                  fontWeight: "bold",
+                },
+                "& .MuiStepLabel-label.Mui-completed ": {
+                  color: "#00e600",
+                  fontWeight: "bold",
+                },
+              }}
               className="stepper-icon"
             >
               <Step>
-                <StepLabel className="stepper-style">Contact Details</StepLabel>
+                <StepLabel>Contact Details</StepLabel>
               </Step>
               <Step>
-                <StepLabel className="stepper-style">Address Details</StepLabel>
+                <StepLabel>Address Details</StepLabel>
               </Step>
             </Stepper>
 

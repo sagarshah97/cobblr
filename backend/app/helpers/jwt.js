@@ -1,36 +1,5 @@
-// const jwt = require("jsonwebtoken");
-// const expressJwt = require("express-jwt");
-// const { jwtConfig } = require("../config");
-
-// module.exports = {
-//   generateJwtWebToken: (userId, role, keepUserLoggedIn) => {
-//     const expiresIn = keepUserLoggedIn
-//       ? jwtConfig.timeoutWithRememberedMe
-//       : jwtConfig.timeoutWithoutRememberedMe;
-//     const token = jwt.sign(
-//       {
-//         id: userId,
-//         role: role,
-//       },
-//       jwtConfig.secretKey,
-//       { expiresIn }
-//     );
-//     return token;
-//   },
-
-//   authenticateJwt: expressJwt.expressjwt({
-//     secret: jwtConfig.secretKey,
-//     algorithms: ["HS256"],
-//   }),
-
-//   decodeJwtToken: async (token) => {
-//     const payload = await jwt.decode(token);
-//     return payload;
-//   },
-// };
-
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+// const { expressjwt } = require("express-jwt");
 const { jwtConfig } = require("../config");
 
 module.exports = {
@@ -56,23 +25,48 @@ module.exports = {
     return token;
   },
 
-  // authenticateJwt: expressJwt({
+  // authenticateJwt: jwt.verify({
   //   secret: jwtConfig.secretKey,
   //   algorithms: ["HS256"],
   // }),
+
+  verifyToken: (req, res, next) => {
+    let token = req.header("Authorization");
+    console.log(token);
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    token = token.split(" ")[1];
+    jwt.verify(token, jwtConfig.secretKey, (err, decoded) => {
+      if (err) {
+        console.log(err);
+        return res.status(401).json({ message: "Invalid token" });
+      }
+      req.user = decoded;
+      next();
+    });
+  },
 
   // decodeJwtToken: async (token) => {
   //   const payload = await jwt.decode(token);
   //   return payload;
   // },
+  // verifyJwt: () => async (request, response, next) => {
+  //   const token = request.headers.authorization.split(" ")[1];
+  //   const payload = await decodeJwtToken(token);
+  //   console.log(JSON.stringify(payload));
+  //   next();
+  //   return null;
+  // },
 
-  verifyJwtToken: (token) => {
-    jwt.verify(token, jwtConfig.secretKey, (error, decoded) => {
-      if (error) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-  },
+  // verifyJwtToken: (token) => {
+  //   console.log("Verify: " + token);
+  //   jwt.verify(token, jwtConfig.secretKey, (error, decoded) => {
+  //     if (error) {
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   });
+  // },
 };

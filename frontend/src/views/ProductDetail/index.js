@@ -6,6 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import {
   Grid,
   Card,
+  Chip,
   Select,
   MenuItem,
   CardContent,
@@ -33,6 +34,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductDetail = () => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
+
   const location = useLocation();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -67,6 +70,7 @@ const ProductDetail = () => {
     alertType: alertType,
   };
   const [snackbar, setSnackbar] = useState(false);
+
   const snackbarOpen = () => {
     setSnackbar(true);
   };
@@ -109,6 +113,10 @@ const ProductDetail = () => {
     axios
       .post(`/shoes/getShoe`, { _id })
       .then((res) => {
+        if (!res.data?.availability) {
+          setDisableBag(true);
+          setBagBtnLabel("Currently unavailable");
+        }
         setProductDetails(res.data);
         checkForOutOfStock(res.data.availableQuantity);
       })
@@ -117,10 +125,37 @@ const ProductDetail = () => {
       });
   };
 
+  const addToBagBtnStyleAvailable = {
+    color: "white",
+    backgroundColor: "#38B6FF",
+    borderColor: "#38B6FF",
+    borderRadius: "17px",
+    padding: "3%",
+    marginRight: "3%",
+    marginBottom: "3%",
+  };
+  const addToBagBtnStyleUnavailable = {
+    color: "red",
+    backgroundColor: "transparent",
+    border: "1px solid red",
+    borderRadius: "17px",
+    padding: "3%",
+    marginRight: "3%",
+    marginBottom: "3%",
+  };
+
   const getUserWishlistCart = () => {
     if (checkIfUserIsLoggedIn()) {
       axios
-        .post(`/users/getWishlistCart`, { _id: loggedInUserId })
+        .post(
+          `/users/getWishlistCart`,
+          { _id: loggedInUserId },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
         .then((res) => {
           if (res?.data?.userDetails) {
             setUserDetails(res.data.userDetails);
@@ -185,10 +220,18 @@ const ProductDetail = () => {
 
   const updateUserCart = () => {
     axios
-      .post(`/cart/addToCart`, {
-        userId: loggedInUserId,
-        cartItem: { shoeId: _id, size: selectedSize, quantity: 1 },
-      })
+      .post(
+        `/cart/addToCart`,
+        {
+          userId: loggedInUserId,
+          cartItem: { shoeId: _id, size: selectedSize, quantity: 1 },
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
         if (res?.data?.message.toLowerCase().includes("added to cart")) {
@@ -216,10 +259,18 @@ const ProductDetail = () => {
 
   const updateUserWishlist = () => {
     axios
-      .post(`/wishlist/addItemWishlist`, {
-        userId: loggedInUserId,
-        itemId: _id,
-      })
+      .post(
+        `/wishlist/addItemWishlist`,
+        {
+          userId: loggedInUserId,
+          itemId: _id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((res) => {
         if (res?.data?.wishlist?.length) {
           setDisableWishlist(true);
@@ -355,6 +406,21 @@ const ProductDetail = () => {
                     >
                       {productDetails.name}
                     </Typography>
+                    {productDetails.tags && (
+                      <Typography style={{ marginBottom: "2%" }}>
+                        {productDetails.tags?.map((tag, index) => (
+                          <Chip
+                            key={index}
+                            label={tag}
+                            color="primary"
+                            style={{
+                              marginRight: "10px",
+                              backgroundColor: "#605d5d",
+                            }}
+                          />
+                        ))}
+                      </Typography>
+                    )}
                     <Typography style={{ paddingBottom: "5%" }}>
                       {productDetails.subText}
                     </Typography>
@@ -445,15 +511,11 @@ const ProductDetail = () => {
                       }}
                     >
                       <Button
-                        style={{
-                          color: "white",
-                          backgroundColor: "#38B6FF",
-                          borderColor: "#38B6FF",
-                          borderRadius: "17px",
-                          padding: "3%",
-                          marginRight: "3%",
-                          marginBottom: "3%",
-                        }}
+                        style={
+                          productDetails.availability
+                            ? addToBagBtnStyleAvailable
+                            : addToBagBtnStyleUnavailable
+                        }
                         onClick={handleAddToBag}
                         disabled={disableBag}
                       >
@@ -492,7 +554,7 @@ const ProductDetail = () => {
               Customer Reviews
             </div>
             {/* display customer review component tag   */}
-            <div style={{ padding: "3%" }}>
+            <div style={{ paddingLeft: "2%" }}>
               {" "}
               {/* Add padding to the left */}
               <DisplayReview shoeId={_id} />

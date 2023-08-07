@@ -8,9 +8,6 @@ const adminValidation = require("./admin.validation");
 
 const router = express.Router();
 
-// get all the shoes
-// router.route("/getshoes").get(shoesController.getShoes.bind(shoesController));
-
 router
   .route("/getshoelist")
   .post(
@@ -18,21 +15,13 @@ router
     adminController.getShoeList.bind(adminController)
   );
 
-// get single shoe record based on shoe code
-// router
-//   .route("/getshoe")
-//   .post(
-//     validate(shoesValidation.getShoe),
-//     shoesController.getShoe.bind(shoesController)
-//   );
-
 // add a new shoe record
 router.route("/addShoe").post(
   // validate(adminValidation.addShoe),
   adminController.addShoe.bind(adminController)
 );
 
-router.route("/modifyShoe").post(
+router.route("/modifyShoe").put(
   // validate(adminValidation.addShoe),
   adminController.modifyShoe.bind(adminController)
 );
