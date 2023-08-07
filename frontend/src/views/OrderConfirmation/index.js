@@ -16,6 +16,7 @@ const OrderConfirmationPage = () => {
   const { _id } = useParams();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const token = window.sessionStorage.getItem("token");
 
   const [orderDetails, setOrderDetails] = useState();
 
@@ -23,7 +24,12 @@ const OrderConfirmationPage = () => {
     const getOrderDetails = async () => {
       try {
         const response = await axios.get(
-          `/orders/getorder?_id=${_id ? _id : "64b19b874d5883d09edec9de"}`
+          `/orders/getorder?_id=${_id ? _id : "64b19b874d5883d09edec9de"}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
         );
         const data = response.data;
         setOrderDetails(data);

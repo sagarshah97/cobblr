@@ -19,11 +19,16 @@ const FAQ = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const token = window.sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("/faq/getfaq");
+        const response = await axios.get("/faq/getfaq", {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
         const data = response.data;
         setCategories(data);
       } catch (error) {
