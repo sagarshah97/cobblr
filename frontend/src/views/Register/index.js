@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -149,7 +150,7 @@ export default function Register() {
 
         // const response = await
         axios
-          .post("http://localhost:8000/users/register", param)
+          .post("/users/register", param)
           .then((response) => {
             console.log(">>>> in resp " + JSON.stringify(response));
             if (response.status === 200) {
@@ -157,7 +158,7 @@ export default function Register() {
               setRegistrationError("Registration successful");
               setTimeout(() => {
                 navigate("/login");
-              }, 5000);
+              }, 1000);
             } else {
               setRegistrationError("Registration failed. Please try again.");
               // setRegistrationMessage("");
@@ -183,7 +184,15 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    // <ThemeProvider theme={defaultTheme}>
+    <Box
+      sx={{
+        color: "#fff",
+        backgroundColor: "#0f0f0f",
+        width: "100%",
+        minHeight: "100vH",
+      }}
+    >
       <Grid
         container
         component="main"
@@ -191,6 +200,8 @@ export default function Register() {
           // minHeight: "6vh",
           backgroundColor: "#0f0f0f",
           overflow: "hidden",
+          // position: "relative",
+          display: "flex",
         }}
       >
         <CssBaseline />
@@ -207,6 +218,12 @@ export default function Register() {
             backgroundPosition: "center",
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
+            // minHeight: "100vh",
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
           }}
         />
         <Grid
@@ -221,6 +238,15 @@ export default function Register() {
           style={{
             backgroundColor: "#0f0f0f",
             boxShadow: "none",
+          }}
+          sx={{
+            backgroundColor: "#1a1a1a",
+            padding: "30px",
+            position: "fixed",
+            top: 0,
+            bottom: 0,
+            right: 0,
+            overflowY: "auto",
           }}
         >
           <Box
@@ -508,13 +534,13 @@ export default function Register() {
                     textAlign: "center",
                   }}
                 >
-                  Sign Up
+                  Sign In
                 </span>
               </div>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Box>
   );
 }

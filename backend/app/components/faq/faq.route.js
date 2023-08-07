@@ -1,9 +1,9 @@
+//Author: Ashish Ojha (B00931967)
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");
 
 const faqController = require("./faq.controller");
-
 
 const router = express.Router();
 

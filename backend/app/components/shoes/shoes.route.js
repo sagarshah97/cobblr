@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");
@@ -32,14 +34,6 @@ router
   .post(
     validate(shoesValidation.createShoe),
     shoesController.createShoe.bind(shoesController)
-  );
-
-  // sort and filter api
-  router
-  .route("/filterShoes")
-  .post(
-    validate(shoesValidation.filterShoes),
-    shoesController.filterShoes.bind(shoesController)
   );
 
 module.exports = router;

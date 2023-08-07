@@ -1,3 +1,5 @@
+// Author: Pratik Mukund Parmar (B00934515)
+
 const CartDal = require("./cart.dal");
 
 class CartService {
@@ -22,12 +24,14 @@ class CartService {
     }
   }
 
-  async addToCart(userId, cartItem) {
+  async addToCart(reqBody) {
     try {
-      const updatedCart = await this.cartDal.addToCart(userId, cartItem);
-      return updatedCart;
+      const response = await this.cartDal.addToCart(reqBody);
+      return response;
     } catch (error) {
       throw error;
+    } finally {
+      //finally block
     }
   }
 

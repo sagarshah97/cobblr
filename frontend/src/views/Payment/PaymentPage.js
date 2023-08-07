@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// Author: Sagar Paresh Shah (B00930009)
+
+import { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   Button,
@@ -7,17 +9,22 @@ import {
   Container,
   Typography,
   CircularProgress,
+  Box,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
 import PaymentIcon from "@mui/icons-material/Payment";
+import WarningIcon from "@mui/icons-material/Warning";
+import GenericModal from "../../utils/GenericModal";
 import "../../App.css";
 import axios from "axios";
 
 const PaymentPage = (props) => {
-  const loggedInUserId = "64b813345ab966a0d7cd61a5"; //todo: get from session storage
+  const loggedInUserId = window.sessionStorage.getItem("userId");
 
-  const orderDetails = props.details;
-  const amount = props.details.total;
+  const orderDetails = props?.details;
+  const amount = props?.details?.total;
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -29,6 +36,51 @@ const PaymentPage = (props) => {
   const [payBtnVariant, setPayBtnVariant] = useState("outlined");
   const [paid, setPaid] = useState(false);
   const [payInitiated, setPayInitiated] = useState(false);
+  const [disableCancel, setDisableCancel] = useState(false);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const padding = isSmallScreen ? "20%" : "5%";
+  const height = isSmallScreen ? "56px" : "72.8px";
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleButtonClick = (param) => {
+    handleClose();
+    if (param === "Yes") {
+      navigate("/cart");
+    }
+  };
+
+  useEffect(() => {
+    if (!loggedInUserId || !props?.details?.total) {
+      navigate("/billing");
+    }
+  }, [props]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      const confirmationMessage = "Are you sure you want to refresh the page?";
+      event.returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const handleName = (event) => {
     setName(event.target.value);
@@ -56,6 +108,7 @@ const PaymentPage = (props) => {
 
   const handleSubmit = async (event) => {
     setPayInitiated(true);
+    setDisableCancel(true);
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -71,10 +124,11 @@ const PaymentPage = (props) => {
     if (error) {
       console.error(error);
     } else {
+      console.log(amount);
       try {
-        const response = await axios.post(`/orders/makePayment`, {
+        const response = await axios.post(`/billing/makePayment`, {
           paymentMethodId: paymentMethod.id,
-          amount: amount * 100, //amount (in cents)
+          amount: parseInt(amount * 100), //amount (in cents)
         });
         if (response?.data?.success) {
           createOrder();
@@ -88,18 +142,23 @@ const PaymentPage = (props) => {
   const createOrder = () => {
     const body = {
       ...orderDetails,
-      invoiceNumber: loggedInUserId.slice(-5) + "-" + Date.now(),
+      invoiceNumber: Date.now().toString(),
       date: new Date().toLocaleDateString(),
+      expectedDeliveryDate: new Date(
+        new Date().setDate(new Date().getDate() + 5)
+      ).toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       userId: loggedInUserId,
     };
-
+    delete body._id;
+    console.log(body);
     axios
-      .post(`/orders/create`, body)
+      .post(`/billing/create`, body)
       .then((res) => {
         if (res?.data?._id) {
           setPaid(true);
           setPayInitiated(false);
+          setDisableCancel(false);
           navigate(`/orderconfirmation/${res.data._id}`);
         }
       })
@@ -110,10 +169,46 @@ const PaymentPage = (props) => {
 
   return (
     <>
+      <Box
+        color="#FFA901"
+        p={1.5}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        position="fixed"
+        top={height}
+        left={0}
+        width="100%"
+        zIndex={999}
+        style={{
+          backgroundColor: "#383838",
+        }}
+      >
+        <WarningIcon sx={{ mr: 1 }} />
+        <Typography variant="body1">
+          Please do not refresh this page. If you wish to abort payment, click
+          on the Cancel button.
+        </Typography>
+      </Box>
+      {open && (
+        <>
+          <GenericModal
+            open={open}
+            onClose={handleClose}
+            onButtonClick={handleButtonClick}
+            heading="Confirmation"
+            content="Are you sure you want to cancel?"
+            buttonLabel1="Yes"
+            buttonColor1="error"
+            buttonLabel2="No"
+            buttonColor2="primary"
+          />
+        </>
+      )}
       <Container
         maxWidth="sm"
         style={{
-          paddingTop: "3%",
+          paddingTop: padding,
           paddingBottom: "7%",
         }}
       >
@@ -132,7 +227,7 @@ const PaymentPage = (props) => {
             <Grid item xs={12}>
               <span style={{ fontWeight: 200, fontSize: "large" }}>
                 {" "}
-                {`Amount: ${amount}`}
+                {`Amount: $${amount}`}
               </span>
             </Grid>
             <Grid item xs={12}>
@@ -215,7 +310,12 @@ const PaymentPage = (props) => {
               </Button>
             </Grid>
             <Grid item xs={3} sm={2} md={2} lg={2}>
-              <Button variant="outlined" color="error">
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleOpen}
+                disabled={disableCancel}
+              >
                 Cancel
               </Button>
             </Grid>

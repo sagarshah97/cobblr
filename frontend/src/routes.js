@@ -1,3 +1,5 @@
+// Author: Aayush Yogesh Pandya (B00939670)
+
 import React, { lazy, Suspense, useEffect, useState } from "react";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,11 +20,15 @@ import ProductDetail from "./views/ProductDetail/index.js";
 import AdditionalDetails from "./views/AdditionalProductDetail/index.js";
 import ContactUs from "./views/ContactUs/ContactUs.js";
 import WishlistPage from "./views/Wishlist/index.js";
+import ForgotPasswordPage from "./views/ForgotPassword/index.js";
+import CustomModal from "./views/Modal/index.js";
 import ProductListing from "./views/ProductListing/index.js";
 import BillingDetails from "./views/BillingDetails/index.js";
 import Payment from "./views/Payment/index.js";
 import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
 import Review from "./views/CustomerReviews/index.js";
+import Store from "./views/Stores/index.js";
+// import AdminPage from "./views/Admin/index.js";
 
 const Router = () => {
   const SuspenseLoading = () => {
@@ -57,11 +63,13 @@ const Router = () => {
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/order" element={<Review />} />
           <Route path="/faq" element={<FAQ />} />
@@ -69,6 +77,11 @@ const Router = () => {
           <Route path="/details" element={<AdditionalDetails />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/modal" element={<CustomModal />} />
+          <Route
+            path="/forgotpassword/:forgotPasswordToken"
+            element={<ForgotPasswordPage />}
+          />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/productlisting" element={<ProductListing />} />
@@ -78,6 +91,8 @@ const Router = () => {
             path="/orderconfirmation/:_id"
             element={<OrderConfirmationPage />}
           />
+          <Route path="/stores" element={<Store />} />
+          {/* <Route path="admin" element={<AdminPage />} /> */}
         </Route>
       </Routes>
     </Suspense>

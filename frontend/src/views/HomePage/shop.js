@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -24,7 +25,7 @@ const styles = {
   },
   cardImage: {
     width: "100%",
-    height: "calc(100% - 40px)", // Adjust the height to leave space for the text
+    height: "calc(100% - 40px)",
     objectFit: "cover",
   },
   cardText: {

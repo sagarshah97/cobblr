@@ -1,3 +1,5 @@
+// Author: Pratik Mukund Parmar (B00934515)
+
 const Joi = require("joi");
 
 const validationSchema = {
@@ -27,7 +29,11 @@ module.exports = {
   addToCart: {
     body: Joi.object({
       userId: validationSchema._id,
-      cartItem: validationSchema.cartItem,
+      cartItem: Joi.object({
+        shoeId: validationSchema._id,
+        size: validationSchema.size,
+        quantity: validationSchema.quantity,
+      }),
     }),
   },
   updateCartItemQuantity: {
