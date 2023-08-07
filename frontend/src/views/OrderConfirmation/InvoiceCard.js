@@ -77,10 +77,13 @@ const InvoiceCard = ({ orderDetails }) => {
               Invoice
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
+              Invoice Number: {orderDetails?.invoiceNumber}
+            </Typography>
+            <Typography variant="subtitle2" color="textSecondary">
               Invoice Date: {orderDetails?.date}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Invoice Number: {orderDetails?.invoiceNumber}
+              Invoice Time: {orderDetails?.time}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
               Address: {orderDetails?.address}
