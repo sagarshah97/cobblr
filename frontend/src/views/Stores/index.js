@@ -17,11 +17,13 @@ import {
   Container,
   IconButton,
   TextField,
+  Hidden,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import StoreIcon from "@mui/icons-material/Store";
 import SearchIcon from "@mui/icons-material/Search";
+import "./store.css";
 
 const StoreLocator = () => {
   const googleMapsApiKey = "AIzaSyDSsBjipA2hX34IXBIxIdjJ3NZtAe8BuZw";
@@ -118,9 +120,23 @@ const StoreLocator = () => {
                   lat: selectedStore.latitude,
                   lng: selectedStore.longitude,
                 }}
+                style={{
+                  background: "black",
+                  color: "white",
+                  padding: "10px",
+                  overflow: Hidden,
+                }}
                 onCloseClick={() => setSelectedStore(null)}
+                options={{ disableCloseButton: true }}
               >
-                <div>
+                <div
+                  style={{
+                    background: "black",
+                    color: "white",
+                    padding: "10px",
+                    overflow: Hidden,
+                  }}
+                >
                   <Typography variant="h5">{selectedStore.name}</Typography>
                   <Typography>{selectedStore.address}</Typography>
                 </div>
