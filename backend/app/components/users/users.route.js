@@ -4,7 +4,7 @@ const router = express.Router();
 const userController = require("./users.controller");
 const userValidation = require("./users.validation");
 const { validate } = require("../../lib/expressValidation");
-const { authenticateJwt, verifyJwtToken } = require("../../helpers/jwt");
+const { authenticateJwt, verifyToken } = require("../../helpers/jwt");
 router
   .route("/register")
   .post(validate(userValidation.register), userController.register);
@@ -39,12 +39,17 @@ router.route("/getUserByUserId").post(
 router
   .route("/getWishlistCart")
   .post(
+    verifyToken,
     validate(userValidation.getWishlistCart),
     userController.getWishlistCart
   );
 
 router
   .route("/getUserDetails")
-  .post(validate(userValidation.getUserDetails), userController.getUserDetails);
+  .post(
+    verifyToken,
+    validate(userValidation.getUserDetails),
+    userController.getUserDetails
+  );
 
 module.exports = router;
