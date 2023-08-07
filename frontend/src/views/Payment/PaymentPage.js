@@ -22,6 +22,7 @@ import axios from "axios";
 
 const PaymentPage = (props) => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
 
   const orderDetails = props?.details;
   const amount = props?.details?.total;
