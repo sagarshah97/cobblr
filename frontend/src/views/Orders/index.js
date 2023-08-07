@@ -1,8 +1,5 @@
-// Author: Pratik Mukund Parmar (B00934515)
-
-//Feature 2 under construction
-
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Typography,
   List,
@@ -25,6 +22,7 @@ import {
   RateReview as ReviewIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -33,32 +31,31 @@ const theme = createTheme({
 });
 
 const Orders = () => {
-  const orders = [
-    {
-      id: 1,
-      shoeName: "Nike Air Max",
-      shoeImage: "nike-air-max.jpg",
-      size: "10",
-      quantity: 2,
-      deliveryDate: "2023-08-15",
-      address: "123 Shoe Street, City",
-      price: 199.99,
-      orderedDate: "2023-08-01",
-    },
-    {
-      id: 2,
-      shoeName: "Adidas Ultraboost",
-      shoeImage: "adidas-ultraboost.jpg",
-      size: "9",
-      quantity: 1,
-      deliveryDate: "2023-08-10",
-      address: "456 Sneaker Avenue, Town",
-      price: 149.99,
-      orderedDate: "2023-08-02",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const navigate = useNavigate();
+  const id = window.sessionStorage.getItem("userId");
 
-  const [selectedOrder, setSelectedOrder] = React.useState(null);
+  // Move fetchOrders outside of the useEffect hook
+  const fetchOrders = async () => {
+    try {
+      // Make a GET request to fetch orders from the backend
+      const response = await axios.post("/orders/getOrders", {
+        userId: id,
+      });
+      setOrders(response.data.orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchOrders();
+    } else {
+      navigate("/login");
+    }
+  }, [id, navigate]); // Add id and navigate to the dependency array
 
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
@@ -78,6 +75,14 @@ const Orders = () => {
     setSelectedOrder(null);
   };
 
+  const currentDate = new Date();
+  const previousOrders = orders.filter(
+    (order) => new Date(order.deliveryDate) < currentDate
+  );
+  const currentOrders = orders.filter(
+    (order) => new Date(order.deliveryDate) >= currentDate
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={2}>
@@ -89,13 +94,13 @@ const Orders = () => {
             {/* Card content */}
             <CardContent>
               {/* Orders list */}
-              {orders.length === 0 ? (
+              {currentOrders.length === 0 ? (
                 <Typography variant="body1" className="empty-orders-message">
                   You have no current orders.
                 </Typography>
               ) : (
                 <List>
-                  {orders.map((order) => (
+                  {currentOrders.map((order) => (
                     <ListItem
                       key={order.id}
                       button
@@ -128,13 +133,13 @@ const Orders = () => {
             {/* Card content */}
             <CardContent>
               {/* Orders list */}
-              {orders.length === 0 ? (
+              {previousOrders.length === 0 ? (
                 <Typography variant="body1" className="empty-orders-message">
                   You have no previous orders.
                 </Typography>
               ) : (
                 <List>
-                  {orders.map((order) => (
+                  {previousOrders.map((order) => (
                     <ListItem
                       key={order.id}
                       button
