@@ -27,6 +27,8 @@ import Spinner from "../../utils/Loader";
 
 const BillingDetails = () => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
+
   const navigate = useNavigate();
 
   const [cartDetails, setCartDetails] = useState();
