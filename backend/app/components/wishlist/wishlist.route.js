@@ -18,13 +18,11 @@ router
     wishlistController.getWishlist.bind(wishlistController)
   );
 
-router
-  .route("/addItemWishlist")
-  .post(
-    verifyToken,
-    validate(wishlistValidation.addWishlistItem),
-    wishlistController.addItemToWishlist.bind(wishlistController)
-  );
+router.route("/addItemWishlist").post(
+  // verifyToken,
+  validate(wishlistValidation.addWishlistItem),
+  wishlistController.addItemToWishlist.bind(wishlistController)
+);
 
 router
   .route("/removeWishlistItem")
