@@ -18,56 +18,101 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const AvailableQuantitiesModal = ({ open, handleClose, handleAddQuantity }) => {
-  const [size, setSize] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [availableQuantities, setAvailableQuantities] = useState([]);
-
-  const handleAddSizeAndQuantity = () => {
-    if (size && quantity) {
-      setAvailableQuantities([...availableQuantities, { size, quantity }]);
-      setSize("");
-      setQuantity("");
-    }
+const AvailableQuantitiesModal = ({
+  open,
+  handleClose,
+  availableQuantities,
+  setAvailableQuantities,
+}) => {
+  console.log(availableQuantities);
+  const handleQuantityChange = (index, value) => {
+    const updatedAvailableQuantity = [...availableQuantities];
+    updatedAvailableQuantity[index].quantity = value;
+    setAvailableQuantities(updatedAvailableQuantity);
   };
-
-  const handleDeleteQuantity = (index) => {
-    const updatedQuantities = [...availableQuantities];
-    updatedQuantities.splice(index, 1);
-    setAvailableQuantities(updatedQuantities);
-  };
-
+  const initialQuantities = [
+    {
+      size: "US W 5 / M 3.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 5.5 / M 4",
+      quantity: 0,
+    },
+    {
+      size: "US W 6 / M 4.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 6.5 / M 5",
+      quantity: 0,
+    },
+    {
+      size: "US W 7 / M 5.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 8.5 / M 7",
+      quantity: 0,
+    },
+    {
+      size: "US W 9 / M 7.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 9.5 / M 8",
+      quantity: 0,
+    },
+    {
+      size: "US W 10 / M 8.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 10.5 / M 9",
+      quantity: 0,
+    },
+    {
+      size: "US W 11 / M 9.5",
+      quantity: 0,
+    },
+    {
+      size: "US W 11.5 / M 10",
+      quantity: 0,
+    },
+    {
+      size: "US W 12 / M 10.5",
+      quantity: 0,
+    },
+  ];
+  if (availableQuantities?.length == 0) {
+    setAvailableQuantities(initialQuantities);
+  }
+  // console.log(tempAvailableQuantities);
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>Add Available Quantities</DialogTitle>
+      <DialogTitle>Add/Edit Available Quantities</DialogTitle>
       <DialogContent>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={4}>
-            <TextField
-              label="Size"
-              variant="outlined"
-              fullWidth
-              value={size}
-              onChange={(e) => setSize(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              label="Quantity"
-              type="number"
-              variant="outlined"
-              fullWidth
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton onClick={handleAddSizeAndQuantity}>
-              <AddIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <TableContainer>
+        {availableQuantities && (
+          <>
+            {availableQuantities.map((item, index) => (
+              <Grid container spacing={1} sx={{ marginBottom: "1%" }}>
+                <Grid item xs={6}>
+                  <TextField fullWidth value={item.size} />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    value={item.quantity}
+                    onChange={(e) => {
+                      handleQuantityChange(index, e.target.value);
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            ))}
+          </>
+        )}
+        {/* <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -93,7 +138,7 @@ const AvailableQuantitiesModal = ({ open, handleClose, handleAddQuantity }) => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </TableContainer> */}
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary" onClick={handleClose}>

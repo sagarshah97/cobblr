@@ -2,7 +2,7 @@
 
 const express = require("express");
 
-const { authenticateJwt } = require("../../helpers/jwt");
+const { verifyToken } = require("../../helpers/jwt");
 const { validate } = require("../../lib/expressValidation");
 
 const wishlistController = require("./wishlist.controller");
@@ -10,24 +10,24 @@ const wishlistValidation = require("./wishlist.validation");
 
 const router = express.Router();
 
-// get all the shoes in the wishlist
 router
   .route("/getWishlist")
   .post(
+    verifyToken,
     validate(wishlistValidation.getWishlistItems),
     wishlistController.getWishlist.bind(wishlistController)
   );
 
-router
-  .route("/addItemWishlist")
-  .post(
-    validate(wishlistValidation.addWishlistItem),
-    wishlistController.addItemToWishlist.bind(wishlistController)
-  );
+router.route("/addItemWishlist").post(
+  // verifyToken,
+  validate(wishlistValidation.addWishlistItem),
+  wishlistController.addItemToWishlist.bind(wishlistController)
+);
 
 router
   .route("/removeWishlistItem")
   .post(
+    verifyToken,
     validate(wishlistValidation.removeWishlistItem),
     wishlistController.removeWishlistItem.bind(wishlistController)
   );
