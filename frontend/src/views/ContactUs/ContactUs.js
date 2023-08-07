@@ -29,6 +29,7 @@ const ContactUs = () => {
   });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [errors, setErrors] = useState({});
+  const token = window.sessionStorage.getItem("token");
 
   const validateEmail = (email) => {
     // Regular expression to validate email format
@@ -89,7 +90,11 @@ const ContactUs = () => {
 
   const submitForm = async (formData) => {
     try {
-      const response = await axios.post("/contact/save", formData);
+      const response = await axios.post("/contact/save", formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       console.log(response.data);
       setIsPopupOpen(true);
     } catch (error) {
