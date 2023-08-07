@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 

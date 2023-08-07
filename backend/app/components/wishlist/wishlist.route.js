@@ -1,3 +1,5 @@
+// Author: Aayush Yogesh Pandya (B00939670)
+
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");

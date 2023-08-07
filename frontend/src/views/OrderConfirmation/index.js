@@ -1,3 +1,4 @@
+//Author: Ashish Ojha (B00931967)
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Button, Divider } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -33,6 +34,7 @@ const OrderConfirmationPage = () => {
     getOrderDetails();
   }, [_id]);
 
+  // navigate to my orders page of the logged in user
   const navigateToMyOrders = () => {
     navigate("/myorders");
   };

@@ -1,15 +1,14 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 import { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+import { Card, Typography, Grid, Button, Chip } from "@mui/material";
 
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import "../../App.css";
 import Footer from "../HomePage/Footer";
-import Spinner from "../../utils/Spinner";
+import Spinner from "../../utils/Loader";
 
 const AdditionalDetails = () => {
   const navigate = useNavigate();
@@ -95,7 +94,7 @@ const AdditionalDetails = () => {
                             <Typography
                               style={{ fontSize: "large", paddingBottom: "8%" }}
                             >
-                              {productDetails.price}
+                              ${productDetails.price}
                             </Typography>
                           </Typography>
                         </Card>
@@ -112,14 +111,43 @@ const AdditionalDetails = () => {
                       padding: "3%",
                     }}
                   >
-                    <div>{productDetails.shortDescription}</div>
-                    <div style={{ marginTop: "4%" }}>
+                    {productDetails.tags && (
+                      <div style={{ paddingTop: "2%", paddingBottom: "1%" }}>
+                        <span>Tags:</span>
+                        {productDetails.tags?.map((tag, index) => (
+                          <Chip
+                            key={index}
+                            label={tag}
+                            color="primary"
+                            style={{
+                              margin: "5px",
+                              backgroundColor: "#605d5d",
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    <div style={{ paddingBottom: "2%" }}>
+                      <span>Category: {productDetails.category}</span>
+                    </div>
+                    <div style={{ paddingBottom: "2%" }}>
+                      {productDetails.shortDescription}
+                    </div>
+                    <div style={{ paddingBottom: "2%" }}>
                       {productDetails.briefDescription}
                     </div>
-                    <div style={{ marginTop: "4%" }}>
+                    <div style={{ paddingBottom: "2%" }}>
+                      <span>Material: {productDetails.material}</span>
+                    </div>
+                    <div style={{ paddingBottom: "2%" }}>
+                      <span>Gender: {productDetails.gender}</span>
+                    </div>
+                    <div style={{ paddingBottom: "2%" }}>
                       Color: {productDetails.color}
                     </div>
-                    <div>Code: {productDetails.code}</div>
+                    <div style={{ paddingBottom: "2%" }}>
+                      Code: {productDetails.code}
+                    </div>
                   </div>
                 </div>
               </Grid>

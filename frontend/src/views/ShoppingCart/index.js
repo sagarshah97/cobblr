@@ -1,3 +1,5 @@
+// Author: Pratik Mukund Parmar (B00934515)
+
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -5,8 +7,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
   IconButton,
   Grid,
   Card,
@@ -21,6 +21,7 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
 
@@ -39,20 +40,22 @@ const Cart = () => {
   const [itemToRemove, setItemToRemove] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-
+  const navigate = useNavigate();
+  const id = window.sessionStorage.getItem("userId");
   useEffect(() => {
-    // Fetch cart items from the backend API
-    fetchCartItems()
-      .then((data) => {
-        setItems(data);
-        console.log(data);
-        const subtotal = calculatesubtotal(data);
-        const tax = subtotal * 0.15;
-        const total = subtotal + tax;
-
-        updateCartTotals(subtotal, tax, total);
-      })
-      .catch((error) => console.error(error));
+    if (id) {
+      fetchCartItems()
+        .then((data) => {
+          setItems(data);
+          const subtotal = calculatesubtotal(data);
+          const tax = subtotal * 0.15;
+          const total = subtotal + tax;
+          updateCartTotals(subtotal, tax, total);
+        })
+        .catch((error) => console.error(error));
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const calculatesubtotal = (cartItems) => {
@@ -66,19 +69,10 @@ const Cart = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cart/getCart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: "64b813345ab966a0d7cd61a5" }),
+      const response = await axios.post("/cart/getCart", {
+        userId: id,
       });
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error("Unable to fetch cart items");
-      }
+      return response.data;
     } catch (error) {
       throw new Error("Unable to fetch cart items");
     }
@@ -87,7 +81,7 @@ const Cart = () => {
   const updateCartTotals = async (subtotal, tax, total) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: id,
         subtotal,
         tax,
         total,
@@ -121,7 +115,7 @@ const Cart = () => {
   const updateCartItemQuantityInBackend = async (item) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: id,
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
@@ -154,7 +148,7 @@ const Cart = () => {
   const removeCartItemFromBackend = async (item) => {
     try {
       const body = {
-        userId: "64b813345ab966a0d7cd61a5",
+        userId: id,
         cartItemId: item._id,
         quantity: item.quantity,
         size: item.size,
@@ -216,14 +210,11 @@ const Cart = () => {
           padding: "3%",
         }}
       >
-        {/* Cart items */}
         <Grid item xs={12} sm={12} md={8} lg={8}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Cart" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Cart items list */}
               {items.length === 0 ? (
                 <Typography variant="body1" className="empty-cart-message">
                   Your cart is empty.
@@ -244,8 +235,7 @@ const Cart = () => {
                           marginRight: "3%",
                         }}
                       />
-                      {/* </div> */}
-                      {/* Item details */}
+
                       <ListItemText
                         primary={item.name}
                         secondary={`${item.size}`}
@@ -255,7 +245,7 @@ const Cart = () => {
                         }}
                         style={{ width: "250px" }}
                       />
-                      {/* Quantity and remove buttons */}
+
                       <Grid
                         container
                         alignItems="center"
@@ -299,7 +289,7 @@ const Cart = () => {
                           Remove
                         </Button>
                       </Grid>
-                      {/* Item price */}
+
                       <Typography variant="body1" className="item-price">
                         ${item.price * item.quantity}
                       </Typography>
@@ -311,14 +301,11 @@ const Cart = () => {
           </Card>
         </Grid>
 
-        {/* Invoice summary */}
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Invoice Summary" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Summary content */}
               {items.length > 0 ? (
                 <Grid container>
                   <Grid item xs={6}>
@@ -405,7 +392,6 @@ const Cart = () => {
         </Grid>
       </Grid>
 
-      {/* Confirmation modal */}
       <Modal
         open={showConfirmationModal}
         onClose={cancelRemoveCartItem}
@@ -484,7 +470,7 @@ const Cart = () => {
           </Grid>
         </Paper>
       </Modal>
-      {/* Error modal */}
+
       <Modal
         open={showErrorModal}
         onClose={closeErrorModal}

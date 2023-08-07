@@ -1,3 +1,5 @@
+// Author: Sagar Paresh Shah (B00930009)
+
 const express = require("express");
 const router = express.Router();
 const shoesRoutes = require("./shoes/shoes.route");
@@ -9,6 +11,8 @@ const reviewRoutes = require("./reviews/reviews.route");
 const adminRoutes = require("./admin/admin.route");
 const wishlistRoutes = require("./wishlist/wishlist.route");
 const cartRoutes = require("./cart/cart.route");
+const filterRoutes = require("./filter/filter.route");
+const billingRoutes = require("./billings/billings.route");
 
 const healthCheck = (request, response) => {
   response.status(200).send({
@@ -25,6 +29,8 @@ router.use("/reviews", reviewRoutes);
 router.use("/admin", adminRoutes);
 router.use("/wishlist", wishlistRoutes);
 router.use("/cart", cartRoutes);
+router.use("/filter", filterRoutes);
+router.use("/billing", billingRoutes);
 
 module.exports.router = router;
 module.exports.healthCheck = healthCheck;

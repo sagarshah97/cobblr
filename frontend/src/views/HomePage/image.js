@@ -1,3 +1,4 @@
+// Author: Sahil Dilip Dalvi (B00939343)
 import React, { useEffect, useRef } from "react";
 import { Typography } from "@mui/material";
 import logo from "../../assets/images/Home/COBBLR.png";
@@ -10,7 +11,7 @@ const ParallaxImage = () => {
 
     const handleScroll = () => {
       const scrollPosition = window.pageYOffset;
-      parallaxElement.style.transform = `translateY(${scrollPosition * 0.5}px)`; // Adjust the parallax effect speed as needed
+      parallaxElement.style.transform = `translateY(${scrollPosition * 0.5}px)`;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -38,7 +39,7 @@ const ParallaxImage = () => {
             height: "100%",
             objectFit: "cover",
             transform: "translateY(0)",
-            transition: "transform 0.5s ease-out", // Adjust the transition speed as needed
+            transition: "transform 0.5s ease-out",
           }}
           src={logo}
           alt="Parallax Image"
@@ -52,10 +53,7 @@ const ParallaxImage = () => {
           textAlign: "center",
           paddingTop: "80px",
         }}
-      >
-        {/* <Typography variant="h4"> Welcome to Cobblr</Typography> */}
-        {/* Content or additional elements */}
-      </div>
+      ></div>
     </div>
   );
 };

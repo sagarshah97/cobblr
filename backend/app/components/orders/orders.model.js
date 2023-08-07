@@ -1,3 +1,4 @@
+//Author: Ashish Ojha (B00931967)
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
@@ -29,9 +30,25 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  expectedDeliveryDate: {
+    type: String,
+    required: true,
+  },
   items: [
     {
       shoeId: { type: mongoose.Types.ObjectId, required: true },
+      subText: {
+        type: String,
+        required: true,
+      },
+      shortDescription: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
       quantity: {
         type: Number,
         required: true,
@@ -41,10 +58,6 @@ const orderSchema = new mongoose.Schema({
         required: true,
       },
       price: {
-        type: Number,
-        required: true,
-      },
-      total: {
         type: Number,
         required: true,
       },

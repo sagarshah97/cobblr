@@ -1,3 +1,4 @@
+//Author: Ashish Ojha (B00931967)
 const FaqDAL = require("./faq.dal");
 
 class FaqService {
