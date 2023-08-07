@@ -27,6 +27,7 @@ import BillingDetails from "./views/BillingDetails/index.js";
 import Payment from "./views/Payment/index.js";
 import OrderConfirmationPage from "./views/OrderConfirmation/index.js";
 import Review from "./views/CustomerReviews/index.js";
+import Store from "./views/Stores/index.js";
 // import AdminPage from "./views/Admin/index.js";
 
 const Router = () => {
@@ -90,6 +91,7 @@ const Router = () => {
             path="/orderconfirmation/:_id"
             element={<OrderConfirmationPage />}
           />
+          <Route path="/stores" element={<Store />} />
           {/* <Route path="admin" element={<AdminPage />} /> */}
         </Route>
       </Routes>
