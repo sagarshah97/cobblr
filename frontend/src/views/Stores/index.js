@@ -29,18 +29,12 @@ const StoreLocator = () => {
     width: "100%",
     height: "400px",
   };
-  // const { isLoaded } = useLoadScript({
-  //   googleMapsApiKey: "AIzaSyDSsBjipA2hX34IXBIxIdjJ3NZtAe8BuZw",
-  // });
+
   const [defaultCenter, setDefaultCenter] = useState({
     lat: 44.636318403116086,
     lng: -63.595130784660036,
   });
 
-  // const defaultCenter = {
-  //   lat: 44.636318403116086,
-  //   lng: -63.595130784660036,
-  // };
   const mapContainerRef = useRef();
 
   const [stores, setStores] = useState([]);
