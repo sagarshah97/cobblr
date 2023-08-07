@@ -17,12 +17,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Paper, Grid, Stack } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+// import Snackbar from "@mui/material/Snackbar";
+// import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SimilarProducts from "../SimilarProducts/index";
-import Spinner from "../../utils/Spinner";
+// import Spinner from "../../utils/Spinner";
 import Loader from "../../utils/Loader";
 import { Alerts } from "../../utils/Alert";
 import "../../App.css";
@@ -30,9 +30,9 @@ import Footer from "../HomePage/Footer";
 
 const drawerWidth = 240;
 const navItems = ["Logout"];
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef(function Alert(props, ref) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 function WishlistPage() {
   const navigate = useNavigate();
 
@@ -93,10 +93,18 @@ function WishlistPage() {
   const removeWishlistItem = (userId, itemId) => {
     setSpinner(true);
     axios
-      .post(`/wishlist/removeWishlistItem`, {
-        userId: userId,
-        itemId: itemId,
-      })
+      .post(
+        `/wishlist/removeWishlistItem`,
+        {
+          userId: userId,
+          itemId: itemId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((resp) => {
         if (resp.status === 200) {
           console.log(resp.data);
@@ -123,9 +131,18 @@ function WishlistPage() {
   const getWishlist = (usertId) => {
     setSpinner(true);
     axios
-      .post(`/wishlist/getWishlist`, {
-        _id: usertId,
-      })
+      .post(
+        `/wishlist/getWishlist`,
+
+        {
+          _id: usertId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((resp) => {
         if (resp.status === 200) {
           console.log(resp.data);
@@ -159,6 +176,7 @@ function WishlistPage() {
       });
   };
   const id = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
   useEffect(() => {
     if (id) {
       // alert(id);
