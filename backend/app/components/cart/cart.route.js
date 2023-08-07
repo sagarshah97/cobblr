@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const cartController = require("./cart.controller");
 const cartValidation = require("./cart.validation");
+const { verifyToken } = require("../../helpers/jwt");
 const { validate } = require("../../lib/expressValidation");
 
 router
@@ -20,6 +21,7 @@ router
 router
   .route("/addToCart")
   .post(
+    verifyToken,
     validate(cartValidation.addToCart),
     cartController.addToCart.bind(cartController)
   );

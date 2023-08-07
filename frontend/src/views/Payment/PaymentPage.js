@@ -22,6 +22,7 @@ import axios from "axios";
 
 const PaymentPage = (props) => {
   const loggedInUserId = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
 
   const orderDetails = props?.details;
   const amount = props?.details?.total;
@@ -126,10 +127,18 @@ const PaymentPage = (props) => {
     } else {
       console.log(amount);
       try {
-        const response = await axios.post(`/billing/makePayment`, {
-          paymentMethodId: paymentMethod.id,
-          amount: parseInt(amount * 100), //amount (in cents)
-        });
+        const response = await axios.post(
+          `/billing/makePayment`,
+          {
+            paymentMethodId: paymentMethod.id,
+            amount: parseInt(amount * 100), //amount (in cents)
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
         if (response?.data?.success) {
           createOrder();
         }
@@ -153,7 +162,11 @@ const PaymentPage = (props) => {
     delete body._id;
     console.log(body);
     axios
-      .post(`/billing/create`, body)
+      .post(`/billing/create`, body, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
         if (res?.data?._id) {
           setPaid(true);
