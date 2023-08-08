@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Typography,
+  Modal,
+  Box,
+  Rating,
   List,
   ListItem,
   ListItemText,
@@ -24,6 +27,9 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Footer from "../HomePage/Footer";
+// import React, { useState, useEffect } from "react";
+// import { Button, Grid, Typography, Modal, Box, Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 const theme = createTheme({
   palette: {
@@ -38,6 +44,10 @@ const Orders = () => {
   });
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderSource, setOrderSource] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [currentReview, setCurrentReview] = useState(null);
   const navigate = useNavigate();
   const id = window.sessionStorage.getItem("userId");
 
@@ -116,13 +126,54 @@ const Orders = () => {
     console.log(`Downloading invoice for Order ID: ${orderId}`);
   };
 
-  const handleWriteReview = (orderId) => {
-    console.log(`Writing a review for Order ID: ${orderId}`);
-  };
-
   const handleCloseDialog = () => {
     setSelectedOrder(null);
     setOrderSource(null);
+  };
+
+  const handleWriteReview = (item) => {
+    // setOpenModal(true);
+    const shoeID = item.shoeId;
+    // getReviewsByShoeIdUserId
+    console.log("user:", id);
+    console.log("shoe:", shoeID);
+    axios
+      .post(`/reviews/getReviewsByShoeIdUserId`, {
+        postedBy: id,
+        shoeId: shoeID,
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          console.log(resp.data);
+          if (resp.data && resp.data.length > 0) {
+            setCurrentReview(resp.data[0]);
+            setFeedback(resp.data[0].comment);
+            setSelectedRating(resp.data[0].rating);
+            setOpenModal(true);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error.config);
+        console.log(error.message);
+        console.log(error.response);
+      });
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+    setSelectedRating(0);
+    setFeedback("");
+  };
+
+  const handleModalButtonClick = (action) => {
+    // Handle the submit action here
+    if (action === "Submit") {
+      console.log("Submitting review:", selectedRating, feedback);
+      // You can make an API call to submit the review here
+    }
+
+    handleModalClose();
   };
 
   const currentDate = new Date();
@@ -256,7 +307,7 @@ const Orders = () => {
                                 variant="outlined"
                                 color="primary"
                                 startIcon={<ReviewIcon />}
-                                onClick={() => handleWriteReview(item._id)}
+                                onClick={() => handleWriteReview(item)}
                                 sx={{ color: "#fff", border: 0 }}
                               >
                                 Review
@@ -286,6 +337,95 @@ const Orders = () => {
               </>
             )}
           </Dialog>
+
+          {openModal && (
+            <>
+              <Modal
+                open={openModal}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "black", // Background color set to black
+                    border: "1px solid white", // White border
+                    color: "white", // White text color
+                    boxShadow: 24,
+                    p: 4,
+                    outline: "none",
+                    width: "80%", // Increase the width
+                    height: "40%", // Increase the height
+                    maxWidth: "600px",
+                    borderRadius: 4, // Adding border radius to the modal
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Typography variant="h6" component="h2">
+                    Rating:{" "}
+                    <Rating
+                      value={selectedRating}
+                      onChange={(event, newValue) =>
+                        setSelectedRating(newValue)
+                      }
+                      emptyIcon={
+                        <StarIcon
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.3)", // Empty stars color
+                          }}
+                        />
+                      }
+                    />
+                    {/* Replace 3 with actual rating value */}
+                  </Typography>
+                  <Typography variant="h6" component="h2" mt={2}>
+                    Feedback:{" "}
+                  </Typography>
+                  {/* Add your form fields for feedback here */}
+                  <textarea
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    style={{
+                      marginBottom: "10px",
+                      resize: "none",
+                      //rows: 6,
+                      //cols: 50,
+                    }}
+                    rows={10}
+                  />
+                  {/* <Typography>Posted By: </Typography>
+             
+              <input type="text" style={{ marginBottom: "10px" }} />
+              */}
+                  {/* Add your form buttons here */}
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleModalButtonClick("Submit")}
+                      style={{ marginRight: "10px" }}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleModalClose()}
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
+            </>
+          )}
         </Grid>
       </ThemeProvider>
       <Footer />
