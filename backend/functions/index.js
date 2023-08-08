@@ -16,8 +16,8 @@ app.use(cors());
 
 connectDB();
 
-app.use("/", router);
-app.get("/health-check", healthCheck);
+app.use("/.netlify/functions/index", router);
+app.get("/.netlify/functions/index/health-check", healthCheck);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
 
