@@ -174,7 +174,7 @@ const Orders = () => {
           </Card>
         </Grid>
 
-        {/* Previous Orders */}
+
         <Grid item xs={12} md={6}>
           <Card>
             <CardHeader title="Previous Orders" />
@@ -217,7 +217,7 @@ const Orders = () => {
           </Card>
         </Grid>
 
-        {/* Order Details Dialog */}
+
         <Dialog open={selectedOrder !== null} onClose={handleCloseDialog}>
           {selectedOrder && (
             <>
