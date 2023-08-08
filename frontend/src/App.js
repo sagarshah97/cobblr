@@ -6,11 +6,12 @@ import axios from "axios";
 
 function App() {
   // For deployed app, use following URLs
-  //axios.defaults.baseURL = "https://cobblr-store-api.netlify.app/.netlify/functions/index";
+  axios.defaults.baseURL =
+    "https://cobblr-store-api.netlify.app/.netlify/functions/index";
   axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 
   // For Local Host, use following URLs
-  axios.defaults.baseURL = "http://localhost:8000";
+  //axios.defaults.baseURL = "http://localhost:8000";
 
   return (
     <div>

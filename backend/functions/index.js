@@ -17,12 +17,12 @@ app.use(cors());
 connectDB();
 
 // For deployed app, use the following URLs
-// app.use("/.netlify/functions/index", router);
-// app.get("/.netlify/functions/index/health-check", healthCheck);
+app.use("/.netlify/functions/index", router);
+app.get("/.netlify/functions/index/health-check", healthCheck);
 
 // For LocalHost, use the following URLs
-app.use("/", router);
-app.get("/health-check", healthCheck);
+// app.use("/", router);
+// app.get("/health-check", healthCheck);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
 
