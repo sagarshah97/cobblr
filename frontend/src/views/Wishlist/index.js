@@ -17,12 +17,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Paper, Grid, Stack } from "@mui/material";
-// import Snackbar from "@mui/material/Snackbar";
-// import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SimilarProducts from "../SimilarProducts/index";
-// import Spinner from "../../utils/Spinner";
 import Loader from "../../utils/Loader";
 import { Alerts } from "../../utils/Alert";
 import "../../App.css";
@@ -30,20 +27,15 @@ import Footer from "../HomePage/Footer";
 
 const drawerWidth = 240;
 const navItems = ["Logout"];
-// const Alert = React.forwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
 function WishlistPage() {
   const navigate = useNavigate();
 
   let runOnce = true;
-  // const userId = "64b813345ab966a0d7cd61a5";
   const [userId, setUserId] = useState(null);
   const [similarIds, setsimilarIds] = useState(null);
   const [similarTags, setsimilarTags] = useState(["Casual"]);
   const [wishlist, setWishlist] = useState(null);
 
-  // Spinner
   const [spinner, setSpinner] = useState(true);
 
   // Alert Start
@@ -73,7 +65,6 @@ function WishlistPage() {
         return updatedItems;
       });
     }
-    //alert(wishlist);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -108,8 +99,6 @@ function WishlistPage() {
       .then((resp) => {
         if (resp.status === 200) {
           console.log(resp.data);
-          // alert(resp.data.message);
-          // setWishlist(resp.data);
           getWishlist(userId);
           setSpinner(false);
           setAlertMessage("Product removed from wishlist!");
@@ -159,10 +148,6 @@ function WishlistPage() {
             console.log(tags);
           }
           setSpinner(false);
-          // setTimeout(() => {
-
-          //   // alert(false);
-          // }, 1000);
         }
         setSpinner(false);
       })
@@ -180,13 +165,11 @@ function WishlistPage() {
   const token = window.sessionStorage.getItem("token");
   useEffect(() => {
     if (id) {
-      // alert(id);
       setUserId(id);
       if (runOnce) {
         getWishlist(id);
       }
     } else {
-      // alert("user Id not found, please login!!!");
       navigate("/login");
     }
   }, [id]);
