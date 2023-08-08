@@ -15,19 +15,21 @@ router
 
 router.route("/profile/:userId").get(userController.profile);
 
-router.route("/profileupdate").post(userController.profileupdate);
+router.route("/profileupdate").post(verifyToken, userController.profileupdate);
 
-router.route("/displaytext").post(userController.displaytext);
+router.route("/displaytext").post(verifyToken, userController.displaytext);
 
-router.route("/changepassword").post(userController.changepassword);
+router
+  .route("/changepassword")
+  .post(verifyToken, userController.changepassword);
 
 router
   .route("/profile-visibility")
-  .post(userController.updateProfileVisibility);
+  .post(verifyToken, userController.updateProfileVisibility);
 
-router.route("/address").post(userController.address);
+router.route("/address").post(verifyToken, userController.address);
 
-router.route("/uploadImage").post(userController.uploadImage);
+router.route("/uploadImage").post(verifyToken, userController.uploadImage);
 
 router.route("/forgotpassword").post(userController.forgotpassword);
 router.route("/updatepassword").post(userController.updatepassword);

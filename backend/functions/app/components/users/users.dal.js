@@ -11,6 +11,7 @@ class UsersDal {
         return {
           userId: user._id,
           user: user,
+          Role: user.isAdmin,
         };
       }
       return null;

@@ -1,5 +1,6 @@
 // Author: Sahil Dilip Dalvi (B00939343)
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -37,6 +38,7 @@ const styles = {
 };
 
 const ShopBySportCarousel = () => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const sportCategories = [
@@ -81,6 +83,7 @@ const ShopBySportCarousel = () => {
                   backgroundColor: "transparent",
                   flexDirection: isMobile ? "column" : "row",
                 }}
+                onClick={() => navigate("/productlisting")}
               >
                 <CardMedia
                   style={styles.cardImage}

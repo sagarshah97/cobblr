@@ -69,6 +69,7 @@ const profileStyles = {
   },
 };
 export default function Profile() {
+  const token = window.sessionStorage.getItem("token");
   const [expanded, setExpanded] = React.useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("private");
@@ -108,7 +109,11 @@ export default function Profile() {
     };
 
     axios
-      .post("/users/changepassword", data)
+      .post("/users/changepassword", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((response) => {
         console.log("Password changed successfully");
         setMessage("Password changed successfully");
@@ -163,10 +168,18 @@ export default function Profile() {
     const visibilityValue = selectedOption === "private" ? true : "public";
 
     axios
-      .post("/users/profile-visibility", {
-        visibility: visibilityValue,
-        email: email,
-      })
+      .post(
+        "/users/profile-visibility",
+        {
+          visibility: visibilityValue,
+          email: email,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((response) => {
         console.log("Visibility saved successfully");
       })
@@ -255,7 +268,11 @@ export default function Profile() {
     };
 
     axios
-      .post("/users/address", data)
+      .post("/users/address", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((response) => {
         console.log(response.data);
 
@@ -351,7 +368,11 @@ export default function Profile() {
     };
 
     axios
-      .post("/users/profileupdate", updatedData)
+      .post("/users/profileupdate", updatedData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((response) => {
         console.log("User data updated successfully:", response.data);
       })
@@ -406,10 +427,18 @@ export default function Profile() {
         const base64String = reader.result.split(",")[1];
 
         axios
-          .post("/users/uploadImage", {
-            file: base64String,
-            email,
-          })
+          .post(
+            "/users/uploadImage",
+            {
+              file: base64String,
+              email,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          )
           .then((response) => {
             console.log(response.data);
           })

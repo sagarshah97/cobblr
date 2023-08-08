@@ -105,6 +105,7 @@ export default function Login() {
         console.log(response);
         const { userId } = response.data;
         const { token } = response.data;
+        const { Role } = response.data;
         setUserId(userId);
         setToken(token);
         console.log(userId);
@@ -113,9 +114,13 @@ export default function Login() {
         if (response.status === 200) {
           // setRegistrationError("");
           setLoginError("Login successful");
-          setTimeout(() => {
-            navigate("/homepage");
-          }, 1000);
+          if (Role === "Admin") {
+            navigate("/admin"); // Navigate to admin route if the user is an admin
+          } else {
+            setTimeout(() => {
+              navigate("/homepage");
+            }, 1000);
+          }
         } else {
           setLoginError("Invalid Credentials. Please try again.");
           // setRegistrationMessage("");

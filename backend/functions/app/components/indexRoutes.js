@@ -15,6 +15,7 @@ const orderHistory = require("./orderhistory/orderhistory.route");
 const filterRoutes = require("./filter/filter.route");
 const billingRoutes = require("./billings/billings.route");
 const storeRoutes = require("./stores/stores.route");
+const homeRoutes = require("./home/home.route");
 
 const healthCheck = (request, response) => {
   response.status(200).send({
@@ -35,6 +36,7 @@ router.use("/orderhistory", orderHistory);
 router.use("/filter", filterRoutes);
 router.use("/billing", billingRoutes);
 router.use("/stores", storeRoutes);
+router.use("/brandname", homeRoutes);
 
 module.exports.router = router;
 module.exports.healthCheck = healthCheck;
