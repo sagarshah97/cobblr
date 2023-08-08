@@ -1,0 +1,38 @@
+stages:
+  - build
+  - deploy_frontend
+  - deploy_backend
+
+build-frontend:
+  stage: build
+  image: node:16
+  script:
+    - cd ./frontend
+    - CI=false npm install
+    - CI=false npm run build
+  only:
+    - prod
+
+  artifacts:
+    paths:
+      - frontend/build/
+
+deploy-frontend:
+  stage: deploy_frontend
+  image: node:16
+  script:
+    - npm install -g netlify-cli
+    - netlify deploy --dir=frontend/build --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --prod
+  only:
+    - prod
+
+deploy-backend:
+  stage: deploy_backend
+  image: node:latest
+  script:
+    - npm install -g netlify-cli
+    - cd ./backend
+    - CI=false npm install
+    - netlify deploy --dir=dist --functions=functions --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_API_SITE_ID --prod
+  only:
+    - prod

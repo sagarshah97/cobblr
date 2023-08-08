@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const serverless = require("serverless-http");
 const connectDB = require("./app/db/db.js");
 const cors = require("cors");
 const { router, healthCheck } = require("./app/components/indexRoutes");
@@ -19,3 +20,6 @@ app.use("/", router);
 app.get("/health-check", healthCheck);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+
+module.exports = app;
+module.exports.handler = serverless(app);
