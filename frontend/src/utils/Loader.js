@@ -6,6 +6,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import spinnerWhite from "../assets/images/spinner-white.png";
 import spinnerBlack from "../assets/images/spinner-black.png";
+import "../Spinner.css";
+
 export default function Loader(props) {
   //   const [open, setOpen] = React.useState(false);
   //   const handleClose = () => {};

@@ -60,6 +60,7 @@ const Router = () => {
       </>
     );
   };
+
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Routes>

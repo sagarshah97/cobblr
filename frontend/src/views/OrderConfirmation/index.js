@@ -42,7 +42,7 @@ const OrderConfirmationPage = () => {
 
   // navigate to my orders page of the logged in user
   const navigateToMyOrders = () => {
-    navigate("/myorders");
+    navigate("/orders");
   };
 
   const shoeCardHeight = isMobile ? 150 : 250;

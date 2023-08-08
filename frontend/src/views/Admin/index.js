@@ -34,6 +34,7 @@ import ImageModal from "./ImageModal";
 import AvailableQuantitiesModal from "./AvailableQuantitiesModal";
 import { Alerts } from "../../utils/Alert";
 import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -53,8 +54,23 @@ function getStyles(name, personName, theme) {
         : theme.typography.fontWeightMedium,
   };
 }
+const decodeJwt = (token) => {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
 
+  return JSON.parse(jsonPayload);
+};
 const AdminPage = () => {
+  let navigate = useNavigate();
+
   const theme = useTheme();
   const [searchValue, setSearchValue] = useState("");
   const [shoeList, setShoeList] = useState([]);
@@ -352,6 +368,18 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const tokenObject = decodeJwt(token);
+      if (tokenObject && tokenObject?.role !== "Admin") {
+        window.sessionStorage.clear();
+        navigate("/login");
+      }
+    } else {
+      window.sessionStorage.clear();
+      navigate("/login");
+    }
+
     handleSearch();
   }, []);
   return (
@@ -663,7 +691,6 @@ const AdminPage = () => {
       <AvailableQuantitiesModal
         open={openAvailableQuantitiesModal}
         handleClose={handleCloseAvailableQuantitiesModal}
-        // handleAddQuantity={handleAddQuantity}
         availableQuantities={availableQuantities}
         setAvailableQuantities={setAvailableQuantities}
       />

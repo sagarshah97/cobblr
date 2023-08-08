@@ -22,6 +22,8 @@ import logo from "../../assets/images/Home/drawing-pair-converse-shoes_897419-89
 const defaultTheme = createTheme();
 
 export default function Register() {
+  const id = window.sessionStorage.getItem("userId");
+  const token = window.sessionStorage.getItem("token");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
@@ -518,7 +520,7 @@ export default function Register() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <div style={{ textAlign: "center" }}>
                 <span style={{ color: "white" }}>

@@ -3,10 +3,9 @@
 Our proposed project is Cobblr which represents a shoe retail company. The goal of this project is to develop an online website for a shoe retail business. The website will serve as an e-commerce platform where customers can browse and purchase a wide range of shoes. The primary objective is to create an engaging and user-friendly online shopping experience that showcases the footwear collection and drives sales. Cobblr recognizes that fashion knows no bounds and seeks to create a seamless online experience for individuals of all ages and fashion preferences. The website aims to provide a curated collection of classy and trendy shoes that resonate with contemporary boys and girls who actively follow fashion trends and value expressing their individuality through their choice of footwear.
 
 - _Date Created_: 29 05 2023
-- _Last Modification Date_: 20 06 2023
-- _Proposal URL(Instructions)_: <https://dal.brightspace.com/d2l/le/content/274269/viewContent/3608543/View>
+- _Last Modification Date_: 08 08 2023
 - _Git URL_: <https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23>
-- _Netlify URL (Deployed site)_: <https://cobblr.netlify.app/>
+- _Netlify URL (Deployed site)_: <https://cobblr-store.netlify.app/>
 
 ## Authors
 

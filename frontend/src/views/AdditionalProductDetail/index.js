@@ -6,6 +6,8 @@ import { Card, Typography, Grid, Button, Chip } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import "../../App.css";
 import Footer from "../HomePage/Footer";
 import Spinner from "../../utils/Loader";
@@ -15,9 +17,6 @@ const AdditionalDetails = () => {
   const location = useLocation();
 
   const productDetails = location.state?.productDetails;
-  const params = {
-    productId: productDetails._id,
-  };
 
   const [inventoryCheck, setInventoryCheck] = useState([]);
 
@@ -49,10 +48,11 @@ const AdditionalDetails = () => {
                 md={12}
               >
                 <div className="full-width-div">
-                  <Grid container style={{ margin: "0", padding: "3%" }}>
+                  <Grid container spacing={2} style={{ margin: "0" }}>
                     <Grid item xs={12} lg={6} md={12}>
                       <div class="image-container">
                         <img
+                          alt={productDetails.images[0].name}
                           variant="top"
                           src={
                             "data:image/png;base64," +
@@ -151,7 +151,7 @@ const AdditionalDetails = () => {
                   </div>
                 </div>
               </Grid>
-              <Grid item lg={6} md={12}>
+              <Grid item lg={6} md={12} style={{ paddingBottom: "10%" }}>
                 <div
                   style={{
                     color: "white",
@@ -180,7 +180,7 @@ const AdditionalDetails = () => {
                           <>
                             <Grid
                               item
-                              md={3}
+                              md={4}
                               style={{
                                 border: "1px solid lightgrey",
                                 borderRadius: "15px",
@@ -197,7 +197,7 @@ const AdditionalDetails = () => {
                           <>
                             <Grid
                               item
-                              md={3}
+                              md={4}
                               style={{
                                 color: "grey",
                                 border: "1px solid grey",
@@ -217,24 +217,23 @@ const AdditionalDetails = () => {
                   </Grid>
                 </div>
                 <div className="padding-available-sizes">
-                  <Button
-                    style={{
-                      backgroundColor: "#38B6FF",
-                      borderColor: "#38B6FF",
-                      borderRadius: "17px",
-                      padding: "3%",
-                      width: "15rem",
-                      marginRight: "3%",
-                      marginTop: "5%",
-                      marginBottom: "3%",
-                      color: "white",
-                    }}
-                    onClick={() =>
-                      navigate(`/productDetail/${productDetails._id}`)
-                    }
-                  >
-                    Back to product
-                  </Button>
+                  <Typography>
+                    <Button
+                      className="view-details"
+                      variant="link"
+                      style={{
+                        padding: "0",
+                        marginTop: "6%",
+                        color: "#38B5FF",
+                      }}
+                      onClick={() =>
+                        navigate(`/productDetail/${productDetails._id}`)
+                      }
+                    >
+                      <ArrowBackIcon style={{ marginRight: "10px" }} />
+                      Back to product
+                    </Button>
+                  </Typography>
                 </div>
               </Grid>
             </Grid>

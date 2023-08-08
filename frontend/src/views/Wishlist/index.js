@@ -17,12 +17,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Paper, Grid, Stack } from "@mui/material";
-// import Snackbar from "@mui/material/Snackbar";
-// import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SimilarProducts from "../SimilarProducts/index";
-// import Spinner from "../../utils/Spinner";
 import Loader from "../../utils/Loader";
 import { Alerts } from "../../utils/Alert";
 import "../../App.css";
@@ -30,20 +27,15 @@ import Footer from "../HomePage/Footer";
 
 const drawerWidth = 240;
 const navItems = ["Logout"];
-// const Alert = React.forwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
 function WishlistPage() {
   const navigate = useNavigate();
 
   let runOnce = true;
-  // const userId = "64b813345ab966a0d7cd61a5";
   const [userId, setUserId] = useState(null);
   const [similarIds, setsimilarIds] = useState(null);
   const [similarTags, setsimilarTags] = useState(["Casual"]);
   const [wishlist, setWishlist] = useState(null);
 
-  // Spinner
   const [spinner, setSpinner] = useState(true);
 
   // Alert Start
@@ -73,7 +65,6 @@ function WishlistPage() {
         return updatedItems;
       });
     }
-    //alert(wishlist);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -108,8 +99,6 @@ function WishlistPage() {
       .then((resp) => {
         if (resp.status === 200) {
           console.log(resp.data);
-          // alert(resp.data.message);
-          // setWishlist(resp.data);
           getWishlist(userId);
           setSpinner(false);
           setAlertMessage("Product removed from wishlist!");
@@ -159,11 +148,8 @@ function WishlistPage() {
             console.log(tags);
           }
           setSpinner(false);
-          // setTimeout(() => {
-
-          //   // alert(false);
-          // }, 1000);
         }
+        setSpinner(false);
       })
       .catch((error) => {
         console.log(error.config);
@@ -179,13 +165,11 @@ function WishlistPage() {
   const token = window.sessionStorage.getItem("token");
   useEffect(() => {
     if (id) {
-      // alert(id);
       setUserId(id);
       if (runOnce) {
         getWishlist(id);
       }
     } else {
-      // alert("user Id not found, please login!!!");
       navigate("/login");
     }
   }, [id]);
@@ -193,7 +177,15 @@ function WishlistPage() {
   return (
     <>
       <Box sx={{ backgroundColor: "#0F0F0F" }}>
-        <Box component="main" sx={{ p: 3, color: "#fff", width: "100%" }}>
+        <Box
+          component="main"
+          sx={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            color: "#fff",
+            width: "100%",
+          }}
+        >
           <Toolbar />
           <Typography variant="h5">Wishlist</Typography>
           <div style={{ marginTop: "30px" }}>
@@ -207,16 +199,30 @@ function WishlistPage() {
                 {wishlist?.length > 0 &&
                   wishlist.map((item, index) => (
                     <>
-                      <Grid item xs={4} sm={4} md={4} key={index}>
+                      <Grid item xs={8} sm={6} md={4} key={index}>
                         <Grid container spacing={1}>
-                          <Grid item xs={6}>
-                            <img
-                              className="card-image"
-                              src={"data:image/png;base64," + item.images.data}
-                              alt={item.images.name}
-                            />
+                          <Grid item xs={12} sm={12} md={6} lg={6}>
+                            <div class="image-container">
+                              <img
+                                className="image"
+                                src={
+                                  "data:image/png;base64," + item.images.data
+                                }
+                                alt={item.images.name}
+                                style={{
+                                  borderRadius: "15px",
+                                }}
+                              />
+                            </div>
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={12}
+                            md={6}
+                            lg={6}
+                            style={{ paddingLeft: "3%" }}
+                          >
                             <Typography variant="h6">{item.name}</Typography>
                             <Typography
                               sx={{ color: "gray", fontSize: "15px" }}
@@ -235,7 +241,10 @@ function WishlistPage() {
                               >
                                 <Button
                                   variant="outlined"
-                                  sx={{ width: "6rem" }}
+                                  sx={{
+                                    borderColor: "#38B5FF",
+                                    color: "#38B5FF",
+                                  }}
                                   onClick={() => {
                                     navigate(`/productdetail/${item._id}`);
                                   }}
@@ -246,7 +255,10 @@ function WishlistPage() {
                               <Grid item>
                                 <Button
                                   variant="outlined"
-                                  sx={{ width: "6rem" }}
+                                  sx={{
+                                    borderColor: "#38B5FF",
+                                    color: "#38B5FF",
+                                  }}
                                   onClick={() => {
                                     removeWishlistItem(userId, item._id);
                                   }}

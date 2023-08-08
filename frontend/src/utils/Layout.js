@@ -1,6 +1,6 @@
 // Author: Aayush Yogesh Pandya (B00939670)
 
-import * as React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,25 +19,72 @@ import Button from "@mui/material/Button";
 import { Paper, Grid, Stack } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Outlet, useNavigate } from "react-router-dom";
-// import logo from "../../assets/images/logo-white.png";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo-white.png";
-// import "./App.css";
+import axios from "axios";
+import UnauthorizedModal from "./UnauthoizedModal";
 
 const drawerWidth = 240;
-const navItems = ["Profile", "Logout"];
+
+// ,{text:"Logout", link:"/logout"}
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function App(props) {
-  const navigate = useNavigate();
   const { window } = props;
+  const id = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [unauthorizedModal, setUnauthorizedModal] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const decodeJwt = (token) => {
+    alert(token);
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  };
+  const location = useLocation();
+  let navItems = [
+    { text: "Search", link: "/productlisting" },
+    { text: "Store", link: "/stores" },
+  ];
+
+  if (id) {
+    navItems = [
+      ...navItems,
+      { text: "Profile", link: "/profile" },
+      { text: "Wishlist", link: "/wishlist" },
+      { text: "Cart", link: "/cart" },
+      { text: "Orders", link: "/orders" },
+      { text: "Logout", link: "/login" },
+    ];
+  } else {
+    navItems = [...navItems, { text: "Login", link: "/login" }];
+  }
+  if (location.pathname.includes("admin")) {
+    navItems = [{ text: "Logout", link: "/login" }];
+    // const token = sessionStorage.getItem("token");
+    // const tokenObject = decodeJwt(token);
+
+    // if (tokenObject && tokenObject?.role !== "Admin") {
+    //   // sessionStorage.clear();
+    //   navigate("/login");
+    // }
+  }
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Paper
@@ -57,20 +104,20 @@ function App(props) {
       </Paper>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+        {navItems.map((item, index) => (
+          <ListItem key={index} disablePadding>
             <ListItemButton
               sx={{ textAlign: "center" }}
               onClick={() => {
-                if (item === "Logout") {
+                if (item.text === "Logout" || item.text === "Login") {
                   sessionStorage.clear();
                   navigate("/login");
-                } else if (item === "Profile") {
-                  navigate("/profile");
+                } else {
+                  navigate(item.link);
                 }
               }}
             >
-              <ListItemText primary={item} />
+              <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -78,20 +125,20 @@ function App(props) {
     </Box>
   );
 
-  const [wishlist, setWishlist] = React.useState([1, 2]);
-  const deleteItem = (index) => {
-    handleClick();
-    if (wishlist.length == 1) {
-      setWishlist([]);
-    } else {
-      setWishlist((prevItems) => {
-        const updatedItems = [...prevItems];
-        updatedItems.splice(index, 1);
-        return updatedItems;
-      });
-    }
-    //alert(wishlist);
-  };
+  // const [wishlist, setWishlist] = React.useState([1, 2]);
+  // const deleteItem = (index) => {
+  //   handleClick();
+  //   if (wishlist.length == 1) {
+  //     setWishlist([]);
+  //   } else {
+  //     setWishlist((prevItems) => {
+  //       const updatedItems = [...prevItems];
+  //       updatedItems.splice(index, 1);
+  //       return updatedItems;
+  //     });
+  //   }
+  //   //alert(wishlist);
+  // };
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -108,6 +155,21 @@ function App(props) {
 
     setOpen(false);
   };
+
+  useEffect(() => {
+    axios.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        if (error.response.status === 401) {
+          setUnauthorizedModal(true);
+          // navigate("/login");
+        }
+        return error;
+      }
+    );
+  }, []);
   return (
     <Box sx={{ backgroundColor: "#262626" }}>
       <CssBaseline />
@@ -138,20 +200,20 @@ function App(props) {
             <img src={logo} alt="" width={150} />
           </Paper>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <Button
-                key={item}
+                key={index}
                 sx={{ color: "#fff" }}
                 onClick={() => {
-                  if (item === "Logout") {
+                  if (item.text === "Logout" || item.text === "Login") {
                     sessionStorage.clear();
                     navigate("/login");
-                  } else if (item === "Profile") {
-                    navigate("/profile");
+                  } else {
+                    navigate(item.link);
                   }
                 }}
               >
-                {item}
+                {item.text}
               </Button>
             ))}
           </Box>
@@ -190,6 +252,7 @@ function App(props) {
         <Toolbar />
         <Outlet />
       </Box>
+      {unauthorizedModal && <UnauthorizedModal />}
     </Box>
   );
 }
