@@ -59,16 +59,11 @@ class WishlistDAL {
     try {
       const userId = body.userId;
       const itemId = body.itemId;
-      // console.log("userId:", userId);
-      // console.log("itemId:", itemId);
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $pull: { wishlist: itemId } },
         { new: true }
-      )
-        // .populate("wishlist", "name code brand tags price images")
-        // .select({ wishlist: 1, _id: 0 });
-        .select({ _id: 0 });
+      ).select({ _id: 0 });
 
       return updatedUser;
     } catch (error) {
@@ -76,32 +71,6 @@ class WishlistDAL {
       return null;
     }
   }
-
-  // async getShoes() {
-  //   const shoes = Shoe.find({});
-  //   return shoes;
-  // }
-
-  // async getSimilarShoes(reqBody) {
-  //   const { tags } = reqBody;
-  //   const shoes = await Shoe.find({ tags: { $all: tags } });
-  //   return shoes;
-  // }
-
-  // async createShoe(shoeDetails) {
-  //   const shoe = new Shoe(shoeDetails);
-
-  //   if (!shoe) {
-  //     return err;
-  //   }
-
-  //   try {
-  //     const response = await shoe.save();
-  //     return response.code;
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
 }
 
 module.exports = WishlistDAL;

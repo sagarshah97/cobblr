@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../../assets/images/Home/logo-illustration-vintage-sneakers-shoes-retro-style_194708-640-removebg-preview.png";
 import axios from "axios";
 import { Modal } from "@mui/material";
+import Loader from "../../utils/Loader";
 // Modal
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
@@ -31,6 +32,7 @@ export default function Login() {
   const [loginError, setLoginError] = useState("");
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState("");
+  const [spinner, setSpinner] = useState(false);
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return regex.test(email);
@@ -46,6 +48,7 @@ export default function Login() {
   };
   const [emailInput, setEmailInput] = useState("");
   const handlePasswordResetSubmit = async (e) => {
+    setSpinner(true);
     e.preventDefault();
     closeModal();
     try {
@@ -60,7 +63,10 @@ export default function Login() {
       } else {
         console.log("Failed to send password reset email");
       }
-    } catch (error) {}
+      setSpinner(false);
+    } catch (error) {
+      setSpinner(false);
+    }
   };
 
   const handleEmailInputChange = (e) => {
@@ -88,7 +94,7 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setSpinner(true);
     if (!validateEmail(email)) {
       setLoginError("Please enter a valid email");
       return;
@@ -103,31 +109,40 @@ export default function Login() {
       .post("/users/login", params)
       .then((response) => {
         console.log(response);
-        const { userId } = response.data;
-        const { token } = response.data;
-        const { Role } = response.data;
-        setUserId(userId);
-        setToken(token);
-        console.log(userId);
-        sessionStorage.setItem("userId", userId);
-        sessionStorage.setItem("token", token);
+
         if (response.status === 200) {
           // setRegistrationError("");
+          const { userId } = response.data;
+          const { token } = response.data;
+          const { Role } = response.data;
+          setUserId(userId);
+          setToken(token);
+          console.log(userId);
+          sessionStorage.setItem("userId", userId);
+          sessionStorage.setItem("token", token);
+
           setLoginError("Login successful");
           if (Role === "Admin") {
-            navigate("/admin"); // Navigate to admin route if the user is an admin
+            setTimeout(() => {
+              setSpinner(false);
+              navigate("/admin");
+            }, 3000);
           } else {
             setTimeout(() => {
+              setSpinner(false);
               navigate("/homepage");
-            }, 1000);
+            }, 3000);
           }
         } else {
+          setSpinner(false);
           setLoginError("Invalid Credentials. Please try again.");
           // setRegistrationMessage("");
         }
+        // setSpinner(false);
       })
       .catch((error) => {
         console.error(error);
+        setSpinner(false);
         setLoginError("Invalid Credentials. Please try again");
       });
   };
@@ -179,6 +194,9 @@ export default function Login() {
           style={{
             backgroundColor: "#0f0f0f",
             boxShadow: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Box
@@ -410,6 +428,7 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
+      {spinner && <Loader />}
       {/* </ThemeProvider> */}
     </Box>
   );
