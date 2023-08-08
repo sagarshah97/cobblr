@@ -72,6 +72,40 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  const renderItemImage = (items) => {
+    if (items.images && items.images.data) {
+      return (
+        <img
+          variant="top"
+          src={"data:image/png;base64," + items.images.data}
+          alt={items.images.name}
+          height="120px"
+          width="100px"
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "transparent",
+            marginRight: "3%",
+          }}
+        />
+      );
+    } else {
+      return (
+        <img
+          variant="top"
+          src="placeholder-image-url.png"
+          alt="Loading..."
+          height="120px"
+          width="120px"
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "transparent",
+            marginRight: "3%",
+          }}
+        />
+      );
+    }
+  };
+
   const handleOrderClick = (order, source) => {
     setSelectedOrder(order);
     setOrderSource(source);
@@ -212,6 +246,7 @@ const Orders = () => {
                     <List>
                       {selectedOrder.items.map((item) => (
                         <ListItem key={item._id}>
+                          {renderItemImage(item)}
                           <ListItemText
                             primary={item.name}
                             secondary={`Size: ${item.size}, Quantity: ${item.quantity}, Price: $${item.price}`}
