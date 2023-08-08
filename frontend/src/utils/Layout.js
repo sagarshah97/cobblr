@@ -61,8 +61,6 @@ function App(props) {
   let navItems = [
     { text: "Search", link: "/productlisting" },
     { text: "Store", link: "/stores" },
-    { text: "FAQ", link: "/faq" },
-    { text: "Contact", link: "/contact" },
   ];
 
   if (id) {
@@ -71,6 +69,7 @@ function App(props) {
       { text: "Profile", link: "/profile" },
       { text: "Wishlist", link: "/wishlist" },
       { text: "Cart", link: "/cart" },
+      { text: "Orders", link: "/orders" },
       { text: "Logout", link: "/login" },
     ];
   } else {

@@ -520,7 +520,7 @@ export default function Register() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <div style={{ textAlign: "center" }}>
                 <span style={{ color: "white" }}>
