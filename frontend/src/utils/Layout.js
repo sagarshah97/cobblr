@@ -41,6 +41,22 @@ function App(props) {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  const decodeJwt = (token) => {
+    alert(token);
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  };
   const location = useLocation();
   let navItems = [
     { text: "Search", link: "/productlisting" },
@@ -62,6 +78,13 @@ function App(props) {
   }
   if (location.pathname.includes("admin")) {
     navItems = [{ text: "Logout", link: "/login" }];
+    // const token = sessionStorage.getItem("token");
+    // const tokenObject = decodeJwt(token);
+
+    // if (tokenObject && tokenObject?.role !== "Admin") {
+    //   // sessionStorage.clear();
+    //   navigate("/login");
+    // }
   }
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
