@@ -55,19 +55,19 @@ const Footer = () => {
         <Grid item xs={12} sm={6} md={3}>
           <FooterTitle variant="h6">Shop</FooterTitle>
           <FooterLink
-            onClick={() => navigate("/homepage")}
+            onClick={() => navigate("/productlisting")}
             style={{ cursor: "pointer" }}
           >
             Men's
           </FooterLink>
           <FooterLink
-            onClick={() => navigate("/homepage")}
+            onClick={() => navigate("/productlisting")}
             style={{ cursor: "pointer" }}
           >
             Women's
           </FooterLink>
           <FooterLink
-            onClick={() => navigate("/homepage")}
+            onClick={() => navigate("/productlisting")}
             style={{ cursor: "pointer" }}
           >
             Kids'

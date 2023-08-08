@@ -52,7 +52,6 @@ const ProductDetail = () => {
   const [bagCount, setBagCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [alertMsg, setAlertMsg] = useState("");
-  const [alertVariant, setAlertVariant] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [disableBag, setDisableBag] = useState(false);
   const [disableWishlist, setDisableWishlist] = useState(false);
@@ -237,7 +236,6 @@ const ProductDetail = () => {
         if (res?.data?.message.toLowerCase().includes("added to cart")) {
           setDisableBag(true);
           setAlertMsg("Item added to the bag successfully!");
-          setAlertVariant("success");
           setShowAlert(true);
           setBagCount(bagCount + 1);
           setBagBtnLabel("Added to Bag");
@@ -275,7 +273,6 @@ const ProductDetail = () => {
         if (res?.data?.wishlist?.length) {
           setDisableWishlist(true);
           setAlertMsg("Item added to the wishlist successfully!");
-          setAlertVariant("success");
           setShowAlert(true);
           setWishlistCount(wishlistCount + 1);
           setWishBtnLabel("Wishlisted");
@@ -560,7 +557,14 @@ const ProductDetail = () => {
               <DisplayReview shoeId={_id} />
             </div>
 
-            {_id && <SimilarProducts tags={productDetails.tags} _id={_id} />}
+            {_id && (
+              <SimilarProducts
+                tags={
+                  productDetails.tags.length ? productDetails.tags : ["Casual"]
+                }
+                _id={_id}
+              />
+            )}
           </div>
         </>
       ) : (

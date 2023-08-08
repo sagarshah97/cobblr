@@ -26,11 +26,15 @@ class UserController {
     try {
       const loginResult = await this.usersService.loginUser(request.body);
       if (loginResult) {
-        const token = generateJwtWebToken(loginResult.userId);
+        const token = generateJwtWebToken(
+          loginResult.userId,
+          loginResult.Role ? "Admin" : "User"
+        );
         console.log(token);
         response.status(200).json({
           message: "Login successful",
           userId: loginResult.userId,
+          Role: loginResult.Role ? "Admin" : "User",
           token,
         });
       } else {

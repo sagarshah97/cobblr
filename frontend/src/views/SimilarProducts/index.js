@@ -9,7 +9,6 @@ import "../../App.css";
 import Spinner from "../../utils/Loader";
 
 const SimilarProducts = (props) => {
-  console.log(props);
   const id = props._id;
   const [oldId, setOldId] = useState("");
 

@@ -112,33 +112,6 @@ const AvailableQuantitiesModal = ({
             ))}
           </>
         )}
-        {/* <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Size</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {availableQuantities.map((quantityData, index) => (
-                <TableRow key={index}>
-                  <TableCell>{quantityData.size}</TableCell>
-                  <TableCell>{quantityData.quantity}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleDeleteQuantity(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer> */}
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary" onClick={handleClose}>
