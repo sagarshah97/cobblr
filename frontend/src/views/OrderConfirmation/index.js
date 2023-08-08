@@ -12,6 +12,7 @@ import InvoiceCard from "./InvoiceCard";
 import Footer from "../HomePage/Footer";
 
 const OrderConfirmationPage = () => {
+  const isLoggedIn = window.sessionStorage.getItem("userId") ? true : false;
   const navigate = useNavigate();
   const { _id } = useParams();
   const theme = useTheme();
@@ -23,16 +24,20 @@ const OrderConfirmationPage = () => {
   useEffect(() => {
     const getOrderDetails = async () => {
       try {
-        const response = await axios.get(
-          `/orders/getorder?_id=${_id ? _id : "64b19b874d5883d09edec9de"}`,
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-        const data = response.data;
-        setOrderDetails(data);
+        if (isLoggedIn) {
+          const response = await axios.get(
+            `/orders/getorder?_id=${_id ? _id : "64b19b874d5883d09edec9de"}`,
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          );
+          const data = response.data;
+          setOrderDetails(data);
+        } else {
+          navigate("/login");
+        }
       } catch (error) {
         console.error("Error retrieving order:", error);
       }

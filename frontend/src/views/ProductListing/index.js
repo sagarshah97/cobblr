@@ -11,6 +11,7 @@ import {
   IconButton,
   Chip,
 } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
 import SortDropdown from "./SortDropdown";
 import FilterColumn from "./FilterColumn";
 import ShoeCard from "./ShoeCard";
@@ -43,6 +44,8 @@ const ProductListing = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
+  const navigate = useNavigate();
+  const { passedSearchKeyword } = useParams();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const token = window.sessionStorage.getItem("token");
@@ -77,10 +80,23 @@ const ProductListing = () => {
 
   const handleSearchClose = () => {
     setSearchKeyword("");
+    if (
+      passedSearchKeyword !== null &&
+      passedSearchKeyword !== undefined &&
+      passedSearchKeyword !== ""
+    ) {
+      navigate("/productlisting");
+    }
   };
 
   useEffect(() => {
-    console.log("search keyword updated:", searchKeyword);
+    if (
+      passedSearchKeyword !== null &&
+      passedSearchKeyword !== undefined &&
+      passedSearchKeyword !== ""
+    ) {
+      setSearchKeyword(passedSearchKeyword);
+    }
     if (isMobile) {
       if (
         selectedFilters.sort === null ||
@@ -105,11 +121,7 @@ const ProductListing = () => {
       try {
         setIsLoading(true);
         setHasLoaded(false);
-        const response = await axios.post("/filter/filterShoes", filterReq, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        const response = await axios.post("/filter/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
@@ -135,19 +147,11 @@ const ProductListing = () => {
     try {
       setIsLoading(true);
       setHasLoaded(false);
-      const response = await axios.post(
-        "/filter/filterShoes",
-        {
-          ...filterReq,
-          pageChangeType,
-          currentPage: pageNumber,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await axios.post("/filter/filterShoes", {
+        ...filterReq,
+        pageChangeType,
+        currentPage: pageNumber,
+      });
       const data = response.data;
       setVisibleShoeData(data.visibleShoeData);
       setTotalPages(data.totalPages);

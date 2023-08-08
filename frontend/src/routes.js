@@ -85,7 +85,10 @@ const Router = () => {
           />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/productlisting" element={<ProductListing />} />
+          <Route
+            path="/productlisting/:passedSearchKeyword?"
+            element={<ProductListing />}
+          />
           <Route path="/billing" element={<BillingDetails />} />
           <Route path="/payment" element={<Payment />} />
           <Route

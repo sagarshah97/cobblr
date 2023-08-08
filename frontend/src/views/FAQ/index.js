@@ -24,11 +24,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("/faq/getfaq", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        const response = await axios.get("/faq/getfaq");
         const data = response.data;
         setCategories(data);
       } catch (error) {
