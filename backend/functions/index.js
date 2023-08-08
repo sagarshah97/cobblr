@@ -12,16 +12,11 @@ const apiPort = 8000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
-// app.use(cors());
-app.use(
-  cors({
-    origin: "https://cobblr-store.netlify.app",
-  })
-);
+app.use(cors());
 
 connectDB();
 
-app.use("/.netlify/functions/index", router);
+app.use("/", router);
 app.get("/.netlify/functions/index/health-check", healthCheck);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
