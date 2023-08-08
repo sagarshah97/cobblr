@@ -2,9 +2,11 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const serverless = require("serverless-http");
 const connectDB = require("./app/db/db.js");
 const cors = require("cors");
 const { router, healthCheck } = require("./app/components/indexRoutes");
+const { LocalHospitalTwoTone } = require("@mui/icons-material");
 
 const app = express();
 const apiPort = 8000;
@@ -15,7 +17,15 @@ app.use(cors());
 
 connectDB();
 
-app.use("/", router);
-app.get("/health-check", healthCheck);
+// For deployed app, use the following URLs
+app.use("/.netlify/functions/index", router);
+app.get("/.netlify/functions/index/health-check", healthCheck);
+
+// For LocalHost, use the following URLs
+// app.use("/", router);
+// app.get("/health-check", healthCheck);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+
+module.exports = app;
+module.exports.handler = serverless(app);
