@@ -1,5 +1,4 @@
 const Shoe = require("../shoes/shoes.model");
-// const AdminShoe = require("./admin.model");
 const mongoose = require("mongoose");
 
 class AdminDAL {
@@ -14,7 +13,6 @@ class AdminDAL {
         { name: { $regex: pattern } },
         { brand: { $regex: pattern } },
       ];
-      //};
       shoes = Shoe.find({ $or: query }).select({
         code: 1,
         name: 1,
@@ -24,32 +22,13 @@ class AdminDAL {
     return shoes;
   }
 
-  // async getShoes() {
-  //   const shoes = Shoe.find({});
-  //   return shoes;
-  // }
-
   async modifyShoe(shoeDetails) {
-    // const shoe = new Shoe(shoeDetails);
-    // const result = await Shoe.findOneAndUpdate(
-    //   { _id: shoeDetails._id }, // Filter based on the _id field
-    //   { $set: shoeDetails }, // Update the document with the provided fields
-    //   { returnOriginal: false } // Return the updated document after the update
-    // );
-    // if (!result) {
-    //   return err;
-    // }
-
     try {
-      // const objectId =  new ObjectId(shoeDetails._id);
-
-      // Perform the update operation
       const result = await Shoe.findOneAndUpdate(
-        { _id: new mongoose.Types.ObjectId(shoeDetails._id) }, // Filter based on the _id field
-        { $set: shoeDetails }, // Update the document with the provided fields
-        { returnOriginal: false } // Return the updated document after the update
+        { _id: new mongoose.Types.ObjectId(shoeDetails._id) },
+        { $set: shoeDetails },
+        { returnOriginal: false }
       );
-      // const response = await shoe.save();
       console.log(result);
       return result.code;
     } catch (error) {
