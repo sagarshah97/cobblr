@@ -24,6 +24,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import StoreIcon from "@mui/icons-material/Store";
 import SearchIcon from "@mui/icons-material/Search";
 import "./store.css";
+import Footer from "../HomePage/Footer";
 
 const StoreLocator = () => {
   const googleMapsApiKey = "AIzaSyDSsBjipA2hX34IXBIxIdjJ3NZtAe8BuZw";
@@ -82,222 +83,229 @@ const StoreLocator = () => {
   );
 
   return (
-    <Container>
-      <Typography
-        variant="h3"
+    <>
+      <Container
         style={{
-          paddingTop: "20px",
+          marginTop: "30px",
         }}
       >
-        Locate Store
-      </Typography>
-      <div
-        ref={mapContainerRef}
-        style={{
-          marginTop: "20px",
-        }}
-      >
-        <LoadScriptNext
-          googleMapsApiKey={googleMapsApiKey}
-          loadingElement={<h1>Loading...</h1>}
+        <Typography
+          variant="h3"
+          style={{
+            paddingTop: "20px",
+          }}
         >
-          <GoogleMap
-            ref={mapRef}
-            mapContainerStyle={mapContainerStyle}
-            zoom={14}
-            center={defaultCenter}
+          Locate Store
+        </Typography>
+        <div
+          ref={mapContainerRef}
+          style={{
+            marginTop: "20px",
+          }}
+        >
+          <LoadScriptNext
+            googleMapsApiKey={googleMapsApiKey}
+            loadingElement={<h1>Loading...</h1>}
           >
-            {stores.map((store) => (
-              <Marker
-                key={store._id}
-                position={{ lat: store.latitude, lng: store.longitude }}
-                onClick={() => setSelectedStore(store)}
-              />
-            ))}
-            {selectedStore && (
-              <InfoWindow
-                position={{
-                  lat: selectedStore.latitude,
-                  lng: selectedStore.longitude,
-                }}
-                style={{
-                  background: "black",
-                  color: "white",
-                  padding: "10px",
-                  overflow: Hidden,
-                }}
-                onCloseClick={() => setSelectedStore(null)}
-                options={{ disableCloseButton: true }}
-              >
-                <div
+            <GoogleMap
+              ref={mapRef}
+              mapContainerStyle={mapContainerStyle}
+              zoom={14}
+              center={defaultCenter}
+            >
+              {stores.map((store) => (
+                <Marker
+                  key={store._id}
+                  position={{ lat: store.latitude, lng: store.longitude }}
+                  onClick={() => setSelectedStore(store)}
+                />
+              ))}
+              {selectedStore && (
+                <InfoWindow
+                  position={{
+                    lat: selectedStore.latitude,
+                    lng: selectedStore.longitude,
+                  }}
                   style={{
                     background: "black",
                     color: "white",
                     padding: "10px",
                     overflow: Hidden,
                   }}
+                  onCloseClick={() => setSelectedStore(null)}
+                  options={{ disableCloseButton: true }}
                 >
-                  <Typography variant="h5">{selectedStore.name}</Typography>
-                  <Typography>{selectedStore.address}</Typography>
-                </div>
-              </InfoWindow>
-            )}
-          </GoogleMap>
-        </LoadScriptNext>
-      </div>
-      <Box mt={4}>
-        <TextField
-          id="search"
-          label="Search"
-          variant="outlined"
-          autoComplete="off"
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton color="inherit">
-                <SearchIcon />
-              </IconButton>
-            ),
-            style: {
-              color: "white",
-              marginBottom: "15px",
-            },
-            sx: {
-              "& fieldset": {
-                borderColor: "white !important",
-                borderRadius: 1.5,
+                  <div
+                    style={{
+                      background: "black",
+                      color: "white",
+                      padding: "10px",
+                      overflow: Hidden,
+                    }}
+                  >
+                    <Typography variant="h5">{selectedStore.name}</Typography>
+                    <Typography>{selectedStore.address}</Typography>
+                  </div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          </LoadScriptNext>
+        </div>
+        <Box mt={4}>
+          <TextField
+            id="search"
+            label="Search"
+            variant="outlined"
+            autoComplete="off"
+            fullWidth
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <IconButton color="inherit">
+                  <SearchIcon />
+                </IconButton>
+              ),
+              style: {
+                color: "white",
+                marginBottom: "15px",
               },
-              "&:hover fieldset": {
-                borderColor: "white !important",
-                borderRadius: 1.5,
+              sx: {
+                "& fieldset": {
+                  borderColor: "white !important",
+                  borderRadius: 1.5,
+                },
+                "&:hover fieldset": {
+                  borderColor: "white !important",
+                  borderRadius: 1.5,
+                },
+                "&:focus-within fieldset, &:focus-visible fieldset": {
+                  borderColor: "white !important",
+                },
               },
-              "&:focus-within fieldset, &:focus-visible fieldset": {
-                borderColor: "white !important",
+            }}
+            InputLabelProps={{
+              style: {
+                color: "white",
               },
-            },
-          }}
-          InputLabelProps={{
-            style: {
-              color: "white",
-            },
-          }}
-          InputOutlineProps={{
-            style: {
-              color: "white",
-            },
-          }}
-          sx={{
-            ml: { xs: "auto" },
-            mr: "25px",
-          }}
-        />
-        <Grid container spacing={1}>
-          {filteredStores.map((store) => (
-            <Grid item xs={12} sm={6} key={store._id}>
-              <Card
-                onClick={() => handleCardClick(store)} // Handle card click
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                  width: "100%",
-                  cursor: "pointer",
-                  bgcolor: "#000000",
-                  border: "1px solid white",
-                  color: "white",
-                  borderRadius: "15px",
-                  "&:hover": {
-                    border: "1px solid white",
-                  },
-                }}
-              >
-                <Grid
-                  container
-                  spacing={1}
-                  style={{
-                    // marginLeft: "10px",
+            }}
+            InputOutlineProps={{
+              style: {
+                color: "white",
+              },
+            }}
+            sx={{
+              ml: { xs: "auto" },
+              mr: "25px",
+            }}
+          />
+          <Grid container spacing={1}>
+            {filteredStores.map((store) => (
+              <Grid item xs={12} sm={6} key={store._id}>
+                <Card
+                  onClick={() => handleCardClick(store)} // Handle card click
+                  sx={{
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    width: "100%",
+                    cursor: "pointer",
+                    bgcolor: "#000000",
+                    border: "1px solid white",
+                    color: "white",
+                    borderRadius: "15px",
+                    "&:hover": {
+                      border: "1px solid white",
+                    },
                   }}
                 >
                   <Grid
-                    item
-                    xs={12}
-                    sm={50}
-                    md={4}
+                    container
+                    spacing={1}
                     style={{
+                      // marginLeft: "10px",
                       display: "flex",
-                      alignItems: "center",
                       justifyContent: "center",
-                      backgroundColor: "#000000",
+                      alignItems: "center",
                     }}
                   >
-                    <StoreIcon
-                      fontSize="large"
+                    <Grid
+                      item
+                      xs={12}
+                      sm={50}
+                      md={4}
                       style={{
-                        height: "7rem",
-                        width: "7rem",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#000000",
                       }}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={7}
-                    md={8}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      padding: "20px",
-                    }}
-                  >
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        {store.name}
-                      </Typography>
-                      <div
+                    >
+                      <StoreIcon
+                        fontSize="large"
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          height: "7rem",
+                          width: "7rem",
                         }}
-                      >
-                        <PhoneIcon
-                          fontSize="small"
-                          style={{ marginRight: "5px" }}
-                        />
-                        <Typography variant="body1" sx={{ color: "white" }}>
-                          {store.phone}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={7}
+                      md={8}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        padding: "20px",
+                      }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          {store.name}
                         </Typography>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginTop: "15px",
-                        }}
-                      >
-                        <LocationOnIcon
-                          fontSize="large"
-                          style={{ marginRight: "5px" }}
-                        />
-                        <Typography variant="body1" sx={{ color: "white" }}>
-                          {store.address}
-                        </Typography>
-                      </div>
-                    </CardContent>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <PhoneIcon
+                            fontSize="small"
+                            style={{ marginRight: "5px" }}
+                          />
+                          <Typography variant="body1" sx={{ color: "white" }}>
+                            {store.phone}
+                          </Typography>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginTop: "15px",
+                          }}
+                        >
+                          <LocationOnIcon
+                            fontSize="large"
+                            style={{ marginRight: "5px" }}
+                          />
+                          <Typography variant="body1" sx={{ color: "white" }}>
+                            {store.address}
+                          </Typography>
+                        </div>
+                      </CardContent>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Container>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
