@@ -3,8 +3,8 @@ const UsersDal = require("./users.dal");
 const bcrypt = require("bcrypt");
 const { generateEmailVerificationToken } = require("../../helpers/jwt");
 const sgMail = require("@sendgrid/mail");
-const nodemailer = require("nodemailer");
 const config = require("../../config/index");
+
 class UsersService {
   constructor() {
     this.usersDal = new UsersDal();
