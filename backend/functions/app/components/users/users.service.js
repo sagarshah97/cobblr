@@ -52,6 +52,7 @@ class UsersService {
 
     return {
       userId: user.userId,
+      Role: user.Role,
       success: true,
     };
   }
