@@ -115,8 +115,14 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        console.log("Password changed successfully");
-        setMessage("Password changed successfully");
+        console.log(">>>", response);
+        if (response.status === 200) {
+          console.log("Password changed successfully");
+          setMessage("Password changed successfully");
+        } else {
+          console.log("Failed to change password");
+          setMessage("Failed to change password");
+        }
       })
       .catch((error) => {
         setMessage("Failed to change password");
