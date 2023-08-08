@@ -1,8 +1,21 @@
+//Author : Jayant Patidar (B00934519)
 const ReviewDAL = require("./reviews.dal");
 
 class ReviewService {
   constructor() {
     this.reviewsDAL = new ReviewDAL();
+  }
+
+  async getReviewsByOrderAndShoe(orderId, shoeId) {
+    try {
+      const review = await this.reviewsDAL.getReviewsByOrderAndShoe(
+        orderId,
+        shoeId
+      );
+      return review;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async addReview(reviewData) {

@@ -1,3 +1,4 @@
+//Author : Jayant Patidar (B00934519)
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -7,6 +8,7 @@ const Review = new Schema(
     comment: { type: String, required: true },
     postedBy: { type: String, required: true },
     shoeId: { type: String, required: true, unique: true },
+    orderId: { type: String, required: true },
   },
   { timestamps: true }
 );

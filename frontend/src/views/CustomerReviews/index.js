@@ -29,13 +29,9 @@ const CustomerReviews = () => {
     }
   };
   const fetchReviewsByLoggedInUser = async () => {
-    window.sessionStorage.setItem("userId", "64b80ee271c09757eb3c336d");
-    const userId = window.sessionStorage.getItem("userId");
     try {
-      // Make a POST API call to fetch the reviews for the user
-      console.log(userId);
       const response = await axios.post(`/reviews/getReviewsByUserId`, {
-        userId,
+        postedBy: window.sessionStorage.getItem("userId"),
       });
       console.log(response.data);
       setReviews(response.data);
@@ -53,7 +49,7 @@ const CustomerReviews = () => {
         postedBy: window.sessionStorage.getItem("userId"),
       });
       console.log("Review added successfully:", response.data);
-      setOpenModal(false); // Close the modal after submitting the review
+      setOpenModal(false);
       fetchAllShoes();
       fetchReviewsByLoggedInUser();
     } catch (error) {

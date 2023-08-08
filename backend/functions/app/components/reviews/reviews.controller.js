@@ -1,8 +1,30 @@
+//Author : Jayant Patidar (B00934519)
 const ReviewService = require("./reviews.service");
 
 class ReviewController {
   constructor() {
     this.reviewService = new ReviewService();
+  }
+
+  async getReviewsByOrderAndShoe(request, response, next) {
+    try {
+      const { orderId, shoeId } = request.body;
+
+      const review = await this.reviewService.getReviewsByOrderAndShoe(
+        orderId,
+        shoeId
+      );
+
+      if (review) {
+        response.status(200).json(review);
+      } else {
+        response
+          .status(404)
+          .json({ error: "No reviews found for the specified user and shoe." });
+      }
+    } catch (error) {
+      next(error);
+    }
   }
 
   async getReviewsByUserAndShoe(request, response, next) {

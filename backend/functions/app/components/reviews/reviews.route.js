@@ -1,3 +1,4 @@
+//Author : Jayant Patidar (B00934519)
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");
@@ -55,6 +56,11 @@ router.route("/getReviewIdByShoeId").post(
 router.route("/getReviewsByShoeIdUserId").post(
   // validate(reviewsValidation.deleteReview),
   reviewsController.getReviewsByUserAndShoe.bind(reviewsController)
+);
+
+router.route("/getReviewsByOrderIdShoeId").post(
+  // validate(reviewsValidation.deleteReview),
+  reviewsController.getReviewsByOrderAndShoe.bind(reviewsController)
 );
 
 module.exports = router;
