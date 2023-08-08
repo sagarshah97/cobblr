@@ -3,11 +3,12 @@ const jwt = require("jsonwebtoken");
 const { jwtConfig } = require("../config");
 
 module.exports = {
-  generateJwtWebToken: (userId) => {
+  generateJwtWebToken: (userId, role) => {
     const expiresIn = jwtConfig.timeout;
     const token = jwt.sign(
       {
         id: userId,
+        role: role,
       },
       jwtConfig.secretKey,
       { expiresIn }
