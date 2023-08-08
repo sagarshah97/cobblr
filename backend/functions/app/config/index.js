@@ -12,7 +12,7 @@ const jwtConfig = {
 };
 const stripeApiKey =
   "sk_test_51NQaRTG6OTDlGgErIzLxYcY7MQ4c2bNYT2CmckA0yRMQcBhyya5wFNDk1ONJWZS2c2dnl49HfPYA8h7TyvIWAaWg00dvrlhtsw";
-const frontendBaseUrl = "https://cobblr.netlify.app";
+const frontendBaseUrl = "https://cobblr-store.netlify.app/";
 
 module.exports = {
   HOST,
