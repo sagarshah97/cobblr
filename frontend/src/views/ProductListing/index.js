@@ -85,7 +85,7 @@ const ProductListing = () => {
       passedSearchKeyword !== undefined &&
       passedSearchKeyword !== ""
     ) {
-      navigate("/productlisting/");
+      navigate("/productlisting");
     }
   };
 
@@ -97,10 +97,6 @@ const ProductListing = () => {
     ) {
       setSearchKeyword(passedSearchKeyword);
     }
-  }, []);
-
-  useEffect(() => {
-    console.log("search keyword updated:", searchKeyword);
     if (isMobile) {
       if (
         selectedFilters.sort === null ||
@@ -125,11 +121,7 @@ const ProductListing = () => {
       try {
         setIsLoading(true);
         setHasLoaded(false);
-        const response = await axios.post("/filter/filterShoes", filterReq, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        const response = await axios.post("/filter/filterShoes", filterReq);
         const data = response.data;
         setVisibleShoeData(data.visibleShoeData);
         setTotalPages(data.totalPages);
@@ -155,19 +147,11 @@ const ProductListing = () => {
     try {
       setIsLoading(true);
       setHasLoaded(false);
-      const response = await axios.post(
-        "/filter/filterShoes",
-        {
-          ...filterReq,
-          pageChangeType,
-          currentPage: pageNumber,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await axios.post("/filter/filterShoes", {
+        ...filterReq,
+        pageChangeType,
+        currentPage: pageNumber,
+      });
       const data = response.data;
       setVisibleShoeData(data.visibleShoeData);
       setTotalPages(data.totalPages);
