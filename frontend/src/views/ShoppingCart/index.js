@@ -24,6 +24,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
+import Footer from "../HomePage/Footer";
 
 const theme = createTheme({
   palette: {
@@ -102,7 +103,7 @@ const Cart = () => {
           setItemToRemove(index);
           setShowConfirmationModal(true);
         }
-        // Update cart item quantity in the backend API
+
         await updateCartItemQuantityInBackend(updatedItems[index]);
       } else if (newQuantity > 5) {
         setShowErrorModal(true);
@@ -136,7 +137,6 @@ const Cart = () => {
         setTimeout(() => {
           setShowNotification(false);
         }, 2000);
-        // Remove cart item from the backend API
         await removeCartItemFromBackend(items[itemToRemove]);
       }
       setShowConfirmationModal(false);
@@ -201,348 +201,351 @@ const Cart = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid
-        container
-        spacing={2}
-        style={{
-          padding: "3%",
-        }}
-      >
-        <Grid item xs={12} sm={12} md={8} lg={8}>
-          <Card>
-            <CardHeader title="Cart" />
+    <>
+      <ThemeProvider theme={theme}>
+        <Grid
+          container
+          spacing={2}
+          style={{
+            padding: "3%",
+          }}
+        >
+          <Grid item xs={12} sm={12} md={8} lg={8}>
+            <Card>
+              <CardHeader title="Cart" />
 
-            <CardContent>
-              {items.length === 0 ? (
-                <Typography variant="body1" className="empty-cart-message">
-                  Your cart is empty.
-                </Typography>
-              ) : (
-                <List>
-                  {items.map((item, index) => (
-                    <ListItem key={index}>
-                      <img
-                        variant="top"
-                        src={"data:image/png;base64," + item.images.data}
-                        alt={item.images.name}
-                        height="120px"
-                        width="120px"
-                        style={{
-                          borderRadius: "10px",
-                          backgroundColor: "transparent",
-                          marginRight: "3%",
-                        }}
-                      />
-
-                      <ListItemText
-                        primary={item.name}
-                        secondary={`${item.size}`}
-                        primaryTypographyProps={{ variant: "h6" }}
-                        secondaryTypographyProps={{
-                          variant: "body2",
-                        }}
-                        style={{ width: "250px" }}
-                      />
-
-                      <Grid
-                        container
-                        alignItems="center"
-                        style={{ marginLeft: "2%" }}
-                      >
-                        <Typography
-                          variant="body1"
-                          style={{ paddingRight: "10px" }}
-                        >
-                          Quantity: {item.quantity}
-                        </Typography>
-                        <IconButton
-                          onClick={() =>
-                            updateCartItemQuantity(index, item.quantity - 1)
-                          }
-                        >
-                          <RemoveIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() =>
-                            updateCartItemQuantity(index, item.quantity + 1)
-                          }
-                        >
-                          <AddIcon />
-                        </IconButton>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          size="small"
-                          startIcon={<DeleteIcon />}
-                          onClick={() => {
-                            setItemToRemove(index);
-                            setShowConfirmationModal(true);
-                          }}
+              <CardContent>
+                {items.length === 0 ? (
+                  <Typography variant="body1" className="empty-cart-message">
+                    Your cart is empty.
+                  </Typography>
+                ) : (
+                  <List>
+                    {items.map((item, index) => (
+                      <ListItem key={index}>
+                        <img
+                          variant="top"
+                          src={"data:image/png;base64," + item.images.data}
+                          alt={item.images.name}
+                          height="120px"
+                          width="120px"
                           style={{
-                            marginLeft: "10px",
-                            color: "white",
-                            borderColor: "grey",
+                            borderRadius: "10px",
+                            backgroundColor: "transparent",
+                            marginRight: "3%",
                           }}
+                        />
+
+                        <ListItemText
+                          primary={item.name}
+                          secondary={`${item.size}`}
+                          primaryTypographyProps={{ variant: "h6" }}
+                          secondaryTypographyProps={{
+                            variant: "body2",
+                          }}
+                          style={{ width: "250px" }}
+                        />
+
+                        <Grid
+                          container
+                          alignItems="center"
+                          style={{ marginLeft: "2%" }}
                         >
-                          Remove
-                        </Button>
-                      </Grid>
+                          <Typography
+                            variant="body1"
+                            style={{ paddingRight: "10px" }}
+                          >
+                            Quantity: {item.quantity}
+                          </Typography>
+                          <IconButton
+                            onClick={() =>
+                              updateCartItemQuantity(index, item.quantity - 1)
+                            }
+                          >
+                            <RemoveIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() =>
+                              updateCartItemQuantity(index, item.quantity + 1)
+                            }
+                          >
+                            <AddIcon />
+                          </IconButton>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            size="small"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => {
+                              setItemToRemove(index);
+                              setShowConfirmationModal(true);
+                            }}
+                            style={{
+                              marginLeft: "10px",
+                              color: "white",
+                              borderColor: "grey",
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </Grid>
 
-                      <Typography variant="body1" className="item-price">
-                        ${item.price * item.quantity}
-                      </Typography>
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
+                        <Typography variant="body1" className="item-price">
+                          ${item.price * item.quantity}
+                        </Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12} sm={12} md={4} lg={4}>
-          <Card>
-            <CardHeader title="Invoice Summary" />
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <Card>
+              <CardHeader title="Invoice Summary" />
 
-            <CardContent>
-              {items.length > 0 ? (
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem" }}
-                    >
-                      Subtotal:
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem" }}
-                    >
-                      Delivery Fee:
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem" }}
-                    >
-                      Taxes:
-                    </Typography>
-                    <hr />
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem" }}
-                    >
-                      Total:
-                    </Typography>
-                    <hr />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem", textAlign: "right" }}
-                    >
-                      ${calculateSubtotal()}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem", textAlign: "right" }}
-                    >
-                      Free
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem", textAlign: "right" }}
-                    >
-                      ${calculateSubtotal() * 0.15}
-                    </Typography>
-                    <hr />
-                    <Typography
-                      variant="body1"
-                      style={{ marginBottom: "1rem", textAlign: "right" }}
-                    >
-                      ${calculateTotal()}
-                    </Typography>
-                    <hr />
-                    <br />
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Button
-                        // className="checkout-button"
-                        variant="contained"
-                        color="success"
-                        onClick={handleCheckout}
+              <CardContent>
+                {items.length > 0 ? (
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem" }}
                       >
-                        Checkout
-                      </Button>
-                    </div>
+                        Subtotal:
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem" }}
+                      >
+                        Delivery Fee:
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem" }}
+                      >
+                        Taxes:
+                      </Typography>
+                      <hr />
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem" }}
+                      >
+                        Total:
+                      </Typography>
+                      <hr />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem", textAlign: "right" }}
+                      >
+                        ${calculateSubtotal()}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem", textAlign: "right" }}
+                      >
+                        Free
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem", textAlign: "right" }}
+                      >
+                        ${calculateSubtotal() * 0.15}
+                      </Typography>
+                      <hr />
+                      <Typography
+                        variant="body1"
+                        style={{ marginBottom: "1rem", textAlign: "right" }}
+                      >
+                        ${calculateTotal()}
+                      </Typography>
+                      <hr />
+                      <br />
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button
+                          // className="checkout-button"
+                          variant="contained"
+                          color="success"
+                          onClick={handleCheckout}
+                        >
+                          Checkout
+                        </Button>
+                      </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              ) : (
-                <Typography variant="body1" className="empty-summary-text">
-                  No items in cart.
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
+                ) : (
+                  <Typography variant="body1" className="empty-summary-text">
+                    No items in cart.
+                  </Typography>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Modal
-        open={showConfirmationModal}
-        onClose={cancelRemoveCartItem}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        BackdropProps={{
-          onClick: handleBackdropClick,
-        }}
-      >
-        <Paper
+        <Modal
+          open={showConfirmationModal}
+          onClose={cancelRemoveCartItem}
           style={{
-            backgroundColor: "#000",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
-            padding: "2%",
-            margin: "4%",
-            width: "30rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          BackdropProps={{
+            onClick: handleBackdropClick,
           }}
         >
-          <Typography
-            variant="h2"
+          <Paper
             style={{
-              paddingBottom: "8%",
-              paddingLeft: "2%",
-              paddingRight: "2%",
-              paddingTop: "3%",
-              fontSize: "1.5rem",
-              fontWeight: 200,
+              backgroundColor: "#000",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+              padding: "2%",
+              margin: "4%",
+              width: "30rem",
             }}
           >
-            Remove Item
-          </Typography>
-          <Typography
-            variant="body1"
-            style={{
-              paddingBottom: "10%",
-              paddingLeft: "2%",
-              paddingRight: "2%",
-              fontSize: "1rem",
-              fontWeight: 200,
-            }}
-          >
-            Are you sure you want to remove this shoe from the cart?
-          </Typography>
-          <Grid
-            container
-            spacing={1}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <Grid item>
-              <Button
-                variant="contained"
-                color="error"
-                style={{ marginTop: "16px" }}
-                onClick={removeCartItem}
-              >
-                Yes
-              </Button>
+            <Typography
+              variant="h2"
+              style={{
+                paddingBottom: "8%",
+                paddingLeft: "2%",
+                paddingRight: "2%",
+                paddingTop: "3%",
+                fontSize: "1.5rem",
+                fontWeight: 200,
+              }}
+            >
+              Remove Item
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                paddingBottom: "10%",
+                paddingLeft: "2%",
+                paddingRight: "2%",
+                fontSize: "1rem",
+                fontWeight: 200,
+              }}
+            >
+              Are you sure you want to remove this shoe from the cart?
+            </Typography>
+            <Grid
+              container
+              spacing={1}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="error"
+                  style={{ marginTop: "16px" }}
+                  onClick={removeCartItem}
+                >
+                  Yes
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "16px" }}
+                  onClick={cancelRemoveCartItem}
+                >
+                  No
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: "16px" }}
-                onClick={cancelRemoveCartItem}
-              >
-                No
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Modal>
+          </Paper>
+        </Modal>
 
-      <Modal
-        open={showErrorModal}
-        onClose={closeErrorModal}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        BackdropProps={{
-          onClick: handleBackdropClick,
-        }}
-      >
-        <Paper
+        <Modal
+          open={showErrorModal}
+          onClose={closeErrorModal}
           style={{
-            backgroundColor: "#000",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
-            padding: "2%",
-            margin: "4%",
-            width: "30rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          BackdropProps={{
+            onClick: handleBackdropClick,
           }}
         >
-          <Typography
-            variant="h2"
+          <Paper
             style={{
-              paddingBottom: "8%",
-              paddingLeft: "2%",
-              paddingRight: "2%",
-              paddingTop: "3%",
-              fontSize: "1.5rem",
-              fontWeight: 200,
+              backgroundColor: "#000",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+              padding: "2%",
+              margin: "4%",
+              width: "30rem",
             }}
           >
-            Sorry!
-          </Typography>
-          <Typography
-            variant="body1"
-            style={{
-              paddingBottom: "10%",
-              paddingLeft: "2%",
-              paddingRight: "2%",
-              fontSize: "1rem",
-              fontWeight: 200,
-            }}
-          >
-            You cannot add any more shoes of the same type.
-          </Typography>
-          <Grid
-            container
-            spacing={1}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: "16px" }}
-                onClick={closeErrorModal}
-              >
-                OK
-              </Button>
+            <Typography
+              variant="h2"
+              style={{
+                paddingBottom: "8%",
+                paddingLeft: "2%",
+                paddingRight: "2%",
+                paddingTop: "3%",
+                fontSize: "1.5rem",
+                fontWeight: 200,
+              }}
+            >
+              Sorry!
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                paddingBottom: "10%",
+                paddingLeft: "2%",
+                paddingRight: "2%",
+                fontSize: "1rem",
+                fontWeight: 200,
+              }}
+            >
+              You cannot add any more shoes of the same type.
+            </Typography>
+            <Grid
+              container
+              spacing={1}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "16px" }}
+                  onClick={closeErrorModal}
+                >
+                  OK
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-      </Modal>
+          </Paper>
+        </Modal>
 
-      {showNotification && (
-        <div className="notification">Item removed successfully!</div>
-      )}
-    </ThemeProvider>
+        {showNotification && (
+          <div className="notification">Item removed successfully!</div>
+        )}
+      </ThemeProvider>
+      <Footer />
+    </>
   );
 };
 
