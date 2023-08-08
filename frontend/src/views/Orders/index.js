@@ -1,15 +1,12 @@
 // Author: Pratik Mukund Parmar (B00934515)
 
-//Feature 2 under construction
-
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Typography,
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
   Grid,
   Card,
   CardHeader,
@@ -25,6 +22,7 @@ import {
   RateReview as ReviewIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -33,50 +31,68 @@ const theme = createTheme({
 });
 
 const Orders = () => {
-  const orders = [
-    {
-      id: 1,
-      shoeName: "Nike Air Max",
-      shoeImage: "nike-air-max.jpg",
-      size: "10",
-      quantity: 2,
-      deliveryDate: "2023-08-15",
-      address: "123 Shoe Street, City",
-      price: 199.99,
-      orderedDate: "2023-08-01",
-    },
-    {
-      id: 2,
-      shoeName: "Adidas Ultraboost",
-      shoeImage: "adidas-ultraboost.jpg",
-      size: "9",
-      quantity: 1,
-      deliveryDate: "2023-08-10",
-      address: "456 Sneaker Avenue, Town",
-      price: 149.99,
-      orderedDate: "2023-08-02",
-    },
-  ];
+  const [orders, setOrders] = useState({
+    previousOrders: [],
+    currentOrders: [],
+  });
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderSource, setOrderSource] = useState(null);
+  const navigate = useNavigate();
+  const id = window.sessionStorage.getItem("userId");
 
-  const [selectedOrder, setSelectedOrder] = React.useState(null);
+  const fetchOrders = async () => {
+    try {
+      if (!id) {
+        navigate("/login");
+        return;
+      }
+      const response = await axios.get("/orders");
+      const allOrders = response.data.orders;
 
-  const handleOrderClick = (order) => {
+      const currentDate = new Date();
+
+      const previousOrders = allOrders.filter(
+        (order) =>
+          new Date(order.expectedDeliveryDate) < currentDate &&
+          order.userId === id.toString()
+      );
+      const currentOrders = allOrders.filter(
+        (order) =>
+          new Date(order.expectedDeliveryDate) >= currentDate &&
+          order.userId === id.toString()
+      );
+
+      setOrders({ previousOrders, currentOrders });
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const handleOrderClick = (order, source) => {
     setSelectedOrder(order);
+    setOrderSource(source);
   };
 
   const handleDownloadInvoice = (orderId) => {
-    // Placeholder implementation for downloading invoice
     console.log(`Downloading invoice for Order ID: ${orderId}`);
   };
 
   const handleWriteReview = (orderId) => {
-    // Placeholder implementation for writing a review
     console.log(`Writing a review for Order ID: ${orderId}`);
   };
 
   const handleCloseDialog = () => {
     setSelectedOrder(null);
+    setOrderSource(null);
   };
+
+  const currentDate = new Date();
+  const previousOrders = orders.previousOrders || [];
+  const currentOrders = orders.currentOrders || [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,35 +100,39 @@ const Orders = () => {
         {/* Current Orders */}
         <Grid item xs={12} md={6}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Current Orders" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Orders list */}
-              {orders.length === 0 ? (
+              {currentOrders.length === 0 ? (
                 <Typography variant="body1" className="empty-orders-message">
                   You have no current orders.
                 </Typography>
               ) : (
                 <List>
-                  {orders.map((order) => (
-                    <ListItem
-                      key={order.id}
-                      button
-                      onClick={() => handleOrderClick(order)}
-                    >
-                      {/* Order avatar */}
-                      <ListItemAvatar>
-                        <Avatar src={order.shoeImage} alt={order.shoeName} />
-                      </ListItemAvatar>
-                      {/* Order details */}
-                      <ListItemText
-                        primary={order.shoeName}
-                        secondary={`Size: ${order.size}, Quantity: ${order.quantity}`}
-                        primaryTypographyProps={{ variant: "h6" }}
-                        secondaryTypographyProps={{ variant: "body2" }}
-                      />
-                    </ListItem>
+                  {currentOrders.map((order) => (
+                    <React.Fragment key={order._id}>
+                      <ListItem
+                        button
+                        onClick={() => handleOrderClick(order, "current")}
+                      >
+                        <ListItemText
+                          primary={"Order ID: " + order.invoiceNumber}
+                          secondary={`Expected Delivery Date: ${order.expectedDeliveryDate}`}
+                          primaryTypographyProps={{ variant: "h6" }}
+                          secondaryTypographyProps={{ variant: "body2" }}
+                        />
+
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          startIcon={<DownloadIcon />}
+                          onClick={() => handleDownloadInvoice(order._id)}
+                          sx={{ color: "#fff", border: 0 }}
+                        >
+                          Invoice
+                        </Button>
+                      </ListItem>
+                    </React.Fragment>
                   ))}
                 </List>
               )}
@@ -123,54 +143,39 @@ const Orders = () => {
         {/* Previous Orders */}
         <Grid item xs={12} md={6}>
           <Card>
-            {/* Card header */}
             <CardHeader title="Previous Orders" />
-            {/* Card content */}
+
             <CardContent>
-              {/* Orders list */}
-              {orders.length === 0 ? (
+              {previousOrders.length === 0 ? (
                 <Typography variant="body1" className="empty-orders-message">
                   You have no previous orders.
                 </Typography>
               ) : (
                 <List>
-                  {orders.map((order) => (
-                    <ListItem
-                      key={order.id}
-                      button
-                      onClick={() => handleOrderClick(order)}
-                    >
-                      {/* Order avatar */}
-                      <ListItemAvatar>
-                        <Avatar src={order.shoeImage} alt={order.shoeName} />
-                      </ListItemAvatar>
-                      {/* Order details */}
-                      <ListItemText
-                        primary={order.shoeName}
-                        secondary={`Size: ${order.size}, Quantity: ${order.quantity}`}
-                        primaryTypographyProps={{ variant: "h6" }}
-                        secondaryTypographyProps={{ variant: "body2" }}
-                      />
-                      {/* Action buttons */}
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<DownloadIcon />}
-                        onClick={() => handleDownloadInvoice(order.id)}
-                        sx={{ color: "#fff", border: 0 }}
+                  {previousOrders.map((order) => (
+                    <React.Fragment key={order._id}>
+                      <ListItem
+                        button
+                        onClick={() => handleOrderClick(order, "previous")}
                       >
-                        Invoice
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<ReviewIcon />}
-                        onClick={() => handleWriteReview(order.id)}
-                        sx={{ color: "#fff", border: 0 }}
-                      >
-                        Review
-                      </Button>
-                    </ListItem>
+                        <ListItemText
+                          primary={"Order ID: " + order.invoiceNumber}
+                          secondary={`Delivery Date: ${order.expectedDeliveryDate}`}
+                          primaryTypographyProps={{ variant: "h6" }}
+                          secondaryTypographyProps={{ variant: "body2" }}
+                        />
+
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          startIcon={<DownloadIcon />}
+                          onClick={() => handleDownloadInvoice(order._id)}
+                          sx={{ color: "#fff", border: 0 }}
+                        >
+                          Invoice
+                        </Button>
+                      </ListItem>
+                    </React.Fragment>
                   ))}
                 </List>
               )}
@@ -185,34 +190,58 @@ const Orders = () => {
               <DialogTitle>Order Details</DialogTitle>
               <DialogContent>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="h6">
-                      {selectedOrder.shoeName}
+                  <Grid item xs={12}>
+                    <Typography variant="body1">
+                      Invoice Number: {selectedOrder.invoiceNumber}
                     </Typography>
-                    <Avatar
-                      src={selectedOrder.shoeImage}
-                      alt={selectedOrder.shoeName}
-                      style={{ width: "100%", height: "auto" }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="body2">
-                      Size: {selectedOrder.size}
+                    <Typography variant="body1">
+                      Order Date: {selectedOrder.date} {selectedOrder.time}
                     </Typography>
-                    <Typography variant="body2">
-                      Quantity: {selectedOrder.quantity}
-                    </Typography>
-                    <Typography variant="body2">
-                      Delivery Date: {selectedOrder.deliveryDate}
-                    </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       Delivery Address: {selectedOrder.address}
                     </Typography>
-                    <Typography variant="body2">
-                      Price: ${selectedOrder.price}
+                    <Typography variant="body1">
+                      Phone: {selectedOrder.phone}
                     </Typography>
-                    <Typography variant="body2">
-                      Ordered Date: {selectedOrder.orderedDate}
+                    <Typography variant="body1">
+                      Email: {selectedOrder.email}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Order Items:</Typography>
+                    <List>
+                      {selectedOrder.items.map((item) => (
+                        <ListItem key={item._id}>
+                          <ListItemText
+                            primary={item.name}
+                            secondary={`Size: ${item.size}, Quantity: ${item.quantity}, Price: $${item.price}`}
+                          />
+
+                          {orderSource === "previous" && (
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              startIcon={<ReviewIcon />}
+                              onClick={() => handleWriteReview(item._id)}
+                              sx={{ color: "#fff", border: 0 }}
+                            >
+                              Review
+                            </Button>
+                          )}
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">Order Summary:</Typography>
+                    <Typography variant="body1">
+                      Subtotal: ${selectedOrder.subtotal}
+                    </Typography>
+                    <Typography variant="body1">
+                      Tax: ${selectedOrder.tax}
+                    </Typography>
+                    <Typography variant="body1">
+                      Total: ${selectedOrder.total}
                     </Typography>
                   </Grid>
                 </Grid>
