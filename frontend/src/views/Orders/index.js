@@ -47,7 +47,7 @@ const Orders = () => {
         navigate("/login");
         return;
       }
-      const response = await axios.get("/orders");
+      const response = await axios.get("/orderhistory/getOrders");
       const allOrders = response.data.orders;
 
       const currentDate = new Date();

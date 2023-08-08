@@ -5,7 +5,7 @@ const router = express.Router();
 const orderHistoryController = require("./orderhistory.controller");
 
 router
-  .route("/")
+  .route("/getOrders")
   .get(orderHistoryController.getOrders.bind(orderHistoryController));
 
 module.exports = router;
