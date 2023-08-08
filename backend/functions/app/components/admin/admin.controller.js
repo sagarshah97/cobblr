@@ -45,11 +45,7 @@ class AdminController {
         response
           .status(200)
           .json({ message: "Successfully updated record.", code: shoeCode });
-      }
-      // else if (shoeCode.code === 11000) {
-      //   response.status(400).json({ error: "Duplicate key error." });
-      // }
-      else {
+      } else {
         response.status(400).json({ error: "Error saving data." });
       }
     } catch (error) {

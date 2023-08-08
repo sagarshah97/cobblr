@@ -15,7 +15,6 @@ router
     adminController.getShoeList.bind(adminController)
   );
 
-// add a new shoe record
 router.route("/addShoe").post(
   // validate(adminValidation.addShoe),
   adminController.addShoe.bind(adminController)

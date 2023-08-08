@@ -26,15 +26,15 @@ import UnauthorizedModal from "./UnauthoizedModal";
 
 const drawerWidth = 240;
 
-const id = window.sessionStorage.getItem("userId");
-
 // ,{text:"Logout", link:"/logout"}
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function App(props) {
-  const navigate = useNavigate();
   const { window } = props;
+  const id = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [unauthorizedModal, setUnauthorizedModal] = React.useState(false);
 

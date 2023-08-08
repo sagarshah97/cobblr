@@ -30,7 +30,6 @@ class UserController {
           loginResult.userId,
           loginResult.Role ? "Admin" : "User"
         );
-        console.log(token);
         response.status(200).json({
           message: "Login successful",
           userId: loginResult.userId,
