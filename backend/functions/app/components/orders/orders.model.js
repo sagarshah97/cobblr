@@ -45,6 +45,15 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      brand: {
+        type: String,
+        required: true,
+      },
+      code: {
+        type: String,
+        required: true,
+      },
+      images: { name: String, data: String },
       name: {
         type: String,
         required: true,
