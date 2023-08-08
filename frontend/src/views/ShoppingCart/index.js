@@ -102,7 +102,7 @@ const Cart = () => {
           setItemToRemove(index);
           setShowConfirmationModal(true);
         }
-
+        // Update cart item quantity in the backend API
         await updateCartItemQuantityInBackend(updatedItems[index]);
       } else if (newQuantity > 5) {
         setShowErrorModal(true);
@@ -136,7 +136,7 @@ const Cart = () => {
         setTimeout(() => {
           setShowNotification(false);
         }, 2000);
-
+        // Remove cart item from the backend API
         await removeCartItemFromBackend(items[itemToRemove]);
       }
       setShowConfirmationModal(false);
@@ -180,17 +180,11 @@ const Cart = () => {
     return subtotal;
   };
 
-  const calculateTaxes = () => {
-    const subtotal = calculateSubtotal();
-    const taxes = (subtotal * 0.15).toFixed(2);
-    return Number(taxes);
-  };
-
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
     const deliveryFee = 0;
-    const taxes = calculateTaxes();
-    const total = (subtotal + deliveryFee + taxes).toFixed(2);
+    const taxes = subtotal * 0.15;
+    const total = subtotal + deliveryFee + taxes;
     return total;
   };
 
@@ -358,7 +352,7 @@ const Cart = () => {
                       variant="body1"
                       style={{ marginBottom: "1rem", textAlign: "right" }}
                     >
-                      ${(calculateSubtotal() * 0.15).toFixed(2)}
+                      ${calculateSubtotal() * 0.15}
                     </Typography>
                     <hr />
                     <Typography
