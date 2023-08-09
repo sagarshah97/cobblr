@@ -48,6 +48,7 @@ const Orders = () => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [currentReview, setCurrentReview] = useState(null);
+  const [currentShoeId, setCurrentShoeId] = useState(null);
   const navigate = useNavigate();
   const id = window.sessionStorage.getItem("userId");
 
@@ -134,9 +135,10 @@ const Orders = () => {
   const handleWriteReview = (item) => {
     // setOpenModal(true);
     const shoeID = item.shoeId;
+    setCurrentShoeId(item.shoeId);
     // getReviewsByShoeIdUserId
-    console.log("user:", id);
-    console.log("shoe:", shoeID);
+    //console.log("user:", id);
+    //console.log("shoe:", shoeID);
     axios
       .post(`/reviews/getReviewsByShoeIdUserId`, {
         postedBy: id,
@@ -149,6 +151,11 @@ const Orders = () => {
             setCurrentReview(resp.data[0]);
             setFeedback(resp.data[0].comment);
             setSelectedRating(resp.data[0].rating);
+            setOpenModal(true);
+          } else {
+            console.log("else");
+            setFeedback("");
+            setSelectedRating(5);
             setOpenModal(true);
           }
         }
@@ -166,11 +173,25 @@ const Orders = () => {
     setFeedback("");
   };
 
-  const handleModalButtonClick = (action) => {
+  const handleModalButtonClick = async (action) => {
     // Handle the submit action here
     if (action === "Submit") {
       console.log("Submitting review:", selectedRating, feedback);
-      // You can make an API call to submit the review here
+
+      try {
+        const response = await axios.post("/reviews/addReview", {
+          shoeId: currentShoeId,
+          rating: selectedRating,
+          comment: feedback,
+          postedBy: window.sessionStorage.getItem("userId"),
+        });
+
+        console.log("Review added successfully:", response.data);
+
+        setOpenModal(false); // Close the modal after submitting the review
+      } catch (error) {
+        console.log("Error adding review:", error);
+      }
     }
 
     handleModalClose();

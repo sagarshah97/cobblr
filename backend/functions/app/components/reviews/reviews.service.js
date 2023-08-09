@@ -16,6 +16,7 @@ class ReviewService {
     }
   }
   async updateReview(_reviewId, updatedData) {
+    console.log("_reviewId", _reviewId);
     try {
       const existingReview = await this.reviewsDAL.getReviewByReviewId(
         _reviewId

@@ -6,7 +6,7 @@ const Review = new Schema(
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
     postedBy: { type: String, required: true },
-    shoeId: { type: String, required: true, unique: true },
+    shoeId: { type: String, required: true },
   },
   { timestamps: true }
 );
