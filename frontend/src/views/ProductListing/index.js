@@ -33,8 +33,12 @@ const ProductListing = () => {
   const [totalPages, setTotalPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState("");
+  let { passedSearchKeyword } = useParams();
+  const [searchKeyword, setSearchKeyword] = useState(
+    passedSearchKeyword ? passedSearchKeyword : ""
+  );
   const [searchText, setSearchText] = useState("");
+
   const [filterReq, setFilterReq] = useState({
     sortValue: sortValue,
     selectedFilters: selectedFilters,
@@ -45,10 +49,8 @@ const ProductListing = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const navigate = useNavigate();
-  const { passedSearchKeyword } = useParams();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const token = window.sessionStorage.getItem("token");
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -86,17 +88,11 @@ const ProductListing = () => {
       passedSearchKeyword !== ""
     ) {
       navigate("/productlisting");
+      passedSearchKeyword = "";
     }
   };
 
   useEffect(() => {
-    if (
-      passedSearchKeyword !== null &&
-      passedSearchKeyword !== undefined &&
-      passedSearchKeyword !== ""
-    ) {
-      setSearchKeyword(passedSearchKeyword);
-    }
     if (isMobile) {
       if (
         selectedFilters.sort === null ||
@@ -141,6 +137,16 @@ const ProductListing = () => {
     }
   }, [filterReq]);
 
+  useEffect(() => {
+    if (
+      passedSearchKeyword !== null &&
+      passedSearchKeyword !== undefined &&
+      passedSearchKeyword !== ""
+    ) {
+      setSearchKeyword(passedSearchKeyword);
+    }
+  }, []);
+
   const handlePageChange = async (pageNumber) => {
     const pageChangeType = pageNumber > currentPage ? "next" : "previous";
 
@@ -176,6 +182,14 @@ const ProductListing = () => {
     setSearchKeyword(searchText);
     setCurrentPage(1);
     setSearchText("");
+    if (
+      passedSearchKeyword !== null &&
+      passedSearchKeyword !== undefined &&
+      passedSearchKeyword !== ""
+    ) {
+      navigate("/productlisting");
+      passedSearchKeyword = "";
+    }
   };
 
   const handleSearchKeyDown = (event) => {
