@@ -83,7 +83,9 @@ const ShopBySportCarousel = () => {
                   backgroundColor: "transparent",
                   flexDirection: isMobile ? "column" : "row",
                 }}
-                onClick={() => navigate("/productlisting")}
+                onClick={() =>
+                  navigate(`/productlisting/${category.name.toLowerCase()}`)
+                }
               >
                 <CardMedia
                   style={styles.cardImage}

@@ -109,7 +109,9 @@ const MyCarousel = () => {
                   src={ImageComponent}
                   style={swiperImageStyles}
                   alt={brandName}
-                  onClick={() => navigate("/productlisting")}
+                  onClick={() =>
+                    navigate(`/productlisting/${brandName.toLowerCase()}`)
+                  }
                 />
               </SwiperSlide>
             );
