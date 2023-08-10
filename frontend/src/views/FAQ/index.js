@@ -19,7 +19,6 @@ const FAQ = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const token = window.sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchCategories = async () => {
