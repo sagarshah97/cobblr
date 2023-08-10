@@ -29,7 +29,6 @@ const ContactUs = () => {
   });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [errors, setErrors] = useState({});
-  const token = window.sessionStorage.getItem("token");
 
   const validateEmail = (email) => {
     // Regular expression to validate email format
