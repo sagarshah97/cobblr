@@ -434,10 +434,10 @@ router.get("/", function (req, res) {
 ```
 
 - The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
-- [routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
-- [routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Pratik Parmar.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Pratik Parmar.
 
-- [Swiper]- Effect coverflow has been used for the carrousel on the homepage(https://swiperjs.com/demos#css-mode)
+- [Swiper](https://swiperjs.com/demos#css-mode) - Effect coverflow has been used for the carrousel on the homepage.
 - [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
 - [JOI](https://joi.dev/api/?v=17.9.1)'s code was used as a reference to understand on how to implement validation on API request bodies.
 

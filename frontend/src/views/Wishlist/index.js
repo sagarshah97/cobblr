@@ -98,7 +98,6 @@ function WishlistPage() {
       )
       .then((resp) => {
         if (resp.status === 200) {
-          console.log(resp.data);
           getWishlist(userId);
           setSpinner(false);
           setAlertMessage("Product removed from wishlist!");
@@ -134,7 +133,6 @@ function WishlistPage() {
       )
       .then((resp) => {
         if (resp.status === 200) {
-          console.log(resp.data);
           setWishlist(resp.data);
 
           if (resp.data?.length == 0) {

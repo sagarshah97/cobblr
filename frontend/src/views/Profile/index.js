@@ -115,12 +115,9 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        console.log(">>>", response);
         if (response.status === 200) {
-          console.log("Password changed successfully");
           setMessage("Password changed successfully");
         } else {
-          console.log("Failed to change password");
           setMessage("Failed to change password");
         }
       })
@@ -186,9 +183,7 @@ export default function Profile() {
           },
         }
       )
-      .then((response) => {
-        console.log("Visibility saved successfully");
-      })
+      .then((response) => {})
       .catch((error) => {
         console.error("Error saving visibility:", error);
       });
@@ -225,7 +220,6 @@ export default function Profile() {
       postalCode: "",
       label: "",
     });
-    console.log(addressArray);
   };
   const editNewAddress = (row, index) => {
     setEditAddressRow(index);
@@ -280,8 +274,6 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        console.log(response.data);
-
         handleModalCloses();
       })
       .catch((error) => {
@@ -296,15 +288,10 @@ export default function Profile() {
     }));
   };
 
-  // const userId = sessionStorage.getItem("userId");
-  //
-
   const getUserDetails = (id) => {
     axios
       .get(`/users/profile/${id}`)
       .then((response) => {
-        console.log(response.data);
-        // const { firstName, lastName, phone, email } = response.data;
         const { line1, line2, city, state, postalCode } = response.data.user;
 
         setAddress({
@@ -379,14 +366,11 @@ export default function Profile() {
           Authorization: "Bearer " + token,
         },
       })
-      .then((response) => {
-        console.log("User data updated successfully:", response.data);
-      })
+      .then((response) => {})
       .catch((error) => {
         console.error("Error updating user data:", error);
       });
 
-    console.log("Updated user data:", updatedData);
     setIsModalOpenP(false);
   };
 
@@ -503,9 +487,7 @@ export default function Profile() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((response) => {
-        console.log("Text saved successfully");
-      })
+      .then((response) => {})
       .catch((error) => {
         console.error("Error saving text:", error);
       });

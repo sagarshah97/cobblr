@@ -33,7 +33,6 @@ class BillingService {
         confirmation_method: "manual",
         confirm: true,
       });
-      console.log(paymentIntent);
       return { success: true, paymentIntent };
     } catch (error) {
       throw error;
