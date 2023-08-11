@@ -3,7 +3,7 @@
 const express = require("express");
 
 const { authenticateJwt } = require("../../helpers/jwt");
-// const { validate } = require("../../lib/expressValidation");
+const { validate } = require("../../lib/expressValidation");
 
 const reviewsController = require("./reviews.controller");
 const reviewsValidation = require("./reviews.validation");
