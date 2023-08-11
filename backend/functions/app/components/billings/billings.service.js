@@ -23,6 +23,10 @@ class BillingService {
     return this.billingsDAL.create(orderDetails);
   }
 
+  async clearCart(userId) {
+    return this.billingsDAL.clearCart(userId);
+  }
+
   async payment(paymentDetails) {
     try {
       const { paymentMethodId, amount } = paymentDetails;
