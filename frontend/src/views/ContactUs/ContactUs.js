@@ -31,23 +31,18 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
 
   const validateEmail = (email) => {
-    // Regular expression to validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const validatePhone = (phone) => {
-    // Regular expression to validate Canadian phone number format
     const phoneRegex =
       /^(\+?1\s*[-\/\.]?)?(\()?\d{3}(\))?[-\/\.]?\d{3}[-\/\.]?\d{4}$/;
     return phoneRegex.test(phone);
   };
 
   const handleSubmit = () => {
-    // Clear previous errors
     setErrors({});
-
-    // Validate form data
     const { name, email, phone, message } = formData;
     const newErrors = {};
 
@@ -71,13 +66,10 @@ const ContactUs = () => {
       newErrors.message = "Message is required";
     }
 
-    // Display errors if any, else submit the form
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      // call api to save
       submitForm(formData);
-      // Reset form fields
       setFormData({
         name: "",
         email: "",

@@ -21,8 +21,6 @@ const InvoiceCard = ({ orderDetails }) => {
 
   const handleDownloadInvoice = () => {
     const cardElement = cardRef.current;
-
-    // Hide the download icon element temporarily for the PDF generation
     const iconElement = cardElement.querySelector(".download-icon");
     if (iconElement) {
       iconElement.style.visibility = "hidden";
