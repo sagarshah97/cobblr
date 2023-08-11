@@ -100,7 +100,6 @@ const BillingDetails = () => {
       .then((res) => {
         if (res?.data?.userDetails) {
           const userDetails = res.data.userDetails;
-          console.log(userDetails);
           setPhones(userDetails.phone.concat("Other"));
           setEmails([userDetails.email].concat("Other"));
           setAddresses(userDetails.address.concat("Other"));

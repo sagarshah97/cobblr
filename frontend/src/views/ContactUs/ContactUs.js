@@ -90,7 +90,6 @@ const ContactUs = () => {
   const submitForm = async (formData) => {
     try {
       const response = await axios.post("/contact/save", formData);
-      console.log(response.data);
       setIsPopupOpen(true);
     } catch (error) {
       console.error(error);

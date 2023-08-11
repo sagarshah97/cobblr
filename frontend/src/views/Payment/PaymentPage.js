@@ -125,7 +125,6 @@ const PaymentPage = (props) => {
     if (error) {
       console.error(error);
     } else {
-      console.log(amount);
       try {
         const response = await axios.post(
           `/billing/makePayment`,
@@ -160,7 +159,6 @@ const PaymentPage = (props) => {
       userId: loggedInUserId,
     };
     delete body._id;
-    console.log(body);
     axios
       .post(`/billing/create`, body, {
         headers: {
