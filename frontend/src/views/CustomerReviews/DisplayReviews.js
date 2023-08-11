@@ -1,3 +1,5 @@
+//Author: Jayant Patidar
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
@@ -94,14 +96,14 @@ const DisplayReview = ({ shoeId }) => {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   height: "100%",
-                  width: 300, // Adjust the width as desired
+                  width: 300,
                   cursor: "pointer",
-                  bgcolor: "#000000", // Background color set to black
-                  border: "1px solid white", // White border
-                  color: "white", // White text color
-                  borderRadius: "15px", // Adding border radius to the card
+                  bgcolor: "#000000",
+                  border: "1px solid white",
+                  color: "white",
+                  borderRadius: "15px",
                   "&:hover": {
-                    border: "1px solid white", // Border color on hover
+                    border: "1px solid white",
                   },
                   marginBottom: "20px",
                 }}
@@ -115,7 +117,7 @@ const DisplayReview = ({ shoeId }) => {
                       emptyIcon={
                         <StarIcon
                           sx={{
-                            color: "rgba(255, 255, 255, 0.3)", // Empty stars color
+                            color: "rgba(255, 255, 255, 0.3)",
                           }}
                         />
                       }
@@ -145,14 +147,14 @@ const DisplayReview = ({ shoeId }) => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              bgcolor: "black", // Background color set to black
-              border: "1px solid white", // White border
-              color: "white", // White text color
+              bgcolor: "black",
+              border: "1px solid white",
+              color: "white",
               boxShadow: 24,
               p: 4,
               outline: "none",
               maxWidth: "600px",
-              borderRadius: 4, // Adding border radius to the modal
+              borderRadius: 4,
             }}
           >
             <Typography variant="h6" component="h2">
@@ -168,8 +170,6 @@ const DisplayReview = ({ shoeId }) => {
                 ? new Date(selectedReview.updatedAt).toLocaleDateString()
                 : selectedReview.updatedAt}
             </Typography>
-
-            {/* Add other review details as needed */}
           </Box>
         </Modal>
       )}
