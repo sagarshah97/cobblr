@@ -46,4 +46,9 @@ module.exports = {
       userId: validationSchema.userId,
     }),
   },
+  clearCart: {
+    body: Joi.object({
+      userId: validationSchema.userId,
+    }),
+  },
 };
