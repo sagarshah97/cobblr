@@ -3,7 +3,7 @@
 Our proposed project is Cobblr which represents a shoe retail company. The goal of this project is to develop an online website for a shoe retail business. The website will serve as an e-commerce platform where customers can browse and purchase a wide range of shoes. The primary objective is to create an engaging and user-friendly online shopping experience that showcases the footwear collection and drives sales. Cobblr recognizes that fashion knows no bounds and seeks to create a seamless online experience for individuals of all ages and fashion preferences. The website aims to provide a curated collection of classy and trendy shoes that resonate with contemporary boys and girls who actively follow fashion trends and value expressing their individuality through their choice of footwear.
 
 - _Date Created_: 29 05 2023
-- _Last Modification Date_: 08 08 2023
+- _Last Modification Date_: 11 08 2023
 - _Git URL_: <https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23>
 - _Netlify URL (Deployed site)_: <https://cobblr-store.netlify.app/>
 
@@ -27,34 +27,47 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 
 - Download and install [Node.js](https://nodejs.org/en/download)
 - Clone this repository.
+- To run this on the local server:
+
+  - - Comment the following lines in `frontend/src/App.js`:
+
+      ```
+      axios.defaults.baseURL = "https://cobblr-store-api.netlify.app/.netlify/functions/index";
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+
+      ```
+
+  - - Uncomment the following line:
+
+      ```
+      axios.defaults.baseURL = "http://localhost:8000";
+
+      ```
+
+  - - Comment the following lines in `backend/functions/index.js`:
+
+      ```
+      app.use("/.netlify/functions/index", router);
+      app.get("/.netlify/functions/index/health-check", healthCheck);
+
+      ```
+
+  - - Uncomment the following line:
+
+      ```
+      app.use("/", router);
+      app.get("/health-check", healthCheck);
+
+      ```
+
 - Type the following commands after opening this folder and navigating to `frontend` and `backend` in VSCode:
   - `npm install`
   - `npm start`
 
-## Frontend Deployment
+## Frontend and Backend Deployment
 
-- Push local changes to the GitLab repository.
-- Clone the GitLab repository to the personal GitHub repository as a `Private` repo.
-- Log into [Netlify](https://app.netlify.com/).
-- Connect the Netlify account to the GitHub account.
-- Click on `Import an existing project`.
-- Authorize Netlify to connect to the GitHub account.
-- Select the branch and build options.
-- Enter the build command as `npm run build`.
-- Click on `Deploy`.
-
-## Backend Deployment
-
-- Push local changes to the GitLab repository.
-- Clone the GitLab repository to the personal GitHub repository as a `Private` repo.
-- Log into [Render](https://render.com/).
-- Connect the Render account to the GitHub account.
-- Click on `Create new Web Service`.
-- Authorize Render to connect to the GitHub account.
-- Select the Repository and Source Directory options.
-- Enter the build command as `npm install`.
-- Enter the run command as `npm start`.
-- Click on `Deploy`.
+- The frontend and backend has been deployed to [Netlify](https://app.netlify.com/).
+- This deployment is supported via CI/CD on main branch.
 
 ## Built With
 
@@ -68,25 +81,51 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 
 ## Sources Used
 
-### src/views/AdditionalProductDetail/index.js
+### frontend/src/views/AdditionalProductDetail/index.js
 
-### src/views/FAQ/index.js
+### frontend/src/views/Admin/AvailableQuantitiesModal.js
 
-### src/views/HomePage/Footer.js
+### frontend/src/views/Admin/ImageModal.js
 
-### src/views/HomePage/index.js
+### frontend/src/views/Admin/index.js
 
-### src/views/HomePage/MyCarousel.js
+### frontend/src/views/BillingDetails/index.js
 
-### src/views/HomePage/shop.js
+### frontend/src/views/ContactUs/ContactUs.js
 
-### src/views/ProductDetail/index.js
+### frontend/src/views/CustomerReviews/DisplayReviews.js
 
-### src/views/Profile/index.js
+### frontend/src/views/ForgotPassword/index.js
 
-### src/views/Register/index.js
+### frontend/src/views/FAQ/index.js
 
-### src/views/SimilarProducts/index.js
+### frontend/src/views/HomePage/Footer.js
+
+### frontend/src/views/HomePage/index.js
+
+### frontend/src/views/HomePage/MyCarousel.js
+
+### frontend/src/views/HomePage/shop.js
+
+### frontend/src/views/Login/index.js
+
+### frontend/src/views/OrderConfirmation/index.js
+
+### frontend/src/views/Payment/PaymentPage.js
+
+### frontend/src/views/ProductDetail/index.js
+
+### frontend/src/views/Profile/index.js
+
+### frontend/src/views/Register/index.js
+
+### frontend/src/views/ShoppingCart/index.js
+
+### frontend/src/views/SimilarProducts/index.js
+
+### frontend/src/views/Stores/index.js
+
+### frontend/src/views/Wishlist/index.js
 
 ```
 <Accordion></Accordion>
@@ -110,23 +149,294 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 <Dropdown></Dropdown>
 <Grid></Grid>
 <Link></Link>
+<List></List>
+<Modal></Modal>
 <Navbar></Navbar>
 <Paper></Paper>
 <RadioGroup></RadioGroup>
 <Row></Row>
 <Snackbar></Snackbar>
+<Select></Select>
 <ToastContainer></ToastContainer>
 <Toast></Toast>
 <TextField></TextField>
 <Typography></Typography>
 
-
 ```
 
 - The above tags (CSS components) in [React MUI](https://mui.com/material-ui/getting-started/overview/) were implemented in their official documentation.
 - [React MUI](https://mui.com/material-ui/getting-started/overview/)'s Code was used as a CSS framework and a reference to understand how to implement different elements such as Button, Grid, TextField, Card, Snackbar, and Alert on the UI in React.
-- [React MUI](https://mui.com/material-ui/getting-started/overview/)'s component code was heavily modified by adding custom logic, styling, onChange and onClick behaviors.
-- [Material UI](https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side) template was referred for login and signup pages and modified according to our needs.
+- [React MUI](https://mui.com/material-ui/getting-started/overview/)'s component code was heavily modified by adding custom logic, styling, onChange and onClick behaviors and have been used at multiple instances in the sources mentioned above.
+- [Material UI](https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side) template was referred for login and sign up pages and modified according to our needs.
+
+### backend/app/components/filter/filter.route.js
+
+_Lines 13 - 18_
+
+```
+router
+  .route("/filterShoes")
+  .post(
+    validate(filterValidation.filterShoes),
+    filterController.filterShoes.bind(filterController)
+  );
+
+```
+
+The code above was created by adapting the code in [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) as shown below:
+
+```
+// Home page route.
+router.get("/", function (req, res) {
+  res.send("Wiki home page");
+});
+
+
+```
+
+- The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get refernce on how to implement routing in node and express.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Ashish Ojha.
+
+###
+
+_Lines 9 - 20_
+
+```
+const PaymentContainer = () => {
+  const location = useLocation();
+  const params = location.state?.params;
+
+  return (
+    <>
+      <Elements stripe={stripePromise}>
+        <PaymentPage details={params} />
+      </Elements>
+      <Footer />
+    </>
+  );
+
+```
+
+- The above code has been adapted from [Stripe](https://stripe.com/docs/stripe-js/react) which is implemented in their official documentation.
+- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was used as a reference to understand on how to integrate stripe payment gateway in our application in React.
+- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom template as per my requirements.
+
+### backend/app/components/shoes/shoes.model.js
+
+_Lines 4 - 24_
+
+```
+const Shoe = new Schema(
+  {
+    code: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    subText: { type: String, required: true },
+    shortDescription: { type: String, required: true },
+    price: { type: Number, required: true },
+    color: { type: String, required: true },
+    availableQuantity: [{ size: String, quantity: Number }],
+    images: [{ name: String, data: String }],
+    briefDescription: { type: String, required: true },
+    brand: { type: String, required: true },
+    tags: [String],
+    category: { type: String, required: true },
+    gender: { type: String, required: true },
+    type: { type: String, required: true },
+    material: { type: String, required: true },
+    availability: { type: Boolean, required: true },
+  },
+  { timestamps: true }
+);
+
+```
+
+- The above schema has been adapted from [Mongoose Schemas](https://mongoosejs.com/docs/guide.html) which is implemented in their official documentation.
+- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
+- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom schema as per my requirements.
+
+### backend/app/components/shoes/shoes.validation.js
+
+_Lines 5 - 26_
+
+```
+const validationSchema = {
+  _id: Joi.string().min(1).required(),
+  _ids: Joi.array().items(Joi.string()),
+  code: Joi.string().min(1).required(),
+  name: Joi.string().min(3).max(100).required(),
+  subText: Joi.string().min(3).required(),
+  shortDescription: Joi.string().min(3).required(),
+  price: Joi.number().min(3).max(10).required(),
+  color: Joi.string().min(1).max(100).required(),
+  thumbnail: Joi.string().min(3),
+  sizes: Joi.array().items(Joi.string()),
+  quantity: Joi.array().items(Joi.number()),
+  images: Joi.array().items(Joi.string()),
+  briefDescription: Joi.string().min(3).required(),
+  brand: Joi.string().min(3),
+  tags: Joi.array().items(Joi.string()),
+  category: Joi.string().min(1).required(),
+  gender: Joi.string().min(1).required(),
+  type: Joi.string().min(1).required(),
+  material: Joi.string().min(1).required(),
+  availability: Joi.boolean().required(),
+  sortValue: Joi.string()
+    .valid("sort1", "sort2", "sort3")
+    .default("sort1")
+    .required(),
+  selectedFilters: Joi.object().pattern(/^.*$/, Joi.string()),
+  currentPage: Joi.number().default(1).optional(),
+  searchKeyword: Joi.string().allow("", null).optional(),
+  pageChangeType: Joi.string().allow("", null).optional(),
+};
+
+```
+
+- The above validation schema has been adapted from [JOI](https://joi.dev/api/?v=17.9.1) which is implemented in their official documentation.
+- [JOI](https://joi.dev/api/?v=17.9.1)'s code was used as a reference to understand on how to implement validation on API request bodies.
+- [JOI](https://joi.dev/api/?v=17.9.1)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom validation schema as per my requirements.
+
+### backend/app/components/users/users.model.js
+
+```
+const userSchema = new mongoose.Schema({
+inputText: String,
+profileVisibility: {
+type: Boolean,
+default: false,
+},
+line1: String,
+line2: String,
+city: String,
+state: String,
+postalCode: String,
+label: String,
+forgotPasswordToken: String,
+profileImage: {
+type: String,
+},
+firstName: { type: String, required: true },
+lastName: { type: String, required: true },
+email: { type: String, required: true, unique: true },
+password: { type: String, required: true },
+phone: [String],
+address: [String],
+wishlist: [
+{
+type: mongoose.Schema.Types.ObjectId,
+ref: "Shoe",
+},
+],
+cart: {
+items: [
+{
+shoeId: {
+type: mongoose.Schema.Types.ObjectId,
+ref: "Shoe",
+required: true,
+},
+quantity: {
+type: Number,
+required: true,
+},
+size: {
+type: String,
+required: true,
+},
+},
+],
+subtotal: {
+type: Number,
+default: 0,
+},
+tax: {
+type: Number,
+default: 0,
+},
+total: {
+type: Number,
+default: 0,
+},
+},
+});
+```
+
+- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html) was referred.
+
+### backend/app/components/wishlist/wishlist.validation.js
+
+```
+const validationSchema = {
+  _id: Joi.string().min(1).required(),
+};
+
+```
+
+- The above validation schema has been adapted from [JOI](https://joi.dev/api/?v=17.9.1) documentation.
+
+### backend/app/components/cart/cart.route.js
+
+_Lines 09 - 14, 16 - 18, 20 - 25, 27 - 32, 34 - 39_
+
+```
+router
+  .route("/getCart")
+  .post(
+    validate(cartValidation.getCart),
+    cartController.getCart.bind(cartController)
+  );
+
+```
+
+```
+router
+  .route("/updateCartTotals")
+  .post(cartController.updateCartTotals.bind(cartController));
+```
+
+```
+router
+  .route("/addToCart")
+  .post(
+    validate(cartValidation.addToCart),
+    cartController.addToCart.bind(cartController)
+  );
+```
+
+```
+router
+  .route("/updateCartItemQuantity")
+  .post(
+    validate(cartValidation.updateCartItemQuantity),
+    cartController.updateCartItemQuantity.bind(cartController)
+  );
+```
+
+```
+router
+  .route("/removeCartItem")
+  .post(
+    validate(cartValidation.removeCartItem),
+    cartController.removeCartItem.bind(cartController)
+  );
+```
+
+The code above was created by adapting the code in [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) as shown below:
+
+```
+// Home page route.
+router.get("/", function (req, res) {
+  res.send("Wiki home page");
+});
+
+
+```
+
+- The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
+- [routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
+- [routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Pratik Parmar.
+
 - [Swiper]- Effect coverflow has been used for the carrousel on the homepage(https://swiperjs.com/demos#css-mode)
 - [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
 - [JOI](https://joi.dev/api/?v=17.9.1)'s code was used as a reference to understand on how to implement validation on API request bodies.
@@ -137,22 +447,21 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [React Responsive Carousel](https://www.npmjs.com/package/react-responsive-carousel) was used to implement customizable carousel component.
 - [React Router DOM](https://www.npmjs.com/package/react-router-dom) was used for navigation.
 - [React Icons](https://react-icons.github.io/react-icons/) were used for the icons.
-- [SWiper](https://swiperjs.com/) was used for carrousel.
+- [Swiper](https://swiperjs.com/) was used for carrousel.
+- [jsPDF](https://www.npmjs.com/package/jspdf) was used to generate PDF for invoices to be downloaded by the customer.
+- [React Google Maps](https://www.npmjs.com/package/@react-google-maps/api) was used to integrate maps into store locator.
+- [React Stripe JS](https://www.npmjs.com/package/@stripe/react-stripe-js) was used to integrate Stripe payment gateway as library components.
+- [Stripe JS](https://www.npmjs.com/package/@stripe/stripe-js) was used to integrate utility modules of the Stripe components.
 
 ## Images
 
 - [Nike](https://www.nike.com/ca/t/go-flyease-easy-on-off-shoes-4bM44t/DR5540-102)
-- [Maksim Larin](https://unsplash.com/photos/NOpsC3nWTzY)
-- [Luis Felipe Lins](https://unsplash.com/photos/LG88A2XgIXY)
-- [Omar Prestwich](https://unsplash.com/photos/jLEGurepDco)
-- [Giorgio Trovato](https://unsplash.com/photos/b9KdwnKWhRk)
-- [Thibaut Burckel](https://unsplash.com/photos/n2V5MLDPE-k)
 - [FAQ Image](https://www.canva.com/)
 - [Contact Image](https://www.canva.com/)
 - [Profile Image](https://www.flaticon.com/free-icon/profile_3135715#)
-- [Home Page](https://www.sneakerswapevents.com/)
-- [Home Page] Images have been used from(https://www.freepik.com/)
-- [Home Page](https://dribbble.com/shots/15532992-Nike-Air-Force-1)
+- [Home Page - Sneaker Swap](https://www.sneakerswapevents.com/)
+- [Home Page - Freepik](https://www.freepik.com/)
+- [Home Page - Dribble](https://dribbble.com/shots/15532992-Nike-Air-Force-1)
 
 ## Icons
 
