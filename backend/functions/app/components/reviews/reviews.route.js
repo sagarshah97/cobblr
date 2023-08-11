@@ -6,7 +6,7 @@ const { authenticateJwt } = require("../../helpers/jwt");
 // const { validate } = require("../../lib/expressValidation");
 
 const reviewsController = require("./reviews.controller");
-// const reviewsValidation = require("./reviews.validation");
+const reviewsValidation = require("./reviews.validation");
 
 const router = express.Router();
 
@@ -17,14 +17,16 @@ router
 
 // get  reviews record based on shoe id
 router.route("/getReviewsByShoeId").post(
-  // validate(reviewsValidation.getReviewByShoeId),
+  //validate(reviewsValidation.getReviewByShoeId),
   reviewsController.getReviewByShoeId.bind(reviewsController)
 );
 
-router.route("/getReviewsByUserId").post(
-  // validate(reviewsValidation.getReviewByUserId),
-  reviewsController.getReviewByUserId.bind(reviewsController)
-);
+router
+  .route("/getReviewsByUserId")
+  .post(
+    validate(reviewsValidation.getReviewByUserId),
+    reviewsController.getReviewByUserId.bind(reviewsController)
+  );
 
 // get single review record based on review id
 router.route("/getReviewsByReviewId").post(
@@ -33,15 +35,19 @@ router.route("/getReviewsByReviewId").post(
 );
 
 // create new review
-router.route("/addReview").post(
-  // validate(reviewsValidation.addReview),
-  reviewsController.addReview.bind(reviewsController)
-);
+router
+  .route("/addReview")
+  .post(
+    validate(reviewsValidation.addReview),
+    reviewsController.addReview.bind(reviewsController)
+  );
 
-router.route("/updateReview/:reviewId").post(
-  // validate(reviewsValidation.updateReview),
-  reviewsController.updateReview.bind(reviewsController)
-);
+router
+  .route("/updateReview/:reviewId")
+  .post(
+    validate(reviewsValidation.updateReview),
+    reviewsController.updateReview.bind(reviewsController)
+  );
 
 router.route("/deleteReviews/:reviewId").delete(
   // validate(reviewsValidation.deleteReview),
@@ -49,10 +55,12 @@ router.route("/deleteReviews/:reviewId").delete(
 );
 
 // Add a new route to find the review ID by shoe ID
-router.route("/getReviewIdByShoeId").post(
-  // validate(reviewsValidation.updateReview),
-  reviewsController.getReviewIdByShoeId.bind(reviewsController)
-);
+router
+  .route("/getReviewIdByShoeId")
+  .post(
+    validate(reviewsValidation.getReviewIdByShoeId),
+    reviewsController.getReviewIdByShoeId.bind(reviewsController)
+  );
 
 router.route("/getReviewsByShoeIdUserId").post(
   // validate(reviewsValidation.deleteReview),
