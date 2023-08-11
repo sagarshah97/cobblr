@@ -55,6 +55,7 @@ class UsersDal {
 
   async updateUser(email, updatedValues) {
     try {
+      console.log(updatedValues);
       const updatedUser = await User.findOneAndUpdate(
         { email },
         { $set: updatedValues },
@@ -117,6 +118,15 @@ class UsersDal {
       user.state = updatedFields.state;
       user.postalCode = updatedFields.postalCode;
       user.label = updatedFields.label;
+
+      // const newAddress = JSON.stringify({
+      //   line1: updatedFields.line1,
+      //   line2: updatedFields.line2,
+      //   city: updatedFields.city,
+      //   state: updatedFields.state,
+      //   postalCode: updatedFields.postalCode,
+      //   label: updatedFields.label,
+      // });
 
       // Add the new address to the addressArray
       user.address.push(address);

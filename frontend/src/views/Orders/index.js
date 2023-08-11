@@ -133,8 +133,12 @@ const Orders = () => {
   };
 
   const handleWriteReview = (item) => {
+    // setOpenModal(true);
     const shoeID = item.shoeId;
     setCurrentShoeId(item.shoeId);
+    // getReviewsByShoeIdUserId
+    //console.log("user:", id);
+    //console.log("shoe:", shoeID);
     axios
       .post(`/reviews/getReviewsByShoeIdUserId`, {
         postedBy: id,
@@ -142,12 +146,14 @@ const Orders = () => {
       })
       .then((resp) => {
         if (resp.status === 200) {
+          console.log(resp.data);
           if (resp.data && resp.data.length > 0) {
             setCurrentReview(resp.data[0]);
             setFeedback(resp.data[0].comment);
             setSelectedRating(resp.data[0].rating);
             setOpenModal(true);
           } else {
+            console.log("else");
             setFeedback("");
             setSelectedRating(5);
             setOpenModal(true);
@@ -170,6 +176,8 @@ const Orders = () => {
   const handleModalButtonClick = async (action) => {
     // Handle the submit action here
     if (action === "Submit") {
+      console.log("Submitting review:", selectedRating, feedback);
+
       try {
         const response = await axios.post("/reviews/addReview", {
           shoeId: currentShoeId,
@@ -177,6 +185,8 @@ const Orders = () => {
           comment: feedback,
           postedBy: window.sessionStorage.getItem("userId"),
         });
+
+        console.log("Review added successfully:", response.data);
 
         setOpenModal(false); // Close the modal after submitting the review
       } catch (error) {

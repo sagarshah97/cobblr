@@ -248,6 +248,7 @@ const AdminPage = () => {
   };
 
   const handleAddAvailableQuantities = () => {
+    console.log(availableQuantities);
     setOpenAvailableQuantitiesModal(true);
   };
 
@@ -277,6 +278,8 @@ const AdminPage = () => {
   };
 
   const findInvalidKey = (data) => {
+    console.log(data);
+    // return "imags";
     for (const [key, value] of Object.entries(data)) {
       if (
         value === null ||
@@ -339,8 +342,10 @@ const AdminPage = () => {
       })
       .then((resp) => {
         if (resp.status === 200) {
+          console.log(resp.data);
           setProductForm(resp.data);
           setUploadedImages(resp.data?.images);
+          console.log(resp.data?.availableQuantity);
           setAvailableQuantities(resp.data?.availableQuantity);
           setLoader(false);
         }

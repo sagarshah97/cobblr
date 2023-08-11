@@ -36,6 +36,7 @@ const DisplayReview = ({ shoeId }) => {
 
       if (Array.isArray(response.data)) {
         setReviews(response.data);
+        console.log(response.data);
         fetchUserDisplayNames(response.data);
       } else {
         console.log("Error fetching reviews:", response.status);

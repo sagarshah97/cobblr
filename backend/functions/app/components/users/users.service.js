@@ -178,6 +178,7 @@ class UsersService {
   async imageUploadService(userData) {
     try {
       const { file, email } = userData;
+      // console.log(file);
       const imageData = await this.usersDal.updateImage(file, email);
       return imageData;
     } catch (error) {
@@ -192,6 +193,7 @@ class UsersService {
       email,
       forgotPasswordToken
     );
+    console.log(forgotPasswordToken);
 
     if (!emailExists) {
       throw new Error("Email not found");
@@ -212,6 +214,7 @@ class UsersService {
 
     try {
       await sgMail.send(msg);
+      console.log("Password reset email sent successfully.");
     } catch (error) {
       console.error("Error sending password reset email:", error);
       throw new Error("Failed to send password reset email");

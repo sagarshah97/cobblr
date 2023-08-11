@@ -9,6 +9,7 @@ class WishlistService {
   async getWishlist(userId) {
     try {
       const wishlistItems = await this.wishlistDAL.getWishlistItems(userId);
+      //console.log(wishlistItems);
       return wishlistItems;
     } catch (error) {
       throw error;

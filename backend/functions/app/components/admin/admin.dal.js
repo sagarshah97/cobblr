@@ -29,6 +29,7 @@ class AdminDAL {
         { $set: shoeDetails },
         { returnOriginal: false }
       );
+      console.log(result);
       return result.code;
     } catch (error) {
       return error;

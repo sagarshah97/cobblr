@@ -108,12 +108,16 @@ export default function Login() {
     axios
       .post("/users/login", params)
       .then((response) => {
+        console.log(response);
+
         if (response.status === 200) {
+          // setRegistrationError("");
           const { userId } = response.data;
           const { token } = response.data;
           const { Role } = response.data;
           setUserId(userId);
           setToken(token);
+          console.log(userId);
           sessionStorage.setItem("userId", userId);
           sessionStorage.setItem("token", token);
 

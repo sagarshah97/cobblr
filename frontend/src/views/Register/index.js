@@ -154,16 +154,20 @@ export default function Register() {
         axios
           .post("/users/register", param)
           .then((response) => {
+            console.log(">>>> in resp " + JSON.stringify(response));
             if (response.status === 200) {
+              // setRegistrationError("");
               setRegistrationError("Registration successful");
               setTimeout(() => {
                 navigate("/login");
               }, 1000);
             } else {
               setRegistrationError("Registration failed. Please try again.");
+              // setRegistrationMessage("");
             }
           })
           .catch((error) => {
+            console.log(">>>> in error " + JSON.stringify(error));
             if (error.response && error.response.status === 409) {
               setRegistrationError(
                 "Email already exists. Please use a different email."
@@ -171,6 +175,7 @@ export default function Register() {
             } else {
               setRegistrationError("Registration failed. Please try again.");
             }
+            // setRegistrationMessage("");
           });
       } catch (error) {
         console.error(error);
