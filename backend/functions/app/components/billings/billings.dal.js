@@ -82,6 +82,22 @@ class BillingsDAL {
     const createdRecord = await Orders.create(orderDetails);
     return createdRecord._id;
   }
+
+  async clearCart(userId) {
+    const response = await Users.updateOne(
+      { _id: new mongoose.Types.ObjectId(userId) },
+      {
+        $unset: {
+          "cart.items": 1,
+          "cart.subtotal": 1,
+          "cart.tax": 1,
+          "cart.total": 1,
+        },
+      }
+    );
+
+    return response;
+  }
 }
 
 module.exports = BillingsDAL;
