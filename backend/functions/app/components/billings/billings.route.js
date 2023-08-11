@@ -30,4 +30,12 @@ router
     billingsController.create.bind(billingsController)
   );
 
+router
+  .route("/clearCart")
+  .post(
+    verifyToken,
+    validate(billingsValidation.clearCart),
+    billingsController.clearCart.bind(billingsController)
+  );
+
 module.exports = router;
