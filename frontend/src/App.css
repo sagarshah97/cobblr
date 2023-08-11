@@ -1,0 +1,250 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  font-family: "Montserrat";
+  background-color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+.fullscreen-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.navbar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.fullscreen-image {
+  width: 100%;
+  height: auto;
+}
+
+/* FOR PRODUCT DETAIL PAGE START */
+
+.image-container {
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 75.25%; /* 9 divided by 16 equals 0.5625, or 56.25% */
+  position: relative;
+  background-color: #0f0f0f;
+}
+
+.image {
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the entire container */
+}
+
+.carousel-inner {
+  border-radius: 15px;
+}
+
+.full-width-div {
+  width: 100%; /* Default width for mobile screens */
+}
+
+@media (min-width: 992px) {
+  /* Styles for screens larger than or equal to 992px (laptop screens) */
+  .full-width-div {
+    width: 100%;
+  }
+}
+
+.dropdown-menu.show {
+  width: 18rem;
+  text-align: center;
+  height: 10rem;
+  overflow-x: auto;
+}
+
+.view-details {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  --bs-link-color: white;
+  --bs-link-hover-color: #38b6ff;
+}
+
+.card-hover:hover {
+  cursor: pointer;
+}
+
+.carousel .slider-wrapper {
+  width: 60% !important;
+  border-radius: 20px;
+}
+
+.carousel .thumbs {
+  padding-left: 0 !important;
+}
+
+.carousel .thumbs-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  transform: scale(0.8);
+}
+
+.select-size
+  .MuiOutlinedInput-notchedOutline.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+}
+
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiSelect-icon.MuiSelect-iconOutlined.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+  color: white;
+}
+
+.MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list {
+  max-height: 15rem;
+}
+
+.padding-card-details {
+  padding: 0; /* Default padding for all screens */
+
+  @media (min-width: 1200px) {
+    padding-left: 10%; /* Padding for screens larger than the medium breakpoint (768px) */
+  }
+}
+
+.padding-available-sizes {
+  padding-left: 1%; /* Default padding for all screens */
+
+  @media (max-width: 1200px) {
+    padding-left: 3%; /* Padding for screens larger than the medium breakpoint (768px) */
+  }
+}
+
+/* FOR PRODUCT DETAIL PAGE END */
+
+@media screen and (min-width: 320px) {
+  .card-image {
+    width: 150px;
+  }
+
+  .center-align {
+    text-align: "center";
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .card-image {
+    width: 300px;
+  }
+}
+
+/* FOR PRODUCT LISTING PAGE START */
+
+/* Pagination */
+.custom-current-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  color: #cccccc;
+}
+
+/* FOR PRODUCT LISTING PAGE END */
+/* FOR BILLING DETAILS START */
+
+.stepper-style .css-1vyamtt-MuiStepLabel-labelContainer {
+  color: white;
+  overflow-wrap: anywhere;
+}
+
+.stepper-icon .MuiStepIcon-root {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.stepper-icon .MuiStepIcon-root.Mui-active {
+  border: 1px solid #009ce8;
+  border-radius: 50%;
+}
+
+.stepper-icon .MuiStepIcon-root.Mui-completed {
+  color: #00e600;
+  border: 1px solid #00e600;
+}
+
+.pay-radio.MuiRadio-root {
+  color: white;
+}
+
+.pay-btn.MuiButton-root.Mui-disabled {
+  color: grey;
+  border: 1px solid grey;
+}
+
+/* FOR BILLING DETAILS END */
