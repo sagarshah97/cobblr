@@ -30,8 +30,6 @@ class CartService {
       return response;
     } catch (error) {
       throw error;
-    } finally {
-      //finally block
     }
   }
 

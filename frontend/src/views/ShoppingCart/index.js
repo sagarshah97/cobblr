@@ -24,6 +24,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
+import { Alerts } from "../../utils/Alert";
 import Footer from "../HomePage/Footer";
 
 const theme = createTheme({
@@ -37,7 +38,6 @@ const theme = createTheme({
 
 const Cart = () => {
   const [items, setItems] = useState([]);
-  const [showNotification, setShowNotification] = useState(false);
   const [itemToRemove, setItemToRemove] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -49,7 +49,7 @@ const Cart = () => {
         .then((data) => {
           setItems(data);
           const subtotal = calculatesubtotal(data);
-          const tax = subtotal * 0.15;
+          const tax = parseFloat((subtotal * 0.15).toFixed(2));
           const total = subtotal + tax;
           updateCartTotals(subtotal, tax, total);
         })
@@ -58,6 +58,20 @@ const Cart = () => {
       navigate("/login");
     }
   }, []);
+
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+  const alertObj = {
+    alertMessage: alertMessage,
+    alertType: alertType,
+  };
+  const [snackbar, setSnackbar] = React.useState(false);
+  const snackbarOpen = () => {
+    setSnackbar(true);
+  };
+  const snackbarClose = () => {
+    setSnackbar(false);
+  };
 
   const calculatesubtotal = (cartItems) => {
     let subtotal = 0;
@@ -133,10 +147,10 @@ const Cart = () => {
         const updatedItems = [...items];
         updatedItems.splice(itemToRemove, 1);
         setItems(updatedItems);
-        setShowNotification(true);
-        setTimeout(() => {
-          setShowNotification(false);
-        }, 2000);
+        setAlertMessage("Product successfully removed from the cart!");
+        setAlertType("success");
+        snackbarOpen();
+
         await removeCartItemFromBackend(items[itemToRemove]);
       }
       setShowConfirmationModal(false);
@@ -183,7 +197,7 @@ const Cart = () => {
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
     const deliveryFee = 0;
-    const taxes = subtotal * 0.15;
+    const taxes = parseFloat((subtotal * 0.15).toFixed(2));
     const total = subtotal + deliveryFee + taxes;
     return total;
   };
@@ -208,6 +222,7 @@ const Cart = () => {
           spacing={2}
           style={{
             padding: "3%",
+            minHeight: "100vh",
           }}
         >
           <Grid item xs={12} sm={12} md={8} lg={8}>
@@ -353,7 +368,7 @@ const Cart = () => {
                         variant="body1"
                         style={{ marginBottom: "1rem", textAlign: "right" }}
                       >
-                        ${calculateSubtotal() * 0.15}
+                        ${(calculateSubtotal() * 0.15).toFixed(2)}
                       </Typography>
                       <hr />
                       <Typography
@@ -372,7 +387,6 @@ const Cart = () => {
                         }}
                       >
                         <Button
-                          // className="checkout-button"
                           variant="contained"
                           color="success"
                           onClick={handleCheckout}
@@ -539,11 +553,14 @@ const Cart = () => {
             </Grid>
           </Paper>
         </Modal>
-
-        {showNotification && (
-          <div className="notification">Item removed successfully!</div>
-        )}
       </ThemeProvider>
+      {snackbar && (
+        <Alerts
+          alertObj={alertObj}
+          snackbar={snackbar}
+          snackbarClose={snackbarClose}
+        />
+      )}
       <Footer />
     </>
   );
