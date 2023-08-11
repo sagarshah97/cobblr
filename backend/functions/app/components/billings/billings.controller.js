@@ -45,6 +45,21 @@ class BillingController {
       next(error);
     }
   }
+
+  async clearCart(request, response, next) {
+    try {
+      const cartDetails = await this.billingsService.clearCart(
+        request.body.userId
+      );
+      if (cartDetails.modifiedCount) {
+        response.status(200).json({ message: "Cart emptied." });
+      } else {
+        response.status(404).json({ error: "No record found." });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new BillingController();
