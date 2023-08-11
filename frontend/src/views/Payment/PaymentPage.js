@@ -167,11 +167,30 @@ const PaymentPage = (props) => {
       })
       .then((res) => {
         if (res?.data?._id) {
-          setPaid(true);
-          setPayInitiated(false);
-          setDisableCancel(false);
-          navigate(`/orderconfirmation/${res.data._id}`);
+          emptyCart(res.data._id);
         }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const emptyCart = (orderId) => {
+    axios
+      .post(
+        "/billing/clearCart",
+        { userId: loggedInUserId },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((res) => {
+        setPaid(true);
+        setPayInitiated(false);
+        setDisableCancel(false);
+        navigate(`/orderconfirmation/${orderId}`);
       })
       .catch((error) => {
         console.log(error);
