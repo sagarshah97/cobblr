@@ -63,14 +63,7 @@ const StoreLocator = () => {
   const handleCardClick = (store) => {
     setSelectedStore(store);
 
-    // if (store.latitude && store.longitude) {
-    //   mapRef.current.panTo({ lat: store.latitude, lng: store.longitude });
-    // }
-    // mapContainerRef.current.scrollIntoView({
-    //   top: 0,
-    //   left: 0,
-    //   behavior: "smooth",
-    // });
+  
     scrollToTop();
   };
 
@@ -89,6 +82,7 @@ const StoreLocator = () => {
       <Container
         style={{
           marginTop: "30px",
+          marginBottom: "30px",
         }}
       >
         <Typography
