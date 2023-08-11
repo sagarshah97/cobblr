@@ -27,8 +27,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Footer from "../HomePage/Footer";
-// import React, { useState, useEffect } from "react";
-// import { Button, Grid, Typography, Modal, Box, Rating } from "@mui/material";
+
 import StarIcon from "@mui/icons-material/Star";
 
 const theme = createTheme({
@@ -133,12 +132,9 @@ const Orders = () => {
   };
 
   const handleWriteReview = (item) => {
-    // setOpenModal(true);
     const shoeID = item.shoeId;
     setCurrentShoeId(item.shoeId);
-    // getReviewsByShoeIdUserId
-    //console.log("user:", id);
-    //console.log("shoe:", shoeID);
+
     axios
       .post(`/reviews/getReviewsByShoeIdUserId`, {
         postedBy: id,
@@ -174,7 +170,6 @@ const Orders = () => {
   };
 
   const handleModalButtonClick = async (action) => {
-    // Handle the submit action here
     if (action === "Submit") {
       console.log("Submitting review:", selectedRating, feedback);
 
@@ -188,7 +183,7 @@ const Orders = () => {
 
         console.log("Review added successfully:", response.data);
 
-        setOpenModal(false); // Close the modal after submitting the review
+        setOpenModal(false);
       } catch (error) {
         console.log("Error adding review:", error);
       }
@@ -204,7 +199,11 @@ const Orders = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Grid container spacing={2} style={{ padding: "20px" }}>
+        <Grid
+          container
+          spacing={2}
+          style={{ padding: "20px", minHeight: "100vh" }}
+        >
           <Grid item xs={12} md={6} sm={12}>
             <Card>
               <CardHeader title="Current Orders" />
@@ -373,16 +372,16 @@ const Orders = () => {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    bgcolor: "black", // Background color set to black
-                    border: "1px solid white", // White border
-                    color: "white", // White text color
+                    bgcolor: "black",
+                    border: "1px solid white",
+                    color: "white",
                     boxShadow: 24,
                     p: 4,
                     outline: "none",
-                    width: "80%", // Increase the width
-                    height: "40%", // Increase the height
+                    width: "80%",
+                    height: "40%",
                     maxWidth: "600px",
-                    borderRadius: 4, // Adding border radius to the modal
+                    borderRadius: 4,
                     display: "flex",
                     flexDirection: "column",
                   }}
@@ -397,33 +396,26 @@ const Orders = () => {
                       emptyIcon={
                         <StarIcon
                           sx={{
-                            color: "rgba(255, 255, 255, 0.3)", // Empty stars color
+                            color: "rgba(255, 255, 255, 0.3)",
                           }}
                         />
                       }
                     />
-                    {/* Replace 3 with actual rating value */}
                   </Typography>
                   <Typography variant="h6" component="h2" mt={2}>
                     Feedback:{" "}
                   </Typography>
-                  {/* Add your form fields for feedback here */}
+
                   <textarea
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
                     style={{
                       marginBottom: "10px",
                       resize: "none",
-                      //rows: 6,
-                      //cols: 50,
                     }}
                     rows={10}
                   />
-                  {/* <Typography>Posted By: </Typography>
-             
-              <input type="text" style={{ marginBottom: "10px" }} />
-              */}
-                  {/* Add your form buttons here */}
+
                   <Box
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
