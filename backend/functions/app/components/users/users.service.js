@@ -42,12 +42,12 @@ class UsersService {
     const user = await this.usersDal.getUserByEmail(email);
 
     if (!user) {
-      return null; // User not found
+      return null;
     }
 
     const passwordMatch = await bcrypt.compare(password, user.user.password);
     if (!passwordMatch) {
-      return null; // Invalid password
+      return null;
     }
 
     return {
