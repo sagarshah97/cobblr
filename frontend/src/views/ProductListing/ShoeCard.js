@@ -14,17 +14,14 @@ import { useTheme } from "@mui/material/styles";
 const ShoeCard = ({ shoe, height }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  // navigate to the product details page for clicked shoe
   const handleClick = () => {
     navigate(`/productDetail/${shoe._id}`);
-    //navigate("/orderconfirmation/64b19b874d5883d09edec9de");
   };
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const MAX_NAME_LENGTH = isSmallScreen ? 4 : isMediumScreen ? 8 : 10;
-  //shoe.name = "This is a long shoe name";
   const truncatedName =
     shoe.name.length > MAX_NAME_LENGTH
       ? shoe.name.slice(0, MAX_NAME_LENGTH) + "..."

@@ -379,7 +379,6 @@ const ProductListing = () => {
               </Grid>
             </Grid>
           ) : (
-            // Desktop view
             <>
               <Grid
                 container

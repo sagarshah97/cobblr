@@ -44,8 +44,6 @@ const OrderConfirmationPage = () => {
     };
     getOrderDetails();
   }, [_id]);
-
-  // navigate to my orders page of the logged in user
   const navigateToMyOrders = () => {
     navigate("/orders");
   };
