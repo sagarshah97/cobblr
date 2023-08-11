@@ -232,7 +232,6 @@ const ProductDetail = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         if (res?.data?.message.toLowerCase().includes("added to cart")) {
           setDisableBag(true);
           setAlertMsg("Item added to the bag successfully!");
@@ -550,10 +549,8 @@ const ProductDetail = () => {
             >
               Customer Reviews
             </div>
-            {/* display customer review component tag   */}
             <div style={{ paddingLeft: "2%" }}>
               {" "}
-              {/* Add padding to the left */}
               <DisplayReview shoeId={_id} />
             </div>
 
