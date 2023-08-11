@@ -1,3 +1,5 @@
+//Author : jayant Patidar
+
 const Store = require("./stores.model");
 
 class StoreDAL {
