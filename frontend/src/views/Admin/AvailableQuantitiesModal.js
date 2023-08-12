@@ -24,7 +24,6 @@ const AvailableQuantitiesModal = ({
   availableQuantities,
   setAvailableQuantities,
 }) => {
-  console.log(availableQuantities);
   const handleQuantityChange = (index, value) => {
     const updatedAvailableQuantity = [...availableQuantities];
     updatedAvailableQuantity[index].quantity = value;
@@ -87,7 +86,6 @@ const AvailableQuantitiesModal = ({
   if (availableQuantities?.length == 0) {
     setAvailableQuantities(initialQuantities);
   }
-  // console.log(tempAvailableQuantities);
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle>Add/Edit Available Quantities</DialogTitle>

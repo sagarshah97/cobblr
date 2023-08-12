@@ -15,8 +15,6 @@ const FilterColumn = ({
   handleResetFilters,
   isMobileScreen,
 }) => {
-  console.log("Selected Filters:", selectedFilters);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     handleFilterChange({ [name]: value });

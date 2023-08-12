@@ -40,7 +40,6 @@ class AdminController {
   async modifyShoe(request, response, next) {
     try {
       const shoeCode = await this.adminService.modifyShoe(request.body);
-      console.log(shoeCode);
       if (shoeCode === request.body.code) {
         response
           .status(200)
