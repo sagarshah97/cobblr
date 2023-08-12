@@ -13,19 +13,15 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 
-// import Adidas from "../../assets/images/Home/adidas.png";
 import Adidas from "../../assets/images/Home/adi.png";
-// import Nike from "../../assets/images/Home/nike.png";
 import Nike from "../../assets/images/Home/nikenew-removebg-preview.png";
 import filaImage from "../../assets/images/Home/fila.png";
-// import Puma from "../../assets/images/Home/puma2.png";
 import Puma from "../../assets/images/Home/Puma_logo-removebg-preview.png";
 import underImage from "../../assets/images/Home/under.png";
 import vansImage from "../../assets/images/Home/vans.png";
 import nbImage from "../../assets/images/Home/nb.png";
 import Reebok from "../../assets/images/Home/Reebok.png";
 import sketchers from "../../assets/images/Home/sketchers.png";
-// import sketchers from "../../assets/images/Home/sketch.png";
 
 const imageImports = {
   Adidas,

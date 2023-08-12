@@ -1,6 +1,5 @@
 // Author: Sahil Dilip Dalvi (B00939343)
 import { useState } from "react";
-// axios
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -19,7 +18,6 @@ import logo from "../../assets/images/Home/logo-illustration-vintage-sneakers-sh
 import axios from "axios";
 import { Modal } from "@mui/material";
 import Loader from "../../utils/Loader";
-// Modal
 
 // Material UI's template has been reffered https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side
 const defaultTheme = createTheme();
@@ -57,11 +55,8 @@ export default function Login() {
       });
 
       if (response.status === 200) {
-        console.log("Success");
       } else if (response.status === 404) {
-        console.log("User not found");
       } else {
-        console.log("Failed to send password reset email");
       }
       setSpinner(false);
     } catch (error) {
@@ -108,16 +103,12 @@ export default function Login() {
     axios
       .post("/users/login", params)
       .then((response) => {
-        console.log(response);
-
         if (response.status === 200) {
-          // setRegistrationError("");
           const { userId } = response.data;
           const { token } = response.data;
           const { Role } = response.data;
           setUserId(userId);
           setToken(token);
-          console.log(userId);
           sessionStorage.setItem("userId", userId);
           sessionStorage.setItem("token", token);
 
@@ -136,9 +127,7 @@ export default function Login() {
         } else {
           setSpinner(false);
           setLoginError("Invalid Credentials. Please try again.");
-          // setRegistrationMessage("");
         }
-        // setSpinner(false);
       })
       .catch((error) => {
         console.error(error);
@@ -148,7 +137,6 @@ export default function Login() {
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
     <Box
       sx={{
         color: "#fff",
@@ -161,7 +149,6 @@ export default function Login() {
         container
         component="main"
         sx={{
-          // minHeight: "100vh",
           backgroundColor: "#0f0f0f",
         }}
       >
@@ -189,7 +176,6 @@ export default function Login() {
           md={5}
           lg={5}
           component={Paper}
-          // elevation={6}
           square
           style={{
             backgroundColor: "#0f0f0f",
@@ -212,9 +198,6 @@ export default function Login() {
               boxShadow: "none",
             }}
           >
-            {/* <Avatar sx={{ m: 1, bgcolor: "transparent" }}>
-              <LockOutlinedIcon />
-            </Avatar> */}
             <Typography
               component="h1"
               variant="h5"
@@ -315,10 +298,7 @@ export default function Login() {
                   },
                 }}
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
+
               <Button
                 type="submit"
                 fullWidth
@@ -337,8 +317,7 @@ export default function Login() {
                   {loginError}
                 </Typography>
               )}
-              {/* <Grid container>
-                <Grid item style={{}}> */}
+
               <Typography
                 variant="h6"
                 onClick={openModal}
@@ -420,16 +399,12 @@ export default function Login() {
                   color: "lightgrey",
                   textAlign: "center",
                 }}
-              >
-                {/* For now type any email and password and it will take you to the
-                HomePage for the purpose of this proposal */}
-              </Typography>
+              ></Typography>
             </Box>
           </Box>
         </Grid>
       </Grid>
       {spinner && <Loader />}
-      {/* </ThemeProvider> */}
     </Box>
   );
 }

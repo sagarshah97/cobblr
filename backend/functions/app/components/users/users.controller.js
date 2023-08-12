@@ -107,7 +107,6 @@ class UserController {
 
   displaytext = async (request, response, next) => {
     try {
-      console.log(">>>>>>>>>>>>>>>>>API hittt");
       const displayResult = await this.usersService.displayUserText(
         request.body
       );
@@ -201,7 +200,6 @@ class UserController {
 
   forgotpassword = async (req, res) => {
     const { email } = req.body;
-    console.log(email);
 
     try {
       await this.usersService.sendPasswordResetEmail(email);

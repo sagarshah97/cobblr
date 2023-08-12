@@ -6,7 +6,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-// import pexelsPhoto from './images/pexels-photo-1456737.jpeg';
 import Footer from "./Footer";
 import ShopBySportCarousel from "./shop";
 import MyCarousel from "./MyCarousel";
@@ -14,8 +13,6 @@ import ParallaxImage from "./image.js";
 import airforce from "../../assets/images/Home/airforce-removebg-preview.png";
 import lostandfound from "../../assets/images/Home/lostandfound.png";
 import orangelobster from "../../assets/images/Home/orangelobster.png";
-// ParallaxImage
-// import { useNavigate } from "react-router-dom";
 
 const ShoeContainer = styled("div")({
   width: "90%",
@@ -52,11 +49,6 @@ const Title = styled(Typography)({
 
 const ShoeViewer = () => {
   const navigate = useNavigate();
-  // const navigate = useNavigate();
-
-  // const handleShoeClick = () => {
-  //   navigate("/productdetail");
-  // };
 
   return (
     <div>
@@ -64,7 +56,6 @@ const ShoeViewer = () => {
       <ShopBySportCarousel />
 
       <MyCarousel />
-      {/* <Title variant="h5">Featured Shoes</Title> */}
       <Typography
         variant="h4"
         style={{

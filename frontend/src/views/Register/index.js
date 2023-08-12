@@ -154,7 +154,6 @@ export default function Register() {
         axios
           .post("/users/register", param)
           .then((response) => {
-            console.log(">>>> in resp " + JSON.stringify(response));
             if (response.status === 200) {
               // setRegistrationError("");
               setRegistrationError("Registration successful");
@@ -167,7 +166,6 @@ export default function Register() {
             }
           })
           .catch((error) => {
-            console.log(">>>> in error " + JSON.stringify(error));
             if (error.response && error.response.status === 409) {
               setRegistrationError(
                 "Email already exists. Please use a different email."
