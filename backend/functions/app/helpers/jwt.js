@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-// const { expressjwt } = require("express-jwt");
 const { jwtConfig } = require("../config");
 
 module.exports = {
@@ -26,11 +25,6 @@ module.exports = {
     return token;
   },
 
-  // authenticateJwt: jwt.verify({
-  //   secret: jwtConfig.secretKey,
-  //   algorithms: ["HS256"],
-  // }),
-
   verifyToken: (req, res, next) => {
     let token = req.header("Authorization");
     if (!token) {
@@ -46,27 +40,4 @@ module.exports = {
       next();
     });
   },
-
-  // decodeJwtToken: async (token) => {
-  //   const payload = await jwt.decode(token);
-  //   return payload;
-  // },
-  // verifyJwt: () => async (request, response, next) => {
-  //   const token = request.headers.authorization.split(" ")[1];
-  //   const payload = await decodeJwtToken(token);
-  //   console.log(JSON.stringify(payload));
-  //   next();
-  //   return null;
-  // },
-
-  // verifyJwtToken: (token) => {
-  //   console.log("Verify: " + token);
-  //   jwt.verify(token, jwtConfig.secretKey, (error, decoded) => {
-  //     if (error) {
-  //       return false;
-  //     } else {
-  //       return true;
-  //     }
-  //   });
-  // },
 };

@@ -15,7 +15,6 @@ class ReviewController {
         postedBy,
         shoeId
       );
-      console.log(review);
       if (review) {
         response.status(200).json(review);
       } else {
@@ -35,17 +34,14 @@ class ReviewController {
         postedBy,
         shoeId
       );
-      console.log("found", review);
 
       if (review && review.length > 0) {
-        console.log("If : ", review);
         const updatedReview = await this.reviewService.updateReview(
           review[0]._id,
           request.body
         );
         response.status(200).json(updatedReview);
       } else {
-        console.log("else");
         const newReview = await this.reviewService.addReview(request.body);
         response.status(201).json(newReview);
       }
