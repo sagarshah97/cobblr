@@ -9,12 +9,12 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 
 ## Authors
 
-- [Sagar Paresh Shah](sg355741@dal.ca) - Full Stack Developer
-- [Jayant Patidar](jy862746@dal.ca) - Full Stack Developer
-- [Pratik Mukund Parmar](pratikparmar@dal.ca) - Full Stack Developer
-- [Ashish Ojha](ashish.ojha@dal.ca) - Full Stack Developer
-- [Aayush Yogesh Pandya](ay923755@dal.ca) - Full Stack Developer
-- [Sahil Dilip Dalvi](sahil.dalvi@dal.ca) - Full Stack Developer
+- [Sagar Paresh Shah](sg355741@dal.ca) (_B00930009_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-sagar?ref_type=heads))
+- [Jayant Patidar](jy862746@dal.ca) (_B00934519_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-jayant-2?ref_type=heads))
+- [Pratik Mukund Parmar](pratikparmar@dal.ca) (_B00934515_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-pratik?ref_type=heads))
+- [Ashish Ojha](ashish.ojha@dal.ca) (_B00931967_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-ashish?ref_type=heads))
+- [Aayush Yogesh Pandya](ay923755@dal.ca) (_B00939670_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-aayush?ref_type=heads))
+- [Sahil Dilip Dalvi](sahil.dalvi@dal.ca) (_B00939343_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-sahil?ref_type=heads))
 
 ## Deployment
 
@@ -67,7 +67,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 ## Frontend and Backend Deployment
 
 - The frontend and backend has been deployed to [Netlify](https://app.netlify.com/).
-- This deployment is supported via CI/CD on main branch.
+- This deployment is supported via CI/CD on the main branch and YML file can be found at `.gitlab-ci.yml`.
 
 ## Built With
 
@@ -195,8 +195,8 @@ router.get("/", function (req, res) {
 ```
 
 - The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
-- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get refernce on how to implement routing in node and express.
-- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Ashish Ojha.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
+- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by adding custom routing logic.
 
 ###
 
@@ -220,7 +220,7 @@ const PaymentContainer = () => {
 
 - The above code has been adapted from [Stripe](https://stripe.com/docs/stripe-js/react) which is implemented in their official documentation.
 - [Stripe](https://stripe.com/docs/stripe-js/react)'s code was used as a reference to understand on how to integrate stripe payment gateway in our application in React.
-- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom template as per my requirements.
+- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was modified by writing the custom template as per the requirements.
 
 ### backend/app/components/shoes/shoes.model.js
 
@@ -253,7 +253,7 @@ const Shoe = new Schema(
 
 - The above schema has been adapted from [Mongoose Schemas](https://mongoosejs.com/docs/guide.html) which is implemented in their official documentation.
 - [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
-- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom schema as per my requirements.
+- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was modified by writing the custom schema as per the requirements.
 
 ### backend/app/components/shoes/shoes.validation.js
 
@@ -295,74 +295,7 @@ const validationSchema = {
 
 - The above validation schema has been adapted from [JOI](https://joi.dev/api/?v=17.9.1) which is implemented in their official documentation.
 - [JOI](https://joi.dev/api/?v=17.9.1)'s code was used as a reference to understand on how to implement validation on API request bodies.
-- [JOI](https://joi.dev/api/?v=17.9.1)'s code was modified by [Sagar Paresh Shah](sg355741@dal.ca) by writing the custom validation schema as per my requirements.
-
-### backend/app/components/users/users.model.js
-
-```
-const userSchema = new mongoose.Schema({
-inputText: String,
-profileVisibility: {
-type: Boolean,
-default: false,
-},
-line1: String,
-line2: String,
-city: String,
-state: String,
-postalCode: String,
-label: String,
-forgotPasswordToken: String,
-profileImage: {
-type: String,
-},
-firstName: { type: String, required: true },
-lastName: { type: String, required: true },
-email: { type: String, required: true, unique: true },
-password: { type: String, required: true },
-phone: [String],
-address: [String],
-wishlist: [
-{
-type: mongoose.Schema.Types.ObjectId,
-ref: "Shoe",
-},
-],
-cart: {
-items: [
-{
-shoeId: {
-type: mongoose.Schema.Types.ObjectId,
-ref: "Shoe",
-required: true,
-},
-quantity: {
-type: Number,
-required: true,
-},
-size: {
-type: String,
-required: true,
-},
-},
-],
-subtotal: {
-type: Number,
-default: 0,
-},
-tax: {
-type: Number,
-default: 0,
-},
-total: {
-type: Number,
-default: 0,
-},
-},
-});
-```
-
-- [Mongoose Schemas](https://mongoosejs.com/docs/guide.html) was referred.
+- [JOI](https://joi.dev/api/?v=17.9.1)'s code was modified by writing the custom validation schema as per the requirements.
 
 ### backend/app/components/wishlist/wishlist.validation.js
 
@@ -374,68 +307,6 @@ const validationSchema = {
 ```
 
 - The above validation schema has been adapted from [JOI](https://joi.dev/api/?v=17.9.1) documentation.
-
-### backend/app/components/cart/cart.route.js
-
-_Lines 09 - 14, 16 - 18, 20 - 25, 27 - 32, 34 - 39_
-
-```
-router
-  .route("/getCart")
-  .post(
-    validate(cartValidation.getCart),
-    cartController.getCart.bind(cartController)
-  );
-
-```
-
-```
-router
-  .route("/updateCartTotals")
-  .post(cartController.updateCartTotals.bind(cartController));
-```
-
-```
-router
-  .route("/addToCart")
-  .post(
-    validate(cartValidation.addToCart),
-    cartController.addToCart.bind(cartController)
-  );
-```
-
-```
-router
-  .route("/updateCartItemQuantity")
-  .post(
-    validate(cartValidation.updateCartItemQuantity),
-    cartController.updateCartItemQuantity.bind(cartController)
-  );
-```
-
-```
-router
-  .route("/removeCartItem")
-  .post(
-    validate(cartValidation.removeCartItem),
-    cartController.removeCartItem.bind(cartController)
-  );
-```
-
-The code above was created by adapting the code in [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) as shown below:
-
-```
-// Home page route.
-router.get("/", function (req, res) {
-  res.send("Wiki home page");
-});
-
-
-```
-
-- The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
-- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
-- [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by Pratik Parmar.
 
 - [Swiper](https://swiperjs.com/demos#css-mode) - Effect coverflow has been used for the carrousel on the homepage
 - [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)'s code was used as a reference to understand on how to implement schemas in MongoDB.
