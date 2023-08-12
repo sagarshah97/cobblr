@@ -63,7 +63,6 @@ const StoreLocator = () => {
   const handleCardClick = (store) => {
     setSelectedStore(store);
 
-  
     scrollToTop();
   };
 
@@ -220,7 +219,6 @@ const StoreLocator = () => {
                     container
                     spacing={1}
                     style={{
-                      // marginLeft: "10px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",

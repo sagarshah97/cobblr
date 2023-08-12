@@ -35,7 +35,6 @@ class WishlistService {
         response?._id
       );
       return wishlistItems;
-      // return resObj;
     } catch (error) {
       throw error;
     } finally {

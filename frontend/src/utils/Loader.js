@@ -9,12 +9,6 @@ import spinnerBlack from "../assets/images/spinner-black.png";
 import "../Spinner.css";
 
 export default function Loader(props) {
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleClose = () => {};
-  //   const handleOpen = () => {
-  //     setOpen(true);
-  //   };
-
   return (
     <div>
       <Backdrop

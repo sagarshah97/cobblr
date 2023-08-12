@@ -106,7 +106,6 @@ const ContactUs = () => {
       <Box
         style={{
           minHeight: "100vh",
-          // paddingTop: "64px",
           paddingBottom: "64px",
           backgroundColor: "#0f0f0f",
         }}
