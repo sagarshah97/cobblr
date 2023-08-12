@@ -2,7 +2,6 @@
 import { Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
-// import axios from "axios";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -115,12 +114,9 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        console.log(">>>", response);
         if (response.status === 200) {
-          console.log("Password changed successfully");
           setMessage("Password changed successfully");
         } else {
-          console.log("Failed to change password");
           setMessage("Failed to change password");
         }
       })
@@ -186,12 +182,8 @@ export default function Profile() {
           },
         }
       )
-      .then((response) => {
-        console.log("Visibility saved successfully");
-      })
-      .catch((error) => {
-        console.error("Error saving visibility:", error);
-      });
+      .then((response) => {})
+      .catch((error) => {});
     handleModalClose();
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -225,7 +217,6 @@ export default function Profile() {
       postalCode: "",
       label: "",
     });
-    console.log(addressArray);
   };
   const editNewAddress = (row, index) => {
     setEditAddressRow(index);
@@ -280,8 +271,6 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        console.log(response.data);
-
         handleModalCloses();
       })
       .catch((error) => {
@@ -296,15 +285,10 @@ export default function Profile() {
     }));
   };
 
-  // const userId = sessionStorage.getItem("userId");
-  //
-
   const getUserDetails = (id) => {
     axios
       .get(`/users/profile/${id}`)
       .then((response) => {
-        console.log(response.data);
-        // const { firstName, lastName, phone, email } = response.data;
         const { line1, line2, city, state, postalCode } = response.data.user;
 
         setAddress({
@@ -379,14 +363,11 @@ export default function Profile() {
           Authorization: "Bearer " + token,
         },
       })
-      .then((response) => {
-        console.log("User data updated successfully:", response.data);
-      })
+      .then((response) => {})
       .catch((error) => {
         console.error("Error updating user data:", error);
       });
 
-    console.log("Updated user data:", updatedData);
     setIsModalOpenP(false);
   };
 
@@ -445,9 +426,7 @@ export default function Profile() {
               },
             }
           )
-          .then((response) => {
-            console.log(response.data);
-          })
+          .then((response) => {})
           .catch((error) => {
             console.error("Error uploading file:", error);
           });
@@ -456,16 +435,7 @@ export default function Profile() {
     }
     setIsModalOpenProfile(false);
   };
-  // const handlePhotoChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setProfilePhoto(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+
   const handlePhotoChange = (event) => {
     setSelectedFile(event.target.files[0]);
     const file = event.target.files[0];
@@ -503,9 +473,7 @@ export default function Profile() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((response) => {
-        console.log("Text saved successfully");
-      })
+      .then((response) => {})
       .catch((error) => {
         console.error("Error saving text:", error);
       });
@@ -665,28 +633,6 @@ export default function Profile() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    {/* <Grid container spacing={2}>
-                      {labels.map((label, index) => (
-                        <Grid item xs={12} sm={6} key={index}>
-                          {renderIcon(label)}
-                          <Typography
-                            variant="subtitle1"
-                            display="inline"
-                            fontWeight="bold"
-                            sx={{ ml: 1, overflowWrap: "anywhere" }}
-                          >
-                            {label}:
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            display="inline"
-                            sx={{ ml: 1, overflowWrap: "anywhere" }}
-                          >
-                            {profileValues[index]}
-                          </Typography>
-                        </Grid>
-                      ))}
-                    </Grid> */}
                     <Grid container spacing={2}>
                       <Grid item xs={12} sm={6}>
                         {renderIcon("First Name")}
@@ -801,31 +747,8 @@ export default function Profile() {
                               >
                                 First Name: {firstName}
                               </Typography>
-                              {/* <Typography
-                                variant="subtitle1"
-                                display="inline"  
-                                sx={{ ml: 1, overflowWrap: "anywhere" }}
-                              >
-                                {firstName}
-                              </Typography> */}
                             </Grid>
-                            {/* <Grid item xs={12} sm={6}>
-                              <Typography
-                                variant="subtitle1"
-                                display="inline"
-                                fontWeight="bold"
-                                sx={{ ml: 1, overflowWrap: "anywhere" }}
-                              >
-                                Last Name: {lastName}
-                              </Typography>
-                              <Typography
-                                variant="subtitle1"
-                                display="inline"
-                                sx={{ ml: 1, overflowWrap: "anywhere" }}
-                              >
-                                {lastName}
-                              </Typography>
-                            </Grid> */}
+
                             <Grid item xs={12} sm={6}>
                               <Typography
                                 variant="subtitle1"
@@ -910,20 +833,8 @@ export default function Profile() {
                                   value={phone}
                                   onChange={handlePhoneChange}
                                   margin="normal"
-                                  // InputProps={{
-                                  //   inputProps: {
-                                  //     pattern: "^[0-9]*$",
-                                  //     title: "Please enter exactly 10 digits",
-                                  //   },
-                                  // }}
                                 />
-                                {/* <TextField
-                                  label="Email"
-                                  fullWidth
-                                  value={email}
-                                  onChange={(e) => setEmail(e.target.value)}
-                                  margin="normal"
-                                /> */}
+
                                 <Box
                                   sx={{
                                     display: "flex",
@@ -1188,18 +1099,12 @@ export default function Profile() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    <Dialog
-                    // open={isConfirmationOpen}
-                    // onClose={handleConfirmationClose}
-                    >
+                    <Dialog>
                       <DialogTitle>Confirm Password Change</DialogTitle>
                       <DialogContent>
                         Are you sure you want to change your password?
                       </DialogContent>
                       <DialogActions>
-                        {/* <Button onClick={handleConfirmationClose}>
-                          Cancel
-                        </Button> */}
                         <Box
                           display="flex"
                           justifyContent="center"

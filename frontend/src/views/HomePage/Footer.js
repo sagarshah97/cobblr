@@ -15,7 +15,6 @@ const FooterContainer = styled("footer")({
 
 const FooterGridContainer = styled(Grid)({
   maxWidth: "1200px",
-  // margin: "0 auto",
   padding: "0 20px",
 });
 
@@ -48,9 +47,6 @@ const Footer = () => {
       <FooterGridContainer container spacing={4}>
         <Grid item xs={12} sm={6} md={3}>
           <FooterLogo src={logo} alt="Nike" />
-          {/* <Typography variant="body2">
-          Your ultimate destination for stylish and high-quality footwear.
-          </Typography> */}
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <FooterTitle variant="h6">Shop</FooterTitle>
@@ -72,7 +68,6 @@ const Footer = () => {
           >
             Kids'
           </FooterLink>
-          {/* <FooterLink href="#">Sale</FooterLink> */}
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <FooterTitle variant="h6">About</FooterTitle>
@@ -88,8 +83,6 @@ const Footer = () => {
           >
             News
           </FooterLink>
-          {/* <FooterLink href="#">Careers</FooterLink>
-          <FooterLink href="#">Investors</FooterLink> */}
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <FooterTitle variant="h6">Customer Service</FooterTitle>
@@ -105,8 +98,6 @@ const Footer = () => {
           >
             FAQ
           </FooterLink>
-          {/* <FooterLink href="#">Shipping</FooterLink>
-          <FooterLink href="#">Returns</FooterLink> */}
         </Grid>
       </FooterGridContainer>
     </FooterContainer>

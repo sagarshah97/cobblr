@@ -45,7 +45,6 @@ const ShopBySportCarousel = () => {
     { id: 1, image: footballImage, name: "Running" },
     { id: 2, image: runningImage, name: "Lifestyle" },
     { id: 3, image: tennisImage, name: "Training" },
-    // { id: 4, image: tennisImage, name: 'Tennis' },
   ];
 
   return (
