@@ -169,6 +169,30 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [React MUI](https://mui.com/material-ui/getting-started/overview/)'s component code was heavily modified by adding custom logic, styling, onChange and onClick behaviors and have been used at multiple instances in the sources mentioned above.
 - [Material UI](https://github.com/mui/material-ui/tree/v5.13.5/docs/data/material/getting-started/templates/sign-in-side) template was referred for login and sign up pages and modified according to our needs.
 
+### frontend/src/views/Payment/index.js
+
+_Lines 9 - 20_
+
+```
+const PaymentContainer = () => {
+  const location = useLocation();
+  const params = location.state?.params;
+
+  return (
+    <>
+      <Elements stripe={stripePromise}>
+        <PaymentPage details={params} />
+      </Elements>
+      <Footer />
+    </>
+  );
+
+```
+
+- The above code has been adapted from [Stripe](https://stripe.com/docs/stripe-js/react) which is implemented in their official documentation.
+- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was used as a reference to understand on how to integrate stripe payment gateway in our application in React.
+- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was modified by writing the custom template as per the requirements.
+
 ### backend/app/components/filter/filter.route.js
 
 _Lines 13 - 18_
@@ -197,30 +221,6 @@ router.get("/", function (req, res) {
 - The code for [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes) was implemented in MDN Web Docs Example.
 - [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was used to get reference on how to implement routing in node and express.
 - [Routing](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes)'s Code was modified by adding custom routing logic.
-
-###
-
-_Lines 9 - 20_
-
-```
-const PaymentContainer = () => {
-  const location = useLocation();
-  const params = location.state?.params;
-
-  return (
-    <>
-      <Elements stripe={stripePromise}>
-        <PaymentPage details={params} />
-      </Elements>
-      <Footer />
-    </>
-  );
-
-```
-
-- The above code has been adapted from [Stripe](https://stripe.com/docs/stripe-js/react) which is implemented in their official documentation.
-- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was used as a reference to understand on how to integrate stripe payment gateway in our application in React.
-- [Stripe](https://stripe.com/docs/stripe-js/react)'s code was modified by writing the custom template as per the requirements.
 
 ### backend/app/components/shoes/shoes.model.js
 
@@ -323,6 +323,8 @@ const validationSchema = {
 - [React Google Maps](https://www.npmjs.com/package/@react-google-maps/api) was used to integrate maps into store locator.
 - [React Stripe JS](https://www.npmjs.com/package/@stripe/react-stripe-js) was used to integrate Stripe payment gateway as library components.
 - [Stripe JS](https://www.npmjs.com/package/@stripe/stripe-js) was used to integrate utility modules of the Stripe components.
+- [Bcrypt](https://www.npmjs.com/package/bcrypt) was used for password hashing.
+- [Sendgrid/mail](https://www.npmjs.com/package/@sendgrid/mail) was used to send mail for password reset.
 
 ## Images
 
