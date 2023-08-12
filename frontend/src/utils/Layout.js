@@ -26,7 +26,6 @@ import UnauthorizedModal from "./UnauthoizedModal";
 
 const drawerWidth = 240;
 
-// ,{text:"Logout", link:"/logout"}
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -77,13 +76,6 @@ function App(props) {
   }
   if (location.pathname.includes("admin")) {
     navItems = [{ text: "Logout", link: "/login" }];
-    // const token = sessionStorage.getItem("token");
-    // const tokenObject = decodeJwt(token);
-
-    // if (tokenObject && tokenObject?.role !== "Admin") {
-    //   // sessionStorage.clear();
-    //   navigate("/login");
-    // }
   }
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -125,20 +117,6 @@ function App(props) {
     </Box>
   );
 
-  // const [wishlist, setWishlist] = React.useState([1, 2]);
-  // const deleteItem = (index) => {
-  //   handleClick();
-  //   if (wishlist.length == 1) {
-  //     setWishlist([]);
-  //   } else {
-  //     setWishlist((prevItems) => {
-  //       const updatedItems = [...prevItems];
-  //       updatedItems.splice(index, 1);
-  //       return updatedItems;
-  //     });
-  //   }
-  //   //alert(wishlist);
-  // };
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -164,7 +142,6 @@ function App(props) {
       (error) => {
         if (error.response.status === 401) {
           setUnauthorizedModal(true);
-          // navigate("/login");
         }
         return error;
       }

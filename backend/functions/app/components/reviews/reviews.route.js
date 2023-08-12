@@ -16,10 +16,9 @@ router
   .get(reviewsController.getAllReviews.bind(reviewsController));
 
 // get  reviews record based on shoe id
-router.route("/getReviewsByShoeId").post(
-  //validate(reviewsValidation.getReviewByShoeId),
-  reviewsController.getReviewByShoeId.bind(reviewsController)
-);
+router
+  .route("/getReviewsByShoeId")
+  .post(reviewsController.getReviewByShoeId.bind(reviewsController));
 
 router
   .route("/getReviewsByUserId")
@@ -29,10 +28,9 @@ router
   );
 
 // get single review record based on review id
-router.route("/getReviewsByReviewId").post(
-  // validate(reviewsValidation.getReviewByReviewId),
-  reviewsController.getReviewByReviewId.bind(reviewsController)
-);
+router
+  .route("/getReviewsByReviewId")
+  .post(reviewsController.getReviewByReviewId.bind(reviewsController));
 
 // create new review
 router
@@ -49,10 +47,9 @@ router
     reviewsController.updateReview.bind(reviewsController)
   );
 
-router.route("/deleteReviews/:reviewId").delete(
-  // validate(reviewsValidation.deleteReview),
-  reviewsController.deleteReview.bind(reviewsController)
-);
+router
+  .route("/deleteReviews/:reviewId")
+  .delete(reviewsController.deleteReview.bind(reviewsController));
 
 // Add a new route to find the review ID by shoe ID
 router
@@ -62,9 +59,8 @@ router
     reviewsController.getReviewIdByShoeId.bind(reviewsController)
   );
 
-router.route("/getReviewsByShoeIdUserId").post(
-  // validate(reviewsValidation.deleteReview),
-  reviewsController.getReviewsByUserAndShoe.bind(reviewsController)
-);
+router
+  .route("/getReviewsByShoeIdUserId")
+  .post(reviewsController.getReviewsByUserAndShoe.bind(reviewsController));
 
 module.exports = router;

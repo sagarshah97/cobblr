@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
-// import CancelIcon from "../../assets/Home/lock.png";
 
 const CustomModal = () => {
   const modalStyle = {

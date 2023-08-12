@@ -61,15 +61,6 @@ export default function Register() {
     return isPasswordValid && doPasswordsMatch;
   };
 
-  //   const handleFirstNameChange = (e) => {
-  //     const value = e.target.value;
-  //     setFirstName(value);
-  //   };
-
-  //   const handleLastNameChange = (e) => {
-  //     const value = e.target.value;
-  //     setLastName(value);
-  //   };
   const handleFirstNameChange = (e) => {
     const value = e.target.value;
     setFirstName(value);
@@ -109,25 +100,6 @@ export default function Register() {
     setConfirmPassword(value);
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   if (
-  //     firstName &&
-  //     lastName &&
-  //     email &&
-  //     password &&
-  //     confirmPassword &&
-  //     validateName(firstName) &&
-  //     validateName(lastName) &&
-  //     validateEmail(email) &&
-  //     validatePassword(password, confirmPassword)
-  //   ) {
-  //     navigate("/login");
-  //   } else {
-  //     setFormError("Please fill all details correctly");
-  //   }
-  // };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -150,19 +122,16 @@ export default function Register() {
           password,
         };
 
-        // const response = await
         axios
           .post("/users/register", param)
           .then((response) => {
             if (response.status === 200) {
-              // setRegistrationError("");
               setRegistrationError("Registration successful");
               setTimeout(() => {
                 navigate("/login");
               }, 1000);
             } else {
               setRegistrationError("Registration failed. Please try again.");
-              // setRegistrationMessage("");
             }
           })
           .catch((error) => {
@@ -173,7 +142,6 @@ export default function Register() {
             } else {
               setRegistrationError("Registration failed. Please try again.");
             }
-            // setRegistrationMessage("");
           });
       } catch (error) {
         console.error(error);
@@ -184,7 +152,6 @@ export default function Register() {
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
     <Box
       sx={{
         color: "#fff",
@@ -197,10 +164,8 @@ export default function Register() {
         container
         component="main"
         sx={{
-          // minHeight: "6vh",
           backgroundColor: "#0f0f0f",
           overflow: "hidden",
-          // position: "relative",
           display: "flex",
         }}
       >
@@ -218,7 +183,6 @@ export default function Register() {
             backgroundPosition: "center",
             backgroundColor: "#0f0f0f",
             paddingTop: "5%",
-            // minHeight: "100vh",
             position: "absolute",
             top: 0,
             bottom: 0,
@@ -233,7 +197,6 @@ export default function Register() {
           md={5}
           lg={5}
           component={Paper}
-          // elevation={6}
           square
           style={{
             backgroundColor: "#0f0f0f",
@@ -262,9 +225,6 @@ export default function Register() {
               boxShadow: "none",
             }}
           >
-            {/* <Avatar sx={{ m: 1, bgcolor: "transparent" }}>
-              <LockOutlinedIcon />
-            </Avatar> */}
             <Typography
               component="h1"
               variant="h5"
@@ -295,7 +255,6 @@ export default function Register() {
                 value={firstName}
                 onChange={handleFirstNameChange}
                 error={firstName && !validateName(firstName)}
-                // error={!!firstNameError}
                 helperText={firstNameError}
                 InputProps={{
                   style: {
@@ -508,10 +467,6 @@ export default function Register() {
                 </Typography>
               )}
 
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
                 type="submit"
                 fullWidth

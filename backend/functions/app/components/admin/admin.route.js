@@ -15,14 +15,10 @@ router
     adminController.getShoeList.bind(adminController)
   );
 
-router.route("/addShoe").post(
-  // validate(adminValidation.addShoe),
-  adminController.addShoe.bind(adminController)
-);
+router.route("/addShoe").post(adminController.addShoe.bind(adminController));
 
-router.route("/modifyShoe").put(
-  // validate(adminValidation.addShoe),
-  adminController.modifyShoe.bind(adminController)
-);
+router
+  .route("/modifyShoe")
+  .put(adminController.modifyShoe.bind(adminController));
 
 module.exports = router;
