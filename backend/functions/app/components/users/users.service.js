@@ -197,14 +197,12 @@ class UsersService {
       throw new Error("Email not found");
     }
 
-    sgMail.setApiKey(
-      "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"
-    );
+    sgMail.setApiKey(config.sendGridApiKey);
     const resetPasswordLink = `${config.frontendBaseUrl}/forgotpassword/${forgotPasswordToken}`;
 
     const msg = {
       to: email,
-      from: "cobblr5709@gmail.com",
+      from: config.cobblrEmail,
       subject: "Password Reset",
       text: `You have requested a password reset. Please click on the following link to reset your password: ${resetPasswordLink}`,
       html: `<p>You have requested a password reset. Please click on the following link to reset your password: <a href="${resetPasswordLink}">Reset Password</a></p>`,
