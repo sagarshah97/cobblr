@@ -29,7 +29,7 @@ import "./store.css";
 import Footer from "../HomePage/Footer";
 
 const StoreLocator = () => {
-  const googleMapsApiKey = "AIzaSyDSsBjipA2hX34IXBIxIdjJ3NZtAe8BuZw";
+  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const mapContainerStyle = {
     width: "100%",
     height: "400px",

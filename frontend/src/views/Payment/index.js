@@ -6,9 +6,7 @@ import PaymentPage from "./PaymentPage";
 import Footer from "../HomePage/Footer";
 import { useLocation } from "react-router-dom";
 
-const stripePromise = loadStripe(
-  "pk_test_51NQaRTG6OTDlGgErS8SKwbLUbLATJh460IE1h3I6uqNpwSj8sbcfaOhvffshRxQpK9LNNDFEezxp6AdeXgfXooOB00gbBlp2VU"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 const PaymentContainer = () => {
   const location = useLocation();
