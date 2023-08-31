@@ -4,17 +4,16 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 
 - _Date Created_: 29 05 2023
 - _Last Modification Date_: 11 08 2023
-- _Git URL_: <https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23>
 - _Netlify URL (Deployed site)_: <https://cobblr-store.netlify.app/>
 
 ## Authors
 
-- [Sagar Paresh Shah](sg355741@dal.ca) (_B00930009_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-sagar?ref_type=heads))
-- [Jayant Patidar](jy862746@dal.ca) (_B00934519_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-jayant-2?ref_type=heads))
-- [Pratik Mukund Parmar](pratikparmar@dal.ca) (_B00934515_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-pratik?ref_type=heads))
-- [Ashish Ojha](ashish.ojha@dal.ca) (_B00931967_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-ashish?ref_type=heads))
-- [Aayush Yogesh Pandya](ay923755@dal.ca) (_B00939670_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-aayush?ref_type=heads))
-- [Sahil Dilip Dalvi](sahil.dalvi@dal.ca) (_B00939343_) - Full Stack Developer ([Individual Git Branch](https://git.cs.dal.ca/spshah/CSCI_5709_Group2_S23/-/tree/main-sahil?ref_type=heads))
+- [Sagar Paresh Shah](sg355741@dal.ca) (_B00930009_) - Full Stack Developer
+- [Jayant Patidar](jy862746@dal.ca) (_B00934519_) - Full Stack Developer
+- [Pratik Mukund Parmar](pratikparmar@dal.ca) (_B00934515_) - Full Stack Developer
+- [Ashish Ojha](ashish.ojha@dal.ca) (_B00931967_) - Full Stack Developer
+- [Aayush Yogesh Pandya](ay923755@dal.ca) (_B00939670_) - Full Stack Developer
+- [Sahil Dilip Dalvi](sahil.dalvi@dal.ca) (_B00939343_) - Full Stack Developer
 
 ## Deployment
 
@@ -32,7 +31,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
   - - Comment the following lines in `frontend/src/App.js`:
 
       ```
-      axios.defaults.baseURL = "https://cobblr-store-api.netlify.app/.netlify/functions/index";
+      axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL;
       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 
       ```
@@ -40,7 +39,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
   - - Uncomment the following line:
 
       ```
-      axios.defaults.baseURL = "http://localhost:8000";
+      axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL_LOCALHOST;
 
       ```
 
