@@ -58,7 +58,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
       app.get("/health-check", healthCheck);
 
       ```
-
+- Note that you will have to check the `.env` file in `frontend` folder and `backend/functions/app/config/index.js` file in `backend` folder to update with your settings.
 - Type the following commands after opening this folder and navigating to `frontend` and `backend` in VSCode:
   - `npm install`
   - `npm start`
