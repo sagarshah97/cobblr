@@ -1,12 +1,26 @@
 # COBBLR
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-5469d4?style=for-the-badge&logo=stripe&logoColor=ffffff)
+
 Our proposed project is Cobblr which represents a shoe retail company. The goal of this project is to develop an online website for a shoe retail business. The website will serve as an e-commerce platform where customers can browse and purchase a wide range of shoes. The primary objective is to create an engaging and user-friendly online shopping experience that showcases the footwear collection and drives sales. Cobblr recognizes that fashion knows no bounds and seeks to create a seamless online experience for individuals of all ages and fashion preferences. The website aims to provide a curated collection of classy and trendy shoes that resonate with contemporary boys and girls who actively follow fashion trends and value expressing their individuality through their choice of footwear.
 
-- _Date Created_: 29 05 2023
-- _Last Modification Date_: 11 08 2023
-- _Netlify URL (Deployed site)_: <https://cobblr-store.netlify.app/>
+![Version](https://img.shields.io/badge/version-0.1.0-80b918)
+![Pipeline](https://img.shields.io/badge/pipeline-passing-80b918)
+![ReactVersion](https://img.shields.io/badge/react-v18.3-0077b6)
+![NodeVersion](https://img.shields.io/badge/node-v16.2-0077b6)
 
-## Authors
+![Live Site](https://api.iconify.design/ion/open-outline.svg?height=16&color=%23ba3329) Live site: <https://cobblr-store.netlify.app/>
+
+> [!NOTE]
+> <sub><sup>_Date Created_: 29 05 2023 </br> _Last Modification Date_: 11 08 2023 </br> </sub></sup>
+
+
+## ![Authors](https://api.iconify.design/ion/people-sharp.svg?height=28&color=%23ba3329) Authors
 
 - [Sagar Paresh Shah](sg355741@dal.ca) (_B00930009_) - Full Stack Developer
 - [Jayant Patidar](jy862746@dal.ca) (_B00934519_) - Full Stack Developer
@@ -15,14 +29,14 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [Aayush Yogesh Pandya](ay923755@dal.ca) (_B00939670_) - Full Stack Developer
 - [Sahil Dilip Dalvi](sahil.dalvi@dal.ca) (_B00939343_) - Full Stack Developer
 
-## Deployment
+## ![Deployment](https://api.iconify.design/fluent-mdl2/deploy.svg?height=28&color=%23ba3329) Deployment
 
 ### Getting started
 
 - The following command has been used to create the React app with boilerplate code:
   - `npx create-react-app cobblr`
 
-## Pre-requisites
+## ![Pre-requisites](https://api.iconify.design/fluent-mdl2/field-required.svg?height=28&color=%23ba3329) Pre-requisites
 
 - Download and install [Node.js](https://nodejs.org/en/download)
 - Clone this repository.
@@ -63,12 +77,12 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
   - `npm install`
   - `npm start`
 
-## Frontend and Backend Deployment
+## ![Frontend and Backend Deployment](https://api.iconify.design/fluent/document-settings-20-regular.svg?height=28&color=%23ba3329) Frontend and Backend Deployment
 
 - The frontend and backend has been deployed to [Netlify](https://app.netlify.com/).
 - This deployment is supported via CI/CD on the main branch and YML file can be found at `.gitlab-ci.yml`.
 
-## Built With
+## ![Built With](https://api.iconify.design/fluent/wrench-20-filled.svg?height=28&color=%23ba3329) Built With
 
 - [React](https://reactjs.org/) - Web framework
 - [React Material UI](https://mui.com/material-ui/) - Web Component Library
@@ -78,7 +92,7 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 - [Mongoose](https://mongoosejs.com/docs/) - Object mapping package between MongoDB and Backend schema
 - [Mongodb](https://www.mongodb.com/)- Data storage
 
-## Sources Used
+## ![Sources Used](https://api.iconify.design/fluent-mdl2:raw-source.svg?height=28&color=%23ba3329) Sources Used
 
 ### frontend/src/views/AdditionalProductDetail/index.js
 
@@ -325,7 +339,7 @@ const validationSchema = {
 - [Bcrypt](https://www.npmjs.com/package/bcrypt) was used for password hashing.
 - [Sendgrid/mail](https://www.npmjs.com/package/@sendgrid/mail) was used to send mail for password reset.
 
-## Images
+## ![Images](https://api.iconify.design/ion/images.svg?height=28&color=%23ba3329) Images
 
 - [Nike](https://www.nike.com/ca/t/go-flyease-easy-on-off-shoes-4bM44t/DR5540-102)
 - [FAQ Image](https://www.canva.com/)
@@ -335,7 +349,7 @@ const validationSchema = {
 - [Home Page - Freepik](https://www.freepik.com/)
 - [Home Page - Dribble](https://dribbble.com/shots/15532992-Nike-Air-Force-1)
 
-## Icons
+## ![Icons](https://api.iconify.design/fluent:icons-20-filled.svg?height=28&color=%23ba3329) Icons
 
 All icons are adapted from [React Material Icons Library](https://mui.com/material-ui/material-icons/)
 
@@ -349,6 +363,6 @@ All icons are adapted from [React Material Icons Library](https://mui.com/materi
 - [Facebook](https://mui.com/material-ui/material-icons/?query=facebook)
 - [Twitter](https://mui.com/material-ui/material-icons/?query=twitter)
 
-## Acknowledgement
+## ![Acknowledgement](https://api.iconify.design/codicon/references.svg?height=28&color=%23ba3329) Acknowledgement
 
 The UI has been inspired from [Nike](https://www.nike.com/ca)
