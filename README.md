@@ -16,8 +16,8 @@ Our proposed project is Cobblr which represents a shoe retail company. The goal 
 
 ![Live Site](https://api.iconify.design/ion/open-outline.svg?height=16&color=%23ba3329) Live site: <https://cobblr-store.netlify.app/>
 
-> [!NOTE]
-> <sub><sup>_Date Created_: 29 05 2023 </br> _Last Modification Date_: 11 08 2023 </br> </sub></sup>
+> <sub><sup>_Date Created_: 29 05 2023 <br>
+> _Last Modification Date_: 11 08 2023 </sub></sup>
 
 
 ## ![Authors](https://api.iconify.design/ion/people-sharp.svg?height=28&color=%23ba3329) Authors
